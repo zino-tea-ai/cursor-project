@@ -102,15 +102,15 @@
         .project-select {
             width: 100%;
             padding: 10px 12px;
-            border-radius: var(--radius-md);
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.04);
+            color: #fff;
             border: 1px solid rgba(255,255,255,0.1);
             font-size: 13px;
             cursor: pointer;
         }
         .project-select:hover {
-            border-color: var(--border-color-strong);
+            border-color: rgba(255,255,255,0.2);
         }
         
         /* 状态信息 */
@@ -120,25 +120,25 @@
             align-items: center;
             padding: 8px 0;
             font-size: 13px;
-            color: var(--text-secondary);
+            color: #9ca3af;
         }
         .status-value {
             font-weight: 500;
-            color: var(--text-primary);
+            color: #fff;
         }
-        .status-value.success { color: var(--success); }
-        .status-value.warning { color: var(--warning); }
-        .status-value.danger { color: var(--danger); }
-        .status-value.accent { color: var(--accent-purple); }
+        .status-value.success { color: #fff; }
+        .status-value.warning { color: #9ca3af; }
+        .status-value.danger { color: #6b7280; }
+        .status-value.accent { color: #fff; }
         
         /* 检查状态按钮 */
         .check-btn {
             width: 100%;
             padding: 10px;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
             background: transparent;
-            color: var(--text-secondary);
+            color: #9ca3af;
             font-size: 13px;
             cursor: pointer;
             transition: all 0.2s;
@@ -148,13 +148,13 @@
             gap: 8px;
         }
         .check-btn:hover {
-            background: var(--bg-hover);
-            border-color: var(--border-color-strong);
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.2);
         }
         .check-btn.checked {
-            background: rgba(16, 185, 129, 0.15);
-            border-color: var(--success);
-            color: var(--success);
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.2);
+            color: #fff;
         }
         
         /* 主内容区 */
@@ -224,44 +224,40 @@
         .btn-secondary { background: rgba(255,255,255,0.06); color: #d1d5db; border-color: rgba(255,255,255,0.1); }
         .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
         .btn-danger { 
-            background: rgba(239, 68, 68, 0.15); 
-            color: #f87171; 
-            border: 1px solid rgba(239, 68, 68, 0.3); 
+            background: transparent; 
+            color: #9ca3af; 
+            border: 1px solid rgba(255,255,255,0.1); 
         }
         .btn-danger:hover { 
-            background: rgba(239, 68, 68, 0.25); 
-            border-color: rgba(239, 68, 68, 0.5);
+            background: rgba(255,255,255,0.04); 
+            border-color: rgba(255,255,255,0.2);
+            color: #fff;
         }
         .btn-danger:disabled { background: rgba(255,255,255,0.04); color: #555; border-color: transparent; cursor: not-allowed; }
         
         .btn-mark {
-            background: rgba(139, 92, 246, 0.15);
-            color: #a78bfa;
-            border: 1px solid rgba(139, 92, 246, 0.3);
+            background: transparent;
+            color: #9ca3af;
+            border: 1px solid rgba(255,255,255,0.1);
         }
         .btn-mark:hover {
-            background: rgba(139, 92, 246, 0.25);
-            border-color: rgba(139, 92, 246, 0.5);
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.2);
+            color: #fff;
         }
         .btn-mark.active {
-            background: rgba(245, 158, 11, 0.15);
+            background: rgba(255,255,255,0.08);
             color: #fff;
-            border-color: rgba(245, 158, 11, 0.3);
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
-            50% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
+            border-color: rgba(255,255,255,0.2);
         }
         
         /* 快捷键提示 */
         .shortcuts {
             font-size: 12px;
-            color: var(--text-muted);
+            color: #6b7280;
         }
         .shortcuts kbd {
-            background: var(--bg-tertiary);
+            background: rgba(255,255,255,0.06);
             padding: 2px 6px;
             border-radius: 4px;
             margin-right: 4px;
@@ -277,8 +273,8 @@
         
         /* 拖拽上传提示 */
         .grid-container.drag-over {
-            background: rgba(139, 92, 246, 0.08);
-            border: 2px dashed var(--accent-purple);
+            background: rgba(255,255,255,0.02);
+            border: 2px dashed rgba(255,255,255,0.2);
             border-radius: 8px;
         }
         
@@ -295,9 +291,9 @@
         .drag-indicator-line {
             width: 4px;
             height: 100%;
-            background: var(--accent-purple);
+            background: #fff;
             border-radius: 2px;
-            box-shadow: 0 0 12px var(--accent-purple);
+            box-shadow: 0 0 12px rgba(255,255,255,0.5);
             animation: pulse-indicator 1s ease-in-out infinite;
         }
         @keyframes pulse-indicator {
@@ -348,7 +344,7 @@
         }
         
         .store-modal-content {
-            background: var(--bg-secondary);
+            background: #111111;
             border-radius: 16px;
             width: 95%;
             max-width: 1400px;
@@ -360,7 +356,7 @@
         
         .store-modal-header {
             padding: 20px 24px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -396,12 +392,12 @@
         .store-table td {
             padding: 12px 16px;
             text-align: left;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
         }
         
         .store-table th {
-            background: var(--bg-secondary);
-            color: var(--text-secondary);
+            background: #111111;
+            color: #9ca3af;
             font-weight: 600;
             white-space: nowrap;
         }
@@ -411,7 +407,7 @@
         }
         
         .store-table tr:hover {
-            background: var(--bg-hover);
+            background: rgba(255,255,255,0.02);
         }
         
         .store-table .app-icon {
@@ -444,8 +440,8 @@
         }
         
         .store-table .screenshots-btn {
-            background: #fff; color: #000;
-            color: white;
+            background: #fff;
+            color: #000;
             border: none;
             padding: 4px 10px;
             border-radius: 4px;
@@ -454,7 +450,7 @@
         }
         
         .store-table .screenshots-btn:hover {
-            background: #2563eb;
+            background: #e5e5e5;
         }
         
         /* 商城截图预览 */
@@ -464,8 +460,8 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: var(--bg-primary);
-            border-top: 2px solid var(--warning);
+            background: #0a0a0a;
+            border-top: 1px solid rgba(255,255,255,0.1);
             z-index: 2001;
             padding: 16px 20px;
         }
@@ -518,8 +514,8 @@
         /* 已删除截图面板 */
         .deleted-panel {
             display: none;
-            background: var(--bg-secondary);
-            border: 1px solid var(--danger);
+            background: #111111;
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 8px;
             margin: 10px 20px;
             padding: 15px;
@@ -535,7 +531,7 @@
             align-items: center;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
         }
         
         .deleted-panel-header h3 {
@@ -593,22 +589,22 @@
         .deleted-item:hover .restore-btn {
             opacity: 1;
         }
-        .info-value { color: var(--text-primary); font-weight: 500; }
-        .info-value.changed { color: var(--warning); }
-        .info-value.selected { color: var(--accent); }
-        .info-value.inserted { color: var(--accent-purple); }
-        .info-value.danger { color: var(--danger); }
+        .info-value { color: #fff; font-weight: 500; }
+        .info-value.changed { color: #9ca3af; }
+        .info-value.selected { color: #fff; }
+        .info-value.inserted { color: #fff; }
+        .info-value.danger { color: #6b7280; }
         
         .instructions {
-            background: var(--bg-primary);
+            background: #0a0a0a;
             padding: 10px 24px;
             font-size: 12px;
-            color: var(--text-muted);
-            border-bottom: 1px solid var(--border-color-light);
+            color: #6b7280;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
         }
         
         .instructions kbd {
-            background: var(--bg-tertiary);
+            background: rgba(255,255,255,0.06);
             padding: 2px 6px;
             border-radius: 4px;
             font-size: 11px;
@@ -626,8 +622,8 @@
         
         .preview-panel {
             width: 320px;
-            background: var(--bg-primary);
-            border-left: 1px solid var(--border-color);
+            background: #0a0a0a;
+            border-left: 1px solid rgba(255,255,255,0.06);
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
@@ -635,8 +631,8 @@
         
         .preview-header {
             padding: 12px 16px;
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border-color);
+            background: #111111;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
             font-size: 13px;
             font-weight: 600;
         }
@@ -660,14 +656,14 @@
         
         .preview-info {
             padding: 12px 16px;
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border-color);
+            background: #111111;
+            border-top: 1px solid rgba(255,255,255,0.06);
             font-size: 12px;
-            color: var(--text-secondary);
+            color: #9ca3af;
         }
         
         .preview-info .filename {
-            color: var(--text-primary);
+            color: #fff;
             font-weight: 500;
             margin-bottom: 4px;
         }
@@ -677,13 +673,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-muted);
+            color: #6b7280;
             font-size: 13px;
         }
         
         .card {
             width: 90px;
-            background: var(--bg-secondary);
+            background: #111111;
             border-radius: 6px;
             overflow: hidden;
             cursor: grab;
@@ -705,17 +701,17 @@
             transform: scale(1.05);
             box-shadow: 0 8px 24px rgba(0,0,0,0.5);
             z-index: 1000;
-            border-color: var(--accent);
+            border-color: #fff;
         }
         
         .card.moved {
-            border-color: var(--warning);
-            background: linear-gradient(180deg, #2a2a1e 0%, var(--bg-secondary) 100%);
+            border-color: rgba(255,255,255,0.3);
+            background: #111111;
         }
         
         .card.moved .card-index {
-            background: var(--warning);
-            color: #000;
+            background: rgba(255,255,255,0.2);
+            color: #fff;
         }
         
         .card.selected {
@@ -725,17 +721,17 @@
         
         .card.selected .card-checkbox {
             opacity: 1;
-            background: var(--accent);
+            background: #fff;
         }
         
         .card.marked-delete {
-            border-color: var(--danger);
+            border-color: rgba(255,255,255,0.2);
             opacity: 0.5;
-            background: linear-gradient(180deg, #2e1a1a 0%, var(--bg-secondary) 100%);
+            background: #111111;
         }
         
         .card.marked-delete .card-index {
-            background: var(--danger);
+            background: rgba(255,255,255,0.15);
             color: #fff;
         }
         
