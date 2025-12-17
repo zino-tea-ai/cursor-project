@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>快速分类 - Tea-ai PM Lab</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+            background: linear-gradient(135deg, #0a0a12 0%, #12121e 50%, #0a0a12 100%);
+            color: #e8e8ed; 
+            min-height: 100vh;
+        }
+        
+        /* 顶部导航 */
+        .nav {
+            display: flex;
+            align-items: center;
+            padding: 16px 32px;
+            background: rgba(18, 18, 30, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .nav-brand .icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #5e6ad2 0%, #8b5cf6 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .nav-brand .sep {
+            color: rgba(255,255,255,0.2);
+            font-weight: 300;
+        }
+        .nav-brand .page {
+            color: rgba(255,255,255,0.5);
+            font-weight: 400;
+        }
+        
+        .nav-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .project-selector {
+            position: relative;
+        }
+        .project-selector select {
+            appearance: none;
+            padding: 10px 40px 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+            background: rgba(94, 106, 210, 0.15);
+            border: 1px solid rgba(94, 106, 210, 0.3);
+            border-radius: 10px;
+            min-width: 240px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .project-selector select:hover {
+            background: rgba(94, 106, 210, 0.25);
+            border-color: rgba(94, 106, 210, 0.5);
+        }
+        .project-selector select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(94, 106, 210, 0.2);
+        }
+        .project-selector select option {
+            background: #1e1e2e;
+            color: #fff;
+            padding: 10px;
+        }
+        .project-selector::after {
+            content: "▼";
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 10px;
+            color: rgba(255,255,255,0.4);
+            pointer-events: none;
+        }
+        
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .status-badge {
+            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: rgba(251, 191, 36, 0.15);
+            color: #fbbf24;
+            font-weight: 500;
+        }
+        .status-badge:empty { display: none; }
+        
+        .btn {
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: none;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-ghost {
+            background: transparent;
+            color: rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-ghost:hover {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            border-color: rgba(255,255,255,0.2);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #5e6ad2 0%, #7c3aed 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(94, 106, 210, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(94, 106, 210, 0.4);
+        }
+        
+        /* 主内容 */
+        .main {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 28px 32px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 120px 40px;
+        }
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+        .empty-state .text {
+            color: rgba(255,255,255,0.3);
+            font-size: 15px;
+        }
+        
+        /* 截图网格 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+            gap: 12px;
+        }
+        
+        .card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #16161f;
+            border: 2px solid transparent;
+        }
+        .card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+            border-color: rgba(94, 106, 210, 0.4);
+        }
+        .card.modified {
+            border-color: #f59e0b;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+        }
+        
+        .card-image {
+            aspect-ratio: 9/19;
+            background: #0c0c12;
+        }
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .card-info {
+            padding: 10px;
+            background: #16161f;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .card-num {
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            font-weight: 600;
+        }
+        
+        .card-tag {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+        
+        /* 类型颜色 - 高对比度 */
+        .tag-Onboarding { background: #3b82f6; color: #fff; }
+        .tag-Paywall { background: #ec4899; color: #fff; }
+        .tag-Feature { background: #8b5cf6; color: #fff; }
+        .tag-Home { background: #10b981; color: #fff; }
+        .tag-Tracking { background: #f59e0b; color: #000; }
+        .tag-Settings { background: #6b7280; color: #fff; }
+        .tag-Profile { background: #14b8a6; color: #fff; }
+        .tag-Progress { background: #06b6d4; color: #000; }
+        .tag-Content { background: #a855f7; color: #fff; }
+        .tag-Social { background: #f43f5e; color: #fff; }
+        .tag-Core { background: #8b5cf6; color: #fff; }
+        .tag-Other { background: #4b5563; color: #fff; }
+        
+        /* 弹窗 */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .modal-overlay.show {
+            display: flex;
+            opacity: 1;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal {
+            background: linear-gradient(145deg, #1e1e2e 0%, #16161f 100%);
+            border-radius: 20px;
+            padding: 24px;
+            min-width: 360px;
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 25px 80px rgba(0,0,0,0.6);
+            transform: scale(0.95);
+            transition: transform 0.2s;
+        }
+        .modal-overlay.show .modal {
+            transform: scale(1);
+        }
+        
+        .modal-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .modal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        
+        .modal-option {
+            padding: 14px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.15s;
+            border: 2px solid transparent;
+        }
+        .modal-option:hover {
+            transform: scale(1.05);
+            border-color: rgba(255,255,255,0.2);
+        }
+        
+        .modal-cancel {
+            margin-top: 16px;
+            width: 100%;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: rgba(255,255,255,0.5);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .modal-cancel:hover {
+            background: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: rgba(255,255,255,0.3);
+        }
+        .loading::before {
+            content: "";
+            display: block;
+            width: 32px;
+            height: 32px;
+            border: 3px solid rgba(94, 106, 210, 0.2);
+            border-top-color: #5e6ad2;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-brand">
+            <div class="icon">🎯</div>
+            <span>Tea-ai PM Lab</span>
+            <span class="sep">/</span>
+            <span class="page">快速分类</span>
+        </div>
+        
+        <div class="nav-center">
+            <div class="project-selector">
+                <select id="projectSelect" onchange="loadProject()">
+                    <option value="">选择产品...</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="nav-actions">
+            <span class="status-badge" id="statusBadge"></span>
+            <button class="btn btn-ghost" onclick="location.href='/'">← 返回主页</button>
+            <button class="btn btn-primary" onclick="saveChanges()">💾 保存修改</button>
+        </div>
+    </nav>
+    
+    <main class="main">
+        <div id="content">
+            <div class="empty-state">
+                <div class="icon">📱</div>
+                <div class="text">从上方选择一个产品开始分类</div>
+            </div>
+        </div>
+    </main>
+    
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-title">选择分类</div>
+            <div class="modal-grid" id="modalGrid"></div>
+            <button class="modal-cancel" onclick="closeModal()">取消</button>
+        </div>
+    </div>
+    
+    <script>
+        // 三层分类结构: Stage -> Module -> Feature
+        const TAXONOMY = {
+            stages: {
+                'Onboarding': { 
+                    label: '引导阶段', 
+                    modules: ['Welcome', 'Profile', 'Goal', 'Preference', 'Permission', 'Growth', 'Initialization', 'Paywall', 'Registration']
+                },
+                'Core': { 
+                    label: '核心阶段', 
+                    modules: ['Dashboard', 'Tracking', 'Progress', 'Content', 'Social', 'Profile_Core', 'Settings']
+                }
+            },
+            modules: {
+                'Welcome': { label: '欢迎', stage: 'Onboarding' },
+                'Profile': { label: '身份信息', stage: 'Onboarding' },
+                'Goal': { label: '目标设定', stage: 'Onboarding' },
+                'Preference': { label: '偏好收集', stage: 'Onboarding' },
+                'Permission': { label: '权限请求', stage: 'Onboarding' },
+                'Growth': { label: '增长运营', stage: 'Onboarding' },
+                'Initialization': { label: '初始化', stage: 'Onboarding' },
+                'Paywall': { label: '付费墙', stage: 'Onboarding' },
+                'Registration': { label: '注册', stage: 'Onboarding' },
+                'Dashboard': { label: '概览', stage: 'Core' },
+                'Tracking': { label: '记录', stage: 'Core' },
+                'Progress': { label: '进度', stage: 'Core' },
+                'Content': { label: '内容', stage: 'Core' },
+                'Social': { label: '社交', stage: 'Core' },
+                'Profile_Core': { label: '个人中心', stage: 'Core' },
+                'Settings': { label: '设置', stage: 'Core' }
+            }
+        };
+        
+        // 兼容旧格式的TYPES数组（用于简化显示）
+        const TYPES = [
+            { id: 'Onboarding/Welcome', label: '欢迎' },
+            { id: 'Onboarding/Profile', label: '身份信息' },
+            { id: 'Onboarding/Goal', label: '目标设定' },
+            { id: 'Onboarding/Preference', label: '偏好收集' },
+            { id: 'Onboarding/Permission', label: '权限请求' },
+            { id: 'Onboarding/Growth', label: '增长运营' },
+            { id: 'Onboarding/Initialization', label: '初始化' },
+            { id: 'Onboarding/Paywall', label: '付费墙' },
+            { id: 'Onboarding/Registration', label: '注册' },
+            { id: 'Core/Dashboard', label: '概览' },
+            { id: 'Core/Tracking', label: '记录' },
+            { id: 'Core/Progress', label: '进度' },
+            { id: 'Core/Content', label: '内容' },
+            { id: 'Core/Social', label: '社交' },
+            { id: 'Core/Profile_Core', label: '个人中心' },
+            { id: 'Core/Settings', label: '设置' },
+            { id: 'Other', label: '其他' }
+        ];
+        
+        let project = '';
+        let data = {};
+        let changes = 0;
+        let activeFile = '';
+        
+        // 初始化
+        (async () => {
+            const res = await fetch('/api/projects');
+            const json = await res.json();
+            const sel = document.getElementById('projectSelect');
+            json.projects.forEach(p => {
+                const opt = document.createElement('option');
+                opt.value = p.name;
+                opt.textContent = p.name.replace('_Analysis', '').replace(/_/g, ' ');
+                sel.appendChild(opt);
+            });
+        })();
+        
+        async function loadProject() {
+            const sel = document.getElementById('projectSelect');
+            project = sel.value;
+            if (!project) return;
+            
+            document.getElementById('content').innerHTML = '<div class="loading">加载中...</div>';
+            
+            const res = await fetch(`/api/screenshots/${project}`);
+            const json = await res.json();
+            
+            const screenTypes = json.screen_types || {};
+            const files = json.screens.sort((a, b) => {
+                const na = parseInt(a.match(/\d+/)?.[0] || 0);
+                const nb = parseInt(b.match(/\d+/)?.[0] || 0);
+                return na - nb;
+            });
+            
+            data = {};
+            files.forEach((f, i) => {
+                const t = screenTypes[f] || 'Other';
+                data[f] = { idx: i + 1, type: t, orig: t };
+            });
+            
+            changes = 0;
+            render();
+            updateBadge();
+        }
+        
+        function render() {
+            let html = '<div class="grid">';
+            Object.entries(data)
+                .sort((a, b) => a[1].idx - b[1].idx)
+                .forEach(([file, d]) => {
+                    const mod = d.type !== d.orig;
+                    const label = TYPES.find(t => t.id === d.type)?.label || d.type;
+                    html += `
+                        <div class="card ${mod ? 'modified' : ''}" onclick="openModal('${file}')">
+                            <div class="card-image">
+                                <img src="/api/thumb/${project}/screens/${file}" loading="lazy">
+                            </div>
+                            <div class="card-info">
+                                <span class="card-num">#${d.idx}</span>
+                                <span class="card-tag tag-${d.type}">${label}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+            html += '</div>';
+            document.getElementById('content').innerHTML = html;
+        }
+        
+        function openModal(file) {
+            activeFile = file;
+            const grid = document.getElementById('modalGrid');
+            grid.innerHTML = TYPES.map(t => `
+                <div class="modal-option tag-${t.id}" onclick="selectType('${t.id}')">${t.label}</div>
+            `).join('');
+            document.getElementById('modalOverlay').classList.add('show');
+        }
+        
+        function closeModal(e) {
+            if (e && e.target !== e.currentTarget) return;
+            document.getElementById('modalOverlay').classList.remove('show');
+            activeFile = '';
+        }
+        
+        function selectType(type) {
+            if (!activeFile) return;
+            const d = data[activeFile];
+            const wasMod = d.type !== d.orig;
+            d.type = type;
+            const isMod = d.type !== d.orig;
+            if (!wasMod && isMod) changes++;
+            if (wasMod && !isMod) changes--;
+            closeModal();
+            render();
+            updateBadge();
+        }
+        
+        function updateBadge() {
+            document.getElementById('statusBadge').textContent = 
+                changes > 0 ? `${changes} 项待保存` : '';
+        }
+        
+        async function saveChanges() {
+            if (!project) return alert('请先选择产品');
+            if (changes === 0) return alert('没有修改');
+            
+            const ch = {};
+            Object.entries(data).forEach(([f, d]) => {
+                if (d.type !== d.orig) ch[f] = d.type;
+            });
+            
+            const res = await fetch('/api/update-screen-types', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ project, changes: ch })
+            });
+            
+            const r = await res.json();
+            if (r.success) {
+                alert(`✅ 已保存 ${r.count} 项修改`);
+                Object.entries(ch).forEach(([f, t]) => data[f].orig = t);
+                changes = 0;
+                render();
+                updateBadge();
+            } else {
+                alert(`❌ 保存失败: ${r.error}`);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>API Test</title>
+    <style>
+        body { background: #1a1a1a; color: #fff; font-family: sans-serif; padding: 20px; }
+        .card { background: #2a2a2a; padding: 15px; margin: 10px 0; border-radius: 8px; }
+        img { width: 100px; margin: 5px; border-radius: 4px; }
+        .error { color: #f44; }
+        .success { color: #4f4; }
+        .images { display: flex; flex-wrap: wrap; gap: 10px; }
+    </style>
+</head>
+<body>
+    <h1>API Test Page</h1>
+    
+    <div class="card">
+        <h3>1. Projects API</h3>
+        <div id="projects"></div>
+    </div>
+    
+    <div class="card">
+        <h3>2. Cal AI Screenshots API</h3>
+        <div id="screenshots"></div>
+    </div>
+    
+    <div class="card">
+        <h3>3. Sample Images (First 6)</h3>
+        <div id="images" class="images"></div>
+    </div>
+
+    <script>
+        async function test() {
+            // Test 1: Projects
+            try {
+                const res1 = await fetch('/api/projects');
+                const data1 = await res1.json();
+                document.getElementById('projects').innerHTML = 
+                    `<span class="success">OK - ${data1.projects.length} projects</span><br>` +
+                    data1.projects.map(p => p.display_name).join(', ');
+            } catch(e) {
+                document.getElementById('projects').innerHTML = `<span class="error">Error: ${e}</span>`;
+            }
+            
+            // Test 2: Screenshots
+            try {
+                const res2 = await fetch('/api/screenshots/Cal_AI_-_Calorie_Tracker_Analysis');
+                const data2 = await res2.json();
+                const cls = data2.classifications || {};
+                document.getElementById('screenshots').innerHTML = 
+                    `<span class="success">OK</span><br>` +
+                    `Screens: ${data2.screens.length}<br>` +
+                    `Classifications: ${Object.keys(cls).length}<br>` +
+                    `First 3: ${data2.screens.slice(0,3).join(', ')}`;
+            } catch(e) {
+                document.getElementById('screenshots').innerHTML = `<span class="error">Error: ${e}</span>`;
+            }
+            
+            // Test 3: Load some images
+            try {
+                const images = ['Screen_001.png', 'Screen_002.png', 'Screen_003.png', 'Screen_004.png', 'Screen_005.png', 'Screen_006.png'];
+                document.getElementById('images').innerHTML = images.map(img => 
+                    `<div style="text-align:center;">
+                        <img src="/api/thumb/Cal_AI_-_Calorie_Tracker_Analysis/screens/${img}" 
+                             onerror="this.style.border='2px solid red'; this.nextElementSibling.textContent='FAIL'">
+                        <div style="font-size:10px;">${img}</div>
+                    </div>`
+                ).join('');
+            } catch(e) {
+                document.getElementById('images').innerHTML = `<span class="error">Error: ${e}</span>`;
+            }
+        }
+        
+        test();
+    </script>
+</body>
+</html>

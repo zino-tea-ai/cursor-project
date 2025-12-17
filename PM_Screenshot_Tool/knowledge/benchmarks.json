@@ -1,0 +1,1146 @@
+{
+  "_description": "行业基准数据 - 存储各类App的平均指标",
+  "_version": "1.0",
+  "_last_updated": "2024-12-13",
+  
+  "meditation_apps": {
+    "category_cn": "冥想类App",
+    "category_en": "Meditation Apps",
+    "examples": ["Calm", "Headspace", "Insight Timer", "Ten Percent Happier"],
+    "metrics": {
+      "avg_onboarding_steps": 8,
+      "onboarding_range": [5, 12],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "guided_meditation",
+      "sleep_sounds",
+      "breathing_exercises",
+      "daily_meditation",
+      "progress_tracking",
+      "meditation_timer"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "Paywall", "Home", "Content", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "calm, nature-inspired",
+      "primary_colors": ["blue", "purple", "green"],
+      "typography": "rounded, friendly fonts"
+    }
+  },
+  
+  "fitness_apps": {
+    "category_cn": "健身类App",
+    "category_en": "Fitness Apps",
+    "examples": ["Nike Training Club", "Peloton", "SWEAT", "Freeletics"],
+    "metrics": {
+      "avg_onboarding_steps": 10,
+      "onboarding_range": [6, 15],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "workout_plans",
+      "video_tutorials",
+      "progress_tracking",
+      "workout_logging",
+      "achievement_system",
+      "social_features"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "Paywall", "Home", "Feature", "Tracking", "Progress", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "energetic, motivational",
+      "primary_colors": ["red", "orange", "black"],
+      "typography": "bold, impactful fonts"
+    }
+  },
+  
+  "nutrition_apps": {
+    "category_cn": "饮食营养类App",
+    "category_en": "Nutrition & Diet Apps",
+    "examples": ["MyFitnessPal", "Lose It!", "Noom", "Yazio", "Lifesum"],
+    "metrics": {
+      "avg_onboarding_steps": 12,
+      "onboarding_range": [8, 18],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "food_logging",
+      "calorie_counting",
+      "barcode_scanning",
+      "meal_planning",
+      "weight_tracking",
+      "nutrition_insights"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "SignUp", "Paywall", "Home", "Tracking", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "clean, data-focused",
+      "primary_colors": ["green", "blue", "orange"],
+      "typography": "clean, readable fonts"
+    }
+  },
+  
+  "running_apps": {
+    "category_cn": "跑步类App",
+    "category_en": "Running Apps",
+    "examples": ["Strava", "Nike Run Club", "Runna", "Runkeeper", "Map My Run"],
+    "metrics": {
+      "avg_onboarding_steps": 6,
+      "onboarding_range": [4, 10],
+      "paywall_position": "feature_gated",
+      "trial_days": 14,
+      "common_business_model": "freemium"
+    },
+    "common_features": [
+      "gps_tracking",
+      "pace_monitoring",
+      "training_plans",
+      "social_sharing",
+      "challenges",
+      "achievements"
+    ],
+    "common_stages": ["Welcome", "Permission", "Onboarding", "Home", "Tracking", "Progress", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "sporty, map-centric",
+      "primary_colors": ["orange", "blue", "green"],
+      "typography": "athletic, modern fonts"
+    }
+  },
+  
+  "women_health_apps": {
+    "category_cn": "女性健康类App",
+    "category_en": "Women's Health Apps",
+    "examples": ["Flo", "Clue", "Ovia", "Glow"],
+    "metrics": {
+      "avg_onboarding_steps": 15,
+      "onboarding_range": [10, 20],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "cycle_tracking",
+      "symptom_logging",
+      "prediction_algorithms",
+      "health_insights",
+      "pregnancy_mode",
+      "community"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "SignUp", "Paywall", "Home", "Tracking", "Content", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "soft, feminine",
+      "primary_colors": ["pink", "purple", "coral"],
+      "typography": "elegant, rounded fonts"
+    }
+  },
+  
+  "sleep_apps": {
+    "category_cn": "睡眠类App",
+    "category_en": "Sleep Apps",
+    "examples": ["Sleep Cycle", "Pillow", "SleepScore", "AutoSleep"],
+    "metrics": {
+      "avg_onboarding_steps": 5,
+      "onboarding_range": [3, 8],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "sleep_tracking",
+      "smart_alarm",
+      "sleep_sounds",
+      "sleep_analysis",
+      "sleep_tips"
+    ],
+    "common_stages": ["Welcome", "Permission", "Onboarding", "Paywall", "Home", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "dark, calming",
+      "primary_colors": ["dark blue", "purple", "midnight"],
+      "typography": "soft, relaxing fonts"
+    }
+  },
+  
+  "general_benchmarks": {
+    "onboarding": {
+      "optimal_steps": "5-10 steps",
+      "max_before_drop_off": 15,
+      "info_per_step": "1 question or 1 concept",
+      "progress_indicator": "recommended",
+      "skip_option": "after step 3"
+    },
+    "paywall": {
+      "optimal_position": "after value demonstration",
+      "trial_conversion_rate": "2-5%",
+      "annual_vs_monthly_preference": "annual (70-80%)",
+      "price_display": "per month (even for annual)"
+    },
+    "retention": {
+      "day1_benchmark": "40-60%",
+      "day7_benchmark": "20-30%",
+      "day30_benchmark": "10-15%"
+    }
+  }
+}
+
+
+  "_description": "行业基准数据 - 存储各类App的平均指标",
+  "_version": "1.0",
+  "_last_updated": "2024-12-13",
+  
+  "meditation_apps": {
+    "category_cn": "冥想类App",
+    "category_en": "Meditation Apps",
+    "examples": ["Calm", "Headspace", "Insight Timer", "Ten Percent Happier"],
+    "metrics": {
+      "avg_onboarding_steps": 8,
+      "onboarding_range": [5, 12],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "guided_meditation",
+      "sleep_sounds",
+      "breathing_exercises",
+      "daily_meditation",
+      "progress_tracking",
+      "meditation_timer"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "Paywall", "Home", "Content", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "calm, nature-inspired",
+      "primary_colors": ["blue", "purple", "green"],
+      "typography": "rounded, friendly fonts"
+    }
+  },
+  
+  "fitness_apps": {
+    "category_cn": "健身类App",
+    "category_en": "Fitness Apps",
+    "examples": ["Nike Training Club", "Peloton", "SWEAT", "Freeletics"],
+    "metrics": {
+      "avg_onboarding_steps": 10,
+      "onboarding_range": [6, 15],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "workout_plans",
+      "video_tutorials",
+      "progress_tracking",
+      "workout_logging",
+      "achievement_system",
+      "social_features"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "Paywall", "Home", "Feature", "Tracking", "Progress", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "energetic, motivational",
+      "primary_colors": ["red", "orange", "black"],
+      "typography": "bold, impactful fonts"
+    }
+  },
+  
+  "nutrition_apps": {
+    "category_cn": "饮食营养类App",
+    "category_en": "Nutrition & Diet Apps",
+    "examples": ["MyFitnessPal", "Lose It!", "Noom", "Yazio", "Lifesum"],
+    "metrics": {
+      "avg_onboarding_steps": 12,
+      "onboarding_range": [8, 18],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "food_logging",
+      "calorie_counting",
+      "barcode_scanning",
+      "meal_planning",
+      "weight_tracking",
+      "nutrition_insights"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "SignUp", "Paywall", "Home", "Tracking", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "clean, data-focused",
+      "primary_colors": ["green", "blue", "orange"],
+      "typography": "clean, readable fonts"
+    }
+  },
+  
+  "running_apps": {
+    "category_cn": "跑步类App",
+    "category_en": "Running Apps",
+    "examples": ["Strava", "Nike Run Club", "Runna", "Runkeeper", "Map My Run"],
+    "metrics": {
+      "avg_onboarding_steps": 6,
+      "onboarding_range": [4, 10],
+      "paywall_position": "feature_gated",
+      "trial_days": 14,
+      "common_business_model": "freemium"
+    },
+    "common_features": [
+      "gps_tracking",
+      "pace_monitoring",
+      "training_plans",
+      "social_sharing",
+      "challenges",
+      "achievements"
+    ],
+    "common_stages": ["Welcome", "Permission", "Onboarding", "Home", "Tracking", "Progress", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "sporty, map-centric",
+      "primary_colors": ["orange", "blue", "green"],
+      "typography": "athletic, modern fonts"
+    }
+  },
+  
+  "women_health_apps": {
+    "category_cn": "女性健康类App",
+    "category_en": "Women's Health Apps",
+    "examples": ["Flo", "Clue", "Ovia", "Glow"],
+    "metrics": {
+      "avg_onboarding_steps": 15,
+      "onboarding_range": [10, 20],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "cycle_tracking",
+      "symptom_logging",
+      "prediction_algorithms",
+      "health_insights",
+      "pregnancy_mode",
+      "community"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "SignUp", "Paywall", "Home", "Tracking", "Content", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "soft, feminine",
+      "primary_colors": ["pink", "purple", "coral"],
+      "typography": "elegant, rounded fonts"
+    }
+  },
+  
+  "sleep_apps": {
+    "category_cn": "睡眠类App",
+    "category_en": "Sleep Apps",
+    "examples": ["Sleep Cycle", "Pillow", "SleepScore", "AutoSleep"],
+    "metrics": {
+      "avg_onboarding_steps": 5,
+      "onboarding_range": [3, 8],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "sleep_tracking",
+      "smart_alarm",
+      "sleep_sounds",
+      "sleep_analysis",
+      "sleep_tips"
+    ],
+    "common_stages": ["Welcome", "Permission", "Onboarding", "Paywall", "Home", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "dark, calming",
+      "primary_colors": ["dark blue", "purple", "midnight"],
+      "typography": "soft, relaxing fonts"
+    }
+  },
+  
+  "general_benchmarks": {
+    "onboarding": {
+      "optimal_steps": "5-10 steps",
+      "max_before_drop_off": 15,
+      "info_per_step": "1 question or 1 concept",
+      "progress_indicator": "recommended",
+      "skip_option": "after step 3"
+    },
+    "paywall": {
+      "optimal_position": "after value demonstration",
+      "trial_conversion_rate": "2-5%",
+      "annual_vs_monthly_preference": "annual (70-80%)",
+      "price_display": "per month (even for annual)"
+    },
+    "retention": {
+      "day1_benchmark": "40-60%",
+      "day7_benchmark": "20-30%",
+      "day30_benchmark": "10-15%"
+    }
+  }
+}
+
+
+  "_description": "行业基准数据 - 存储各类App的平均指标",
+  "_version": "1.0",
+  "_last_updated": "2024-12-13",
+  
+  "meditation_apps": {
+    "category_cn": "冥想类App",
+    "category_en": "Meditation Apps",
+    "examples": ["Calm", "Headspace", "Insight Timer", "Ten Percent Happier"],
+    "metrics": {
+      "avg_onboarding_steps": 8,
+      "onboarding_range": [5, 12],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "guided_meditation",
+      "sleep_sounds",
+      "breathing_exercises",
+      "daily_meditation",
+      "progress_tracking",
+      "meditation_timer"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "Paywall", "Home", "Content", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "calm, nature-inspired",
+      "primary_colors": ["blue", "purple", "green"],
+      "typography": "rounded, friendly fonts"
+    }
+  },
+  
+  "fitness_apps": {
+    "category_cn": "健身类App",
+    "category_en": "Fitness Apps",
+    "examples": ["Nike Training Club", "Peloton", "SWEAT", "Freeletics"],
+    "metrics": {
+      "avg_onboarding_steps": 10,
+      "onboarding_range": [6, 15],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "workout_plans",
+      "video_tutorials",
+      "progress_tracking",
+      "workout_logging",
+      "achievement_system",
+      "social_features"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "Paywall", "Home", "Feature", "Tracking", "Progress", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "energetic, motivational",
+      "primary_colors": ["red", "orange", "black"],
+      "typography": "bold, impactful fonts"
+    }
+  },
+  
+  "nutrition_apps": {
+    "category_cn": "饮食营养类App",
+    "category_en": "Nutrition & Diet Apps",
+    "examples": ["MyFitnessPal", "Lose It!", "Noom", "Yazio", "Lifesum"],
+    "metrics": {
+      "avg_onboarding_steps": 12,
+      "onboarding_range": [8, 18],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "food_logging",
+      "calorie_counting",
+      "barcode_scanning",
+      "meal_planning",
+      "weight_tracking",
+      "nutrition_insights"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "SignUp", "Paywall", "Home", "Tracking", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "clean, data-focused",
+      "primary_colors": ["green", "blue", "orange"],
+      "typography": "clean, readable fonts"
+    }
+  },
+  
+  "running_apps": {
+    "category_cn": "跑步类App",
+    "category_en": "Running Apps",
+    "examples": ["Strava", "Nike Run Club", "Runna", "Runkeeper", "Map My Run"],
+    "metrics": {
+      "avg_onboarding_steps": 6,
+      "onboarding_range": [4, 10],
+      "paywall_position": "feature_gated",
+      "trial_days": 14,
+      "common_business_model": "freemium"
+    },
+    "common_features": [
+      "gps_tracking",
+      "pace_monitoring",
+      "training_plans",
+      "social_sharing",
+      "challenges",
+      "achievements"
+    ],
+    "common_stages": ["Welcome", "Permission", "Onboarding", "Home", "Tracking", "Progress", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "sporty, map-centric",
+      "primary_colors": ["orange", "blue", "green"],
+      "typography": "athletic, modern fonts"
+    }
+  },
+  
+  "women_health_apps": {
+    "category_cn": "女性健康类App",
+    "category_en": "Women's Health Apps",
+    "examples": ["Flo", "Clue", "Ovia", "Glow"],
+    "metrics": {
+      "avg_onboarding_steps": 15,
+      "onboarding_range": [10, 20],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "cycle_tracking",
+      "symptom_logging",
+      "prediction_algorithms",
+      "health_insights",
+      "pregnancy_mode",
+      "community"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "SignUp", "Paywall", "Home", "Tracking", "Content", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "soft, feminine",
+      "primary_colors": ["pink", "purple", "coral"],
+      "typography": "elegant, rounded fonts"
+    }
+  },
+  
+  "sleep_apps": {
+    "category_cn": "睡眠类App",
+    "category_en": "Sleep Apps",
+    "examples": ["Sleep Cycle", "Pillow", "SleepScore", "AutoSleep"],
+    "metrics": {
+      "avg_onboarding_steps": 5,
+      "onboarding_range": [3, 8],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "sleep_tracking",
+      "smart_alarm",
+      "sleep_sounds",
+      "sleep_analysis",
+      "sleep_tips"
+    ],
+    "common_stages": ["Welcome", "Permission", "Onboarding", "Paywall", "Home", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "dark, calming",
+      "primary_colors": ["dark blue", "purple", "midnight"],
+      "typography": "soft, relaxing fonts"
+    }
+  },
+  
+  "general_benchmarks": {
+    "onboarding": {
+      "optimal_steps": "5-10 steps",
+      "max_before_drop_off": 15,
+      "info_per_step": "1 question or 1 concept",
+      "progress_indicator": "recommended",
+      "skip_option": "after step 3"
+    },
+    "paywall": {
+      "optimal_position": "after value demonstration",
+      "trial_conversion_rate": "2-5%",
+      "annual_vs_monthly_preference": "annual (70-80%)",
+      "price_display": "per month (even for annual)"
+    },
+    "retention": {
+      "day1_benchmark": "40-60%",
+      "day7_benchmark": "20-30%",
+      "day30_benchmark": "10-15%"
+    }
+  }
+}
+
+
+  "_description": "行业基准数据 - 存储各类App的平均指标",
+  "_version": "1.0",
+  "_last_updated": "2024-12-13",
+  
+  "meditation_apps": {
+    "category_cn": "冥想类App",
+    "category_en": "Meditation Apps",
+    "examples": ["Calm", "Headspace", "Insight Timer", "Ten Percent Happier"],
+    "metrics": {
+      "avg_onboarding_steps": 8,
+      "onboarding_range": [5, 12],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "guided_meditation",
+      "sleep_sounds",
+      "breathing_exercises",
+      "daily_meditation",
+      "progress_tracking",
+      "meditation_timer"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "Paywall", "Home", "Content", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "calm, nature-inspired",
+      "primary_colors": ["blue", "purple", "green"],
+      "typography": "rounded, friendly fonts"
+    }
+  },
+  
+  "fitness_apps": {
+    "category_cn": "健身类App",
+    "category_en": "Fitness Apps",
+    "examples": ["Nike Training Club", "Peloton", "SWEAT", "Freeletics"],
+    "metrics": {
+      "avg_onboarding_steps": 10,
+      "onboarding_range": [6, 15],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "workout_plans",
+      "video_tutorials",
+      "progress_tracking",
+      "workout_logging",
+      "achievement_system",
+      "social_features"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "Paywall", "Home", "Feature", "Tracking", "Progress", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "energetic, motivational",
+      "primary_colors": ["red", "orange", "black"],
+      "typography": "bold, impactful fonts"
+    }
+  },
+  
+  "nutrition_apps": {
+    "category_cn": "饮食营养类App",
+    "category_en": "Nutrition & Diet Apps",
+    "examples": ["MyFitnessPal", "Lose It!", "Noom", "Yazio", "Lifesum"],
+    "metrics": {
+      "avg_onboarding_steps": 12,
+      "onboarding_range": [8, 18],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "food_logging",
+      "calorie_counting",
+      "barcode_scanning",
+      "meal_planning",
+      "weight_tracking",
+      "nutrition_insights"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "SignUp", "Paywall", "Home", "Tracking", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "clean, data-focused",
+      "primary_colors": ["green", "blue", "orange"],
+      "typography": "clean, readable fonts"
+    }
+  },
+  
+  "running_apps": {
+    "category_cn": "跑步类App",
+    "category_en": "Running Apps",
+    "examples": ["Strava", "Nike Run Club", "Runna", "Runkeeper", "Map My Run"],
+    "metrics": {
+      "avg_onboarding_steps": 6,
+      "onboarding_range": [4, 10],
+      "paywall_position": "feature_gated",
+      "trial_days": 14,
+      "common_business_model": "freemium"
+    },
+    "common_features": [
+      "gps_tracking",
+      "pace_monitoring",
+      "training_plans",
+      "social_sharing",
+      "challenges",
+      "achievements"
+    ],
+    "common_stages": ["Welcome", "Permission", "Onboarding", "Home", "Tracking", "Progress", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "sporty, map-centric",
+      "primary_colors": ["orange", "blue", "green"],
+      "typography": "athletic, modern fonts"
+    }
+  },
+  
+  "women_health_apps": {
+    "category_cn": "女性健康类App",
+    "category_en": "Women's Health Apps",
+    "examples": ["Flo", "Clue", "Ovia", "Glow"],
+    "metrics": {
+      "avg_onboarding_steps": 15,
+      "onboarding_range": [10, 20],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "cycle_tracking",
+      "symptom_logging",
+      "prediction_algorithms",
+      "health_insights",
+      "pregnancy_mode",
+      "community"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "SignUp", "Paywall", "Home", "Tracking", "Content", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "soft, feminine",
+      "primary_colors": ["pink", "purple", "coral"],
+      "typography": "elegant, rounded fonts"
+    }
+  },
+  
+  "sleep_apps": {
+    "category_cn": "睡眠类App",
+    "category_en": "Sleep Apps",
+    "examples": ["Sleep Cycle", "Pillow", "SleepScore", "AutoSleep"],
+    "metrics": {
+      "avg_onboarding_steps": 5,
+      "onboarding_range": [3, 8],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "sleep_tracking",
+      "smart_alarm",
+      "sleep_sounds",
+      "sleep_analysis",
+      "sleep_tips"
+    ],
+    "common_stages": ["Welcome", "Permission", "Onboarding", "Paywall", "Home", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "dark, calming",
+      "primary_colors": ["dark blue", "purple", "midnight"],
+      "typography": "soft, relaxing fonts"
+    }
+  },
+  
+  "general_benchmarks": {
+    "onboarding": {
+      "optimal_steps": "5-10 steps",
+      "max_before_drop_off": 15,
+      "info_per_step": "1 question or 1 concept",
+      "progress_indicator": "recommended",
+      "skip_option": "after step 3"
+    },
+    "paywall": {
+      "optimal_position": "after value demonstration",
+      "trial_conversion_rate": "2-5%",
+      "annual_vs_monthly_preference": "annual (70-80%)",
+      "price_display": "per month (even for annual)"
+    },
+    "retention": {
+      "day1_benchmark": "40-60%",
+      "day7_benchmark": "20-30%",
+      "day30_benchmark": "10-15%"
+    }
+  }
+}
+
+
+
+  "_description": "行业基准数据 - 存储各类App的平均指标",
+  "_version": "1.0",
+  "_last_updated": "2024-12-13",
+  
+  "meditation_apps": {
+    "category_cn": "冥想类App",
+    "category_en": "Meditation Apps",
+    "examples": ["Calm", "Headspace", "Insight Timer", "Ten Percent Happier"],
+    "metrics": {
+      "avg_onboarding_steps": 8,
+      "onboarding_range": [5, 12],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "guided_meditation",
+      "sleep_sounds",
+      "breathing_exercises",
+      "daily_meditation",
+      "progress_tracking",
+      "meditation_timer"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "Paywall", "Home", "Content", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "calm, nature-inspired",
+      "primary_colors": ["blue", "purple", "green"],
+      "typography": "rounded, friendly fonts"
+    }
+  },
+  
+  "fitness_apps": {
+    "category_cn": "健身类App",
+    "category_en": "Fitness Apps",
+    "examples": ["Nike Training Club", "Peloton", "SWEAT", "Freeletics"],
+    "metrics": {
+      "avg_onboarding_steps": 10,
+      "onboarding_range": [6, 15],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "workout_plans",
+      "video_tutorials",
+      "progress_tracking",
+      "workout_logging",
+      "achievement_system",
+      "social_features"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "Paywall", "Home", "Feature", "Tracking", "Progress", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "energetic, motivational",
+      "primary_colors": ["red", "orange", "black"],
+      "typography": "bold, impactful fonts"
+    }
+  },
+  
+  "nutrition_apps": {
+    "category_cn": "饮食营养类App",
+    "category_en": "Nutrition & Diet Apps",
+    "examples": ["MyFitnessPal", "Lose It!", "Noom", "Yazio", "Lifesum"],
+    "metrics": {
+      "avg_onboarding_steps": 12,
+      "onboarding_range": [8, 18],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "food_logging",
+      "calorie_counting",
+      "barcode_scanning",
+      "meal_planning",
+      "weight_tracking",
+      "nutrition_insights"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "SignUp", "Paywall", "Home", "Tracking", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "clean, data-focused",
+      "primary_colors": ["green", "blue", "orange"],
+      "typography": "clean, readable fonts"
+    }
+  },
+  
+  "running_apps": {
+    "category_cn": "跑步类App",
+    "category_en": "Running Apps",
+    "examples": ["Strava", "Nike Run Club", "Runna", "Runkeeper", "Map My Run"],
+    "metrics": {
+      "avg_onboarding_steps": 6,
+      "onboarding_range": [4, 10],
+      "paywall_position": "feature_gated",
+      "trial_days": 14,
+      "common_business_model": "freemium"
+    },
+    "common_features": [
+      "gps_tracking",
+      "pace_monitoring",
+      "training_plans",
+      "social_sharing",
+      "challenges",
+      "achievements"
+    ],
+    "common_stages": ["Welcome", "Permission", "Onboarding", "Home", "Tracking", "Progress", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "sporty, map-centric",
+      "primary_colors": ["orange", "blue", "green"],
+      "typography": "athletic, modern fonts"
+    }
+  },
+  
+  "women_health_apps": {
+    "category_cn": "女性健康类App",
+    "category_en": "Women's Health Apps",
+    "examples": ["Flo", "Clue", "Ovia", "Glow"],
+    "metrics": {
+      "avg_onboarding_steps": 15,
+      "onboarding_range": [10, 20],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "cycle_tracking",
+      "symptom_logging",
+      "prediction_algorithms",
+      "health_insights",
+      "pregnancy_mode",
+      "community"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "SignUp", "Paywall", "Home", "Tracking", "Content", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "soft, feminine",
+      "primary_colors": ["pink", "purple", "coral"],
+      "typography": "elegant, rounded fonts"
+    }
+  },
+  
+  "sleep_apps": {
+    "category_cn": "睡眠类App",
+    "category_en": "Sleep Apps",
+    "examples": ["Sleep Cycle", "Pillow", "SleepScore", "AutoSleep"],
+    "metrics": {
+      "avg_onboarding_steps": 5,
+      "onboarding_range": [3, 8],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "sleep_tracking",
+      "smart_alarm",
+      "sleep_sounds",
+      "sleep_analysis",
+      "sleep_tips"
+    ],
+    "common_stages": ["Welcome", "Permission", "Onboarding", "Paywall", "Home", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "dark, calming",
+      "primary_colors": ["dark blue", "purple", "midnight"],
+      "typography": "soft, relaxing fonts"
+    }
+  },
+  
+  "general_benchmarks": {
+    "onboarding": {
+      "optimal_steps": "5-10 steps",
+      "max_before_drop_off": 15,
+      "info_per_step": "1 question or 1 concept",
+      "progress_indicator": "recommended",
+      "skip_option": "after step 3"
+    },
+    "paywall": {
+      "optimal_position": "after value demonstration",
+      "trial_conversion_rate": "2-5%",
+      "annual_vs_monthly_preference": "annual (70-80%)",
+      "price_display": "per month (even for annual)"
+    },
+    "retention": {
+      "day1_benchmark": "40-60%",
+      "day7_benchmark": "20-30%",
+      "day30_benchmark": "10-15%"
+    }
+  }
+}
+
+
+  "_description": "行业基准数据 - 存储各类App的平均指标",
+  "_version": "1.0",
+  "_last_updated": "2024-12-13",
+  
+  "meditation_apps": {
+    "category_cn": "冥想类App",
+    "category_en": "Meditation Apps",
+    "examples": ["Calm", "Headspace", "Insight Timer", "Ten Percent Happier"],
+    "metrics": {
+      "avg_onboarding_steps": 8,
+      "onboarding_range": [5, 12],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "guided_meditation",
+      "sleep_sounds",
+      "breathing_exercises",
+      "daily_meditation",
+      "progress_tracking",
+      "meditation_timer"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "Paywall", "Home", "Content", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "calm, nature-inspired",
+      "primary_colors": ["blue", "purple", "green"],
+      "typography": "rounded, friendly fonts"
+    }
+  },
+  
+  "fitness_apps": {
+    "category_cn": "健身类App",
+    "category_en": "Fitness Apps",
+    "examples": ["Nike Training Club", "Peloton", "SWEAT", "Freeletics"],
+    "metrics": {
+      "avg_onboarding_steps": 10,
+      "onboarding_range": [6, 15],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "workout_plans",
+      "video_tutorials",
+      "progress_tracking",
+      "workout_logging",
+      "achievement_system",
+      "social_features"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "Paywall", "Home", "Feature", "Tracking", "Progress", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "energetic, motivational",
+      "primary_colors": ["red", "orange", "black"],
+      "typography": "bold, impactful fonts"
+    }
+  },
+  
+  "nutrition_apps": {
+    "category_cn": "饮食营养类App",
+    "category_en": "Nutrition & Diet Apps",
+    "examples": ["MyFitnessPal", "Lose It!", "Noom", "Yazio", "Lifesum"],
+    "metrics": {
+      "avg_onboarding_steps": 12,
+      "onboarding_range": [8, 18],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "food_logging",
+      "calorie_counting",
+      "barcode_scanning",
+      "meal_planning",
+      "weight_tracking",
+      "nutrition_insights"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "SignUp", "Paywall", "Home", "Tracking", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "clean, data-focused",
+      "primary_colors": ["green", "blue", "orange"],
+      "typography": "clean, readable fonts"
+    }
+  },
+  
+  "running_apps": {
+    "category_cn": "跑步类App",
+    "category_en": "Running Apps",
+    "examples": ["Strava", "Nike Run Club", "Runna", "Runkeeper", "Map My Run"],
+    "metrics": {
+      "avg_onboarding_steps": 6,
+      "onboarding_range": [4, 10],
+      "paywall_position": "feature_gated",
+      "trial_days": 14,
+      "common_business_model": "freemium"
+    },
+    "common_features": [
+      "gps_tracking",
+      "pace_monitoring",
+      "training_plans",
+      "social_sharing",
+      "challenges",
+      "achievements"
+    ],
+    "common_stages": ["Welcome", "Permission", "Onboarding", "Home", "Tracking", "Progress", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "sporty, map-centric",
+      "primary_colors": ["orange", "blue", "green"],
+      "typography": "athletic, modern fonts"
+    }
+  },
+  
+  "women_health_apps": {
+    "category_cn": "女性健康类App",
+    "category_en": "Women's Health Apps",
+    "examples": ["Flo", "Clue", "Ovia", "Glow"],
+    "metrics": {
+      "avg_onboarding_steps": 15,
+      "onboarding_range": [10, 20],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "cycle_tracking",
+      "symptom_logging",
+      "prediction_algorithms",
+      "health_insights",
+      "pregnancy_mode",
+      "community"
+    ],
+    "common_stages": ["Welcome", "Onboarding", "SignUp", "Paywall", "Home", "Tracking", "Content", "Social", "Settings"],
+    "design_trends": {
+      "visual_style": "soft, feminine",
+      "primary_colors": ["pink", "purple", "coral"],
+      "typography": "elegant, rounded fonts"
+    }
+  },
+  
+  "sleep_apps": {
+    "category_cn": "睡眠类App",
+    "category_en": "Sleep Apps",
+    "examples": ["Sleep Cycle", "Pillow", "SleepScore", "AutoSleep"],
+    "metrics": {
+      "avg_onboarding_steps": 5,
+      "onboarding_range": [3, 8],
+      "paywall_position": "after_onboarding",
+      "trial_days": 7,
+      "common_business_model": "subscription"
+    },
+    "common_features": [
+      "sleep_tracking",
+      "smart_alarm",
+      "sleep_sounds",
+      "sleep_analysis",
+      "sleep_tips"
+    ],
+    "common_stages": ["Welcome", "Permission", "Onboarding", "Paywall", "Home", "Progress", "Settings"],
+    "design_trends": {
+      "visual_style": "dark, calming",
+      "primary_colors": ["dark blue", "purple", "midnight"],
+      "typography": "soft, relaxing fonts"
+    }
+  },
+  
+  "general_benchmarks": {
+    "onboarding": {
+      "optimal_steps": "5-10 steps",
+      "max_before_drop_off": 15,
+      "info_per_step": "1 question or 1 concept",
+      "progress_indicator": "recommended",
+      "skip_option": "after step 3"
+    },
+    "paywall": {
+      "optimal_position": "after value demonstration",
+      "trial_conversion_rate": "2-5%",
+      "annual_vs_monthly_preference": "annual (70-80%)",
+      "price_display": "per month (even for annual)"
+    },
+    "retention": {
+      "day1_benchmark": "40-60%",
+      "day7_benchmark": "20-30%",
+      "day30_benchmark": "10-15%"
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

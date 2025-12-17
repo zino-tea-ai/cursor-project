@@ -1,0 +1,2883 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>截图排序与筛选工具</title>
+    <link rel="stylesheet" href="/static/css/common.css">
+    <style>
+        /* ==================== 布局 - Linear Style (与 Onboarding 一致) ==================== */
+        .app { display: flex; height: 100vh; overflow: hidden; }
+        
+        .sidebar {
+            width: 240px;
+            background: #111111;
+            border-right: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            height: 60px;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+        }
+        
+        .sidebar-header .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .sidebar-section {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        
+        .sidebar-section h3 {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 12px;
+            letter-spacing: 0.02em;
+            font-weight: 500;
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+        .sidebar-section h3 span {
+            font-size: 11px;
+            opacity: 0.5;
+            font-weight: 400;
+        }
+        
+        /* 导航列表 - Linear Style (与 Onboarding 一致) */
+        .nav-list { display: flex; flex-direction: column; gap: 0; }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-radius: 0;
+            cursor: pointer;
+            color: #6b7280;
+            text-decoration: none;
+            transition: all 0.15s ease;
+            font-size: 14px;
+            border: none;
+            border-left: 2px solid transparent;
+            margin-left: -16px;
+            padding-left: 14px;
+            background: none;
+        }
+        .nav-item:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.02);
+        }
+        .nav-item.active {
+            color: #fff;
+            border-left-color: #fff;
+            background: rgba(255,255,255,0.03);
+        }
+        .nav-item .icon { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; opacity: 0.7; }
+        .nav-item.active .icon { opacity: 1; }
+        .nav-item .icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; display: block; }
+        .nav-item .nav-en { opacity: 0.5; font-size: 12px; margin-left: 2px; }
+        
+        /* 项目选择器 */
+        .project-select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: var(--radius-md);
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid rgba(94, 106, 210, 0.2);
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .project-select:hover {
+            border-color: var(--border-color-strong);
+        }
+        
+        /* 状态信息 */
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .status-value {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .status-value.success { color: var(--success); }
+        .status-value.warning { color: var(--warning); }
+        .status-value.danger { color: var(--danger); }
+        .status-value.accent { color: var(--accent-purple); }
+        
+        /* 检查状态按钮 */
+        .check-btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .check-btn:hover {
+            background: var(--bg-hover);
+            border-color: var(--border-color-strong);
+        }
+        .check-btn.checked {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: var(--success);
+            color: var(--success);
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* 顶栏 - Linear Style (与 Onboarding 一致) */
+        .topbar {
+            height: 60px;
+            background: #111111;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            gap: 16px;
+        }
+        
+        .topbar-title {
+            font-size: 14px;
+            color: #6b7280;
+        }
+        .topbar-title strong {
+            color: #fff;
+            font-weight: 500;
+        }
+        
+        .topbar-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        /* 按钮样式 - Linear Style (与 Onboarding 一致) */
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent;
+            color: #a1a1a1;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+        .btn:hover {
+            background: rgba(255,255,255,0.04);
+            color: #fff;
+            border-color: rgba(255,255,255,0.2);
+        }
+        .btn-primary { 
+            background: rgba(255,255,255,0.08);
+            color: #fff; 
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .btn-primary:hover { 
+            background: rgba(255,255,255,0.12);
+            border-color: rgba(255,255,255,0.25);
+        }
+        .btn-secondary { background: rgba(255,255,255,0.06); color: #d1d5db; border-color: rgba(255,255,255,0.1); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+        .btn-danger { 
+            background: rgba(239, 68, 68, 0.15); 
+            color: #f87171; 
+            border: 1px solid rgba(239, 68, 68, 0.3); 
+        }
+        .btn-danger:hover { 
+            background: rgba(239, 68, 68, 0.25); 
+            border-color: rgba(239, 68, 68, 0.5);
+        }
+        .btn-danger:disabled { background: rgba(255,255,255,0.04); color: #555; border-color: transparent; cursor: not-allowed; }
+        
+        .btn-mark {
+            background: rgba(139, 92, 246, 0.15);
+            color: #a78bfa;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+        .btn-mark:hover {
+            background: rgba(139, 92, 246, 0.25);
+            border-color: rgba(139, 92, 246, 0.5);
+        }
+        .btn-mark.active {
+            background: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border-color: rgba(245, 158, 11, 0.3);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
+        }
+        
+        /* 快捷键提示 */
+        .shortcuts {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .shortcuts kbd {
+            background: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-right: 4px;
+        }
+        
+        /* 网格容器 */
+        .grid-container {
+            flex: 1;
+            overflow: auto;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* 拖拽上传提示 */
+        .grid-container.drag-over {
+            background: rgba(139, 92, 246, 0.08);
+            border: 2px dashed var(--accent-purple);
+            border-radius: 8px;
+        }
+        
+        /* 拖拽插入指示器 */
+        .drag-indicator {
+            width: 4px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin: 0 2px;
+        }
+        .drag-indicator-line {
+            width: 4px;
+            height: 100%;
+            background: var(--accent-purple);
+            border-radius: 2px;
+            box-shadow: 0 0 12px var(--accent-purple);
+            animation: pulse-indicator 1s ease-in-out infinite;
+        }
+        @keyframes pulse-indicator {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        /* 已删除截图状态 */
+        #deletedToggle {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        #deletedToggle:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 4px;
+            margin: -4px;
+            padding: 4px;
+        }
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+        .insert-mode-hint.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(20px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        
+        /* 商城对比弹窗 */
+        .store-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow: auto;
+        }
+        
+        .store-modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+        
+        .store-modal-content {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            width: 95%;
+            max-width: 1400px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .store-modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .store-modal-header h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #f59e0b;
+        }
+        
+        .store-modal-body {
+            flex: 1;
+            overflow: auto;
+            padding: 0;
+        }
+        
+        /* 商城对比表格 */
+        .store-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 13px;
+        }
+        
+        .store-table thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .store-table th,
+        .store-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .store-table th {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .store-table th:first-child {
+            border-radius: 0;
+        }
+        
+        .store-table tr:hover {
+            background: var(--bg-hover);
+        }
+        
+        .store-table .app-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        .store-table .app-name {
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .store-table .app-subtitle {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 2px;
+        }
+        
+        .store-table .rating {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+        
+        .store-table .rating-count {
+            color: #6b7280;
+            font-size: 11px;
+        }
+        
+        .store-table .screenshots-btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        
+        .store-table .screenshots-btn:hover {
+            background: #2563eb;
+        }
+        
+        /* 商城截图预览 */
+        .store-screenshots-panel {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            border-top: 2px solid var(--warning);
+            z-index: 2001;
+            padding: 16px 20px;
+        }
+        
+        .store-screenshots-panel.active {
+            display: block;
+        }
+        
+        .store-screenshots-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .store-screenshots-header h3 {
+            margin: 0;
+            font-size: 14px;
+            color: #f59e0b;
+        }
+        
+        .store-screenshots-grid {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+        
+        .store-screenshot-item {
+            flex-shrink: 0;
+            width: 120px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .store-screenshot-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .store-screenshot-item img {
+            width: 100%;
+            border-radius: 8px;
+            border: 2px solid transparent;
+        }
+        
+        .store-screenshot-item:hover img {
+            border-color: #f59e0b;
+        }
+        
+        /* 已删除截图面板 */
+        .deleted-panel {
+            display: none;
+            background: var(--bg-secondary);
+            border: 1px solid var(--danger);
+            border-radius: 8px;
+            margin: 10px 20px;
+            padding: 15px;
+        }
+        
+        .deleted-panel.show {
+            display: block;
+        }
+        
+        .deleted-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .deleted-panel-header h3 {
+            margin: 0;
+            color: #ef4444;
+            font-size: 14px;
+        }
+        
+        .deleted-panel-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .deleted-item {
+            position: relative;
+            width: 80px;
+            cursor: pointer;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .deleted-item:hover {
+            border-color: #ef4444;
+        }
+        
+        .deleted-item img {
+            width: 100%;
+            display: block;
+            opacity: 0.7;
+        }
+        
+        .deleted-item:hover img {
+            opacity: 1;
+        }
+        
+        .deleted-item .restore-btn {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            font-size: 10px;
+            padding: 3px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .deleted-item:hover .restore-btn {
+            opacity: 1;
+        }
+        .info-value { color: var(--text-primary); font-weight: 500; }
+        .info-value.changed { color: var(--warning); }
+        .info-value.selected { color: var(--accent); }
+        .info-value.inserted { color: var(--accent-purple); }
+        .info-value.danger { color: var(--danger); }
+        
+        .instructions {
+            background: var(--bg-primary);
+            padding: 10px 24px;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color-light);
+        }
+        
+        .instructions kbd {
+            background: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin: 0 2px;
+        }
+        
+        /* 移除旧布局样式，使用新的 .grid-container */
+        
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-content: flex-start;
+        }
+        
+        .preview-panel {
+            width: 320px;
+            background: var(--bg-primary);
+            border-left: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+        
+        .preview-header {
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .preview-image {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            overflow: hidden;
+        }
+        
+        .preview-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+        
+        .preview-info {
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .preview-info .filename {
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .preview-placeholder {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        
+        .card {
+            width: 90px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: grab;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+            border: 2px solid transparent;
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .card:active { cursor: grabbing; }
+        
+        .card.dragging {
+            opacity: 0.9;
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(94, 106, 210, 0.4);
+            z-index: 1000;
+            border-color: var(--accent);
+        }
+        
+        .card.moved {
+            border-color: var(--warning);
+            background: linear-gradient(180deg, #2a2a1e 0%, var(--bg-secondary) 100%);
+        }
+        
+        .card.moved .card-index {
+            background: var(--warning);
+            color: #000;
+        }
+        
+        .card.selected {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(94, 106, 210, 0.3);
+        }
+        
+        .card.selected .card-checkbox {
+            opacity: 1;
+            background: var(--accent);
+        }
+        
+        .card.marked-delete {
+            border-color: var(--danger);
+            opacity: 0.5;
+            background: linear-gradient(180deg, #2e1a1a 0%, var(--bg-secondary) 100%);
+        }
+        
+        .card.marked-delete .card-index {
+            background: var(--danger);
+            color: #fff;
+        }
+        
+        .card.marked-delete::after {
+            content: '×';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            color: #ef4444;
+            font-weight: bold;
+            pointer-events: none;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        /* Onboarding 范围样式 */
+        .card.in-onboarding {
+            border-color: #10b981;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+        }
+        
+        .card.onboarding-start {
+            border-color: #10b981;
+            border-width: 3px;
+        }
+        
+        .card.onboarding-start::before {
+            content: '开始';
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #10b981;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            z-index: 5;
+        }
+        
+        .card.onboarding-end {
+            border-color: #f59e0b;
+            border-width: 3px;
+        }
+        
+        .card.onboarding-end::before {
+            content: '结束';
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f59e0b;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            z-index: 5;
+        }
+        
+        /* 标记模式提示条 */
+        .mark-mode-bar {
+            background: linear-gradient(90deg, #8b5cf6 0%, #6d28d9 100%);
+            padding: 12px 24px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+        }
+        
+        .mark-mode-bar.show {
+            display: flex;
+        }
+        
+        .mark-mode-bar .hint {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .mark-mode-bar .step-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+        
+        .mark-mode-bar .btn-exit {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        
+        .mark-mode-bar .btn-exit:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* 标记模式下的卡片样式 */
+        body.mark-mode .card {
+            cursor: crosshair;
+        }
+        
+        body.mark-mode .card:hover {
+            border-color: #8b5cf6;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+        }
+        
+        body.mark-mode .card.in-onboarding {
+            border-color: rgba(139, 92, 246, 0.5);
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        /* Onboarding 信息栏 */
+        .onboarding-info {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
+            padding: 8px 24px;
+            border-bottom: 1px solid #1a1a2a;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 13px;
+        }
+        
+        .onboarding-info .ob-label {
+            color: #10b981;
+            font-weight: 600;
+        }
+        
+        .onboarding-info .ob-range {
+            color: #e1e1e1;
+            font-weight: 500;
+        }
+        
+        .onboarding-info .ob-count {
+            color: #f59e0b;
+        }
+        
+        .card-checkbox {
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            width: 18px;
+            height: 18px;
+            background: rgba(0,0,0,0.6);
+            border: 2px solid #5e6ad2;
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.15s;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+        
+        .card:hover .card-checkbox {
+            opacity: 0.7;
+        }
+        
+        .card-index {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 3px;
+            z-index: 1;
+        }
+        
+        .card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+            pointer-events: none;
+            user-select: none;
+        }
+        
+        .card-footer {
+            padding: 4px;
+            font-size: 9px;
+            color: #6b7280;
+            text-align: center;
+            background: #12121a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            color: #6b7280;
+            width: 100%;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #10b981;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .toast.show { opacity: 1; transform: translateY(0); }
+        .toast.error { background: #ef4444; }
+        
+        /* 拖拽时的占位线 */
+        .drop-indicator {
+            width: 3px;
+            background: #5e6ad2;
+            border-radius: 2px;
+            margin: 0 -5px;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+        
+        .drop-indicator.active {
+            opacity: 1;
+        }
+        
+        /* 快捷键提示 */
+        .shortcuts-help {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: rgba(26, 26, 46, 0.95);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #9ca3af;
+            border: 1px solid #2a2a4a;
+        }
+        
+        .shortcuts-help div {
+            margin: 4px 0;
+        }
+        
+        .shortcuts-help kbd {
+            background: #2a2a3a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-right: 8px;
+            min-width: 60px;
+            display: inline-block;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <!-- 侧边栏 -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">截图排序</div>
+            </div>
+            
+            <!-- 导航 -->
+            <div class="sidebar-section">
+                <h3>导航 <span>Navigation</span></h3>
+                <div class="nav-list">
+                    <a href="/" class="nav-item"><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></span>首页 <span class="nav-en">Home</span></a>
+                    <a href="/sort" class="nav-item active"><span class="icon"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg></span>排序 <span class="nav-en">Sort</span></a>
+                    <a href="/onboarding" class="nav-item"><span class="icon"><svg viewBox="0 0 24 24"><path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></span>引导流程 <span class="nav-en">Onboarding</span></a>
+                    <a href="/store" class="nav-item"><span class="icon"><svg viewBox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg></span>商城对比 <span class="nav-en">Store</span></a>
+                </div>
+            </div>
+            
+            <!-- 项目选择 -->
+            <div class="sidebar-section">
+                <h3>项目 <span>Project</span></h3>
+                <select class="project-select" id="projectSelect" onchange="loadProject()">
+                    <option value="">选择产品...</option>
+                </select>
+            </div>
+            
+            <!-- 状态信息 -->
+            <div class="sidebar-section" id="statusSection" style="display: none;">
+                <h3>状态</h3>
+                <div class="status-item">
+                    <span>总截图</span>
+                    <span class="status-value" id="totalCount">0</span>
+                </div>
+                <div class="status-item">
+                    <span>已选中</span>
+                    <span class="status-value accent" id="selectedCount">0</span>
+                </div>
+                <div class="status-item">
+                    <span>Onboarding</span>
+                    <span class="status-value success" id="obRange">未设置</span>
+                </div>
+                <div class="status-item" id="deletedToggle" onclick="toggleDeletedView()" style="display: none;">
+                    <span>已删除 (点击查看)</span>
+                    <span class="status-value danger" id="deletedCount">0</span>
+                </div>
+            </div>
+            
+            <!-- 检查状态 -->
+            <div class="sidebar-section" id="checkSection" style="display: none;">
+                <button class="check-btn" id="checkBtn" onclick="toggleCheckStatus()">
+                    <span>☐</span>
+                    <span>标记已检查</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 主内容区 -->
+        <div class="main-content">
+            <!-- 顶栏 -->
+            <div class="topbar">
+                <div class="topbar-title">
+                    <span id="projectTitle">请选择项目</span>
+                </div>
+                <div class="shortcuts">
+                    <kbd>拖拽</kbd>排序 <kbd>Delete</kbd>删除 <kbd>拖入文件</kbd>插入 <kbd>Ctrl+Z</kbd>撤销
+                </div>
+                <div class="topbar-actions">
+                    <button class="btn btn-danger" id="deleteBtn" onclick="deleteSelected()" disabled>
+                        🗑️ 删除 (<span id="deleteCount">0</span>)
+                    </button>
+                    <button class="btn btn-mark" id="markModeBtn" onclick="toggleMarkMode()">
+                        🎯 标记 Onboarding
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 标记模式提示条 -->
+            <div class="mark-mode-bar" id="markModeBar">
+                <div class="hint">
+                    <span class="step-badge" id="markStep">步骤 1/2</span>
+                    <span id="markHint">👆 请点击 Onboarding 流程的【第一张】截图</span>
+                </div>
+                <button class="btn-exit" onclick="exitMarkMode()">✕ 退出标记</button>
+            </div>
+            
+            <!-- 已删除截图面板 -->
+            <div class="deleted-panel" id="deletedPanel">
+                <div class="deleted-panel-header">
+                    <h3>🗑️ 已删除的截图（可恢复）</h3>
+                    <button class="btn btn-secondary" onclick="toggleDeletedView()" style="padding: 4px 10px; font-size: 12px;">关闭</button>
+                </div>
+                <div class="deleted-panel-content" id="deletedContent">
+                    加载中...
+                </div>
+            </div>
+            
+            <!-- 网格区域 -->
+            <div class="grid-container">
+                <div class="grid" id="grid">
+                    <div class="loading">请先选择产品</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 预览面板 -->
+        <div class="preview-panel">
+            <div class="preview-header">
+                <span id="previewTitle">预览</span>
+            </div>
+            <div class="preview-image" id="previewImage">
+                <div class="preview-placeholder">点击卡片查看大图</div>
+            </div>
+            <div class="preview-info" id="previewInfo" style="display:none;">
+                <div class="filename" id="previewFilename"></div>
+                <div id="previewPosition"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="shortcuts-help">
+        <div><kbd>Ctrl+A</kbd> 全选</div>
+        <div><kbd>Delete</kbd> 删除选中</div>
+        <div><kbd>Ctrl+Z</kbd> 撤销</div>
+        <div><kbd>← →</kbd> 导航</div>
+        <div><kbd>Esc</kbd> 取消选择</div>
+        <div><kbd>拖拽</kbd> 排序/插入</div>
+    </div>
+    
+    <div class="toast" id="toast"></div>
+    
+    <!-- 商城对比弹窗 -->
+    <div class="store-modal" id="storeModal">
+        <div class="store-modal-content">
+            <div class="store-modal-header">
+                <h2>🏪 App Store 商城对比</h2>
+                <button class="btn btn-secondary" onclick="closeStoreModal()" style="padding: 6px 12px;">✕ 关闭</button>
+            </div>
+            <div class="store-modal-body">
+                <table class="store-table" id="storeTable">
+                    <thead>
+                        <tr>
+                            <th>应用</th>
+                            <th>评分</th>
+                            <th>评论数</th>
+                            <th>价格</th>
+                            <th>大小</th>
+                            <th>商城截图</th>
+                            <th>更新日期</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="storeTableBody">
+                        <tr><td colspan="8" style="text-align: center; padding: 40px;">加载中...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 商城截图预览面板 -->
+    <div class="store-screenshots-panel" id="storeScreenshotsPanel">
+        <div class="store-screenshots-header">
+            <h3 id="storeScreenshotsTitle">商城截图</h3>
+            <button class="btn btn-secondary" onclick="closeStoreScreenshots()" style="padding: 4px 10px; font-size: 12px;">关闭</button>
+        </div>
+        <div class="store-screenshots-grid" id="storeScreenshotsGrid">
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script>
+        let screens = [];
+        let movedSet = new Set();      // 记录被移动过的卡片
+        let selectedSet = new Set();   // 记录被选中的卡片
+        let toDeleteSet = new Set();   // 记录待删除的卡片
+        let currentProject = '';
+        let sortable = null;
+        let lastClickedIndex = -1;     // 用于 Shift 选择
+        let projectLoadTime = 0;       // 项目加载时间戳（用于缓存破坏）
+        
+        // Onboarding 范围
+        let onboardingStart = -1;
+        let onboardingEnd = -1;
+        
+        // 标记模式
+        let markMode = false;      // 是否处于标记模式
+        let markStep = 0;          // 标记步骤: 0=未开始, 1=等待选择开始, 2=等待选择结束
+        
+        // 检查状态
+        let isChecked = false;     // 项目是否已检查
+        let checkedAt = null;      // 检查时间
+        
+        // 项目列表数据（用于进度统计）
+        let allProjects = [];
+        let projectStats = { total: 0, checked: 0, onboarding_marked: 0 };
+        
+        // 加载项目列表
+        async function loadProjects() {
+            try {
+                const res = await fetch('/api/sort-projects');
+                const data = await res.json();
+                allProjects = data.projects || [];
+                projectStats = data.stats || { total: 0, checked: 0, onboarding_marked: 0 };
+                
+                const select = document.getElementById('projectSelect');
+                select.innerHTML = '<option value="">选择产品...</option>';
+                
+                allProjects.forEach(p => {
+                    const opt = document.createElement('option');
+                    opt.value = p.name;
+                    
+                    // 构建状态标识
+                    let status = '';
+                    if (p.checked) {
+                        status = '✅ ';
+                    } else {
+                        status = '○ ';
+                    }
+                    
+                    // Onboarding 标识
+                    let obInfo = '';
+                    if (p.onboarding_start > 0 && p.onboarding_end > 0) {
+                        obInfo = ` [OB:${p.onboarding_start}-${p.onboarding_end}]`;
+                    }
+                    
+                    const baseName = p.display_name || p.name.replace('_Analysis', '');
+                    opt.textContent = `${status}${baseName} (${p.screen_count}张)${obInfo}`;
+                    opt.dataset.checked = p.checked;
+                    opt.dataset.obStart = p.onboarding_start;
+                    opt.dataset.obEnd = p.onboarding_end;
+                    
+                    select.appendChild(opt);
+                });
+                
+                // 更新进度条
+                updateProgressBar();
+                
+                // 检查 URL 参数，如果有 project 参数则自动选择
+                const urlParams = new URLSearchParams(window.location.search);
+                const projectParam = urlParams.get('project');
+                if (projectParam) {
+                    // 尝试匹配项目名称
+                    const matchedOption = Array.from(select.options).find(opt => 
+                        opt.value === projectParam || 
+                        opt.value.toLowerCase().includes(projectParam.toLowerCase()) ||
+                        projectParam.toLowerCase().includes(opt.value.toLowerCase().replace('downloads_2024/', ''))
+                    );
+                    if (matchedOption) {
+                        select.value = matchedOption.value;
+                        loadProject();
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+                showToast('加载项目列表失败', true);
+            }
+        }
+        
+        // 加载项目截图
+        async function loadProject() {
+            const select = document.getElementById('projectSelect');
+            currentProject = select.value;
+            
+            if (!currentProject) {
+                document.getElementById('grid').innerHTML = '<div class="loading">请先选择产品</div>';
+                document.getElementById('statusSection').style.display = 'none';
+                document.getElementById('checkSection').style.display = 'none';
+                document.getElementById('projectTitle').textContent = '请选择项目';
+                return;
+            }
+            
+            // 显示状态区域
+            document.getElementById('statusSection').style.display = 'block';
+            document.getElementById('checkSection').style.display = 'block';
+            
+            // 更新项目标题
+            const projectDisplayName = currentProject.replace('downloads_2024/', '').replace('_Analysis', '');
+            document.getElementById('projectTitle').innerHTML = `<strong>${projectDisplayName}</strong>`;
+            
+            document.getElementById('grid').innerHTML = '<div class="loading">加载中...</div>';
+            
+            try {
+                const res = await fetch(`/api/screenshots/${currentProject}`);
+                const data = await res.json();
+                
+                screens = data.screens.map((file, idx) => ({
+                    file: file,
+                    originalIndex: idx
+                }));
+                
+                // 每次加载项目时更新时间戳，确保获取最新缩略图
+                projectLoadTime = Date.now();
+                
+                movedSet.clear();
+                selectedSet.clear();
+                toDeleteSet.clear();
+                lastClickedIndex = -1;
+                insertedCount = 0;
+                
+                // 重置并加载 Onboarding 范围
+                onboardingStart = -1;
+                onboardingEnd = -1;
+                await loadOnboardingRange();
+                
+                // 加载检查状态
+                await loadCheckStatus();
+                
+                // 加载已删除截图信息
+                await loadDeletedScreens();
+                
+                // 关闭已删除面板（如果打开的话）
+                showDeletedPanel = false;
+                document.getElementById('deletedPanel').classList.remove('show');
+                
+                // 重置右侧预览面板
+                resetPreviewPanel();
+                
+                renderGrid();
+                initSortable();
+                updateInfo();
+            } catch (e) {
+                document.getElementById('grid').innerHTML = '<div class="loading">加载失败</div>';
+                showToast('加载截图失败', true);
+            }
+        }
+        
+        // 渲染网格（完整重建 DOM，只在加载项目或排序后调用）
+        function renderGrid() {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+            
+            // 使用项目加载时间戳确保获取最新缩略图
+            const cacheBuster = `&_t=${projectLoadTime}`;
+            
+            // 插入模式：在开头添加一个插入点
+            if (insertMode) {
+                grid.classList.add('insert-mode');
+                const insertPoint = createInsertPoint(0);
+                grid.appendChild(insertPoint);
+            } else {
+                grid.classList.remove('insert-mode');
+            }
+            
+            // 使用 DocumentFragment 优化批量 DOM 操作
+            const fragment = document.createDocumentFragment();
+            
+            screens.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.dataset.file = item.file;
+                card.dataset.index = idx;
+                
+                // 添加 loading="lazy" 实现原生懒加载
+                card.innerHTML = `
+                    <span class="card-checkbox">✓</span>
+                    <span class="card-index">${idx + 1}</span>
+                    <img src="/api/thumb/${currentProject}/screens/${item.file}?size=small${cacheBuster}" alt="${item.file}" loading="lazy">
+                    <div class="card-footer">${item.file.replace('Screen_', '').replace('.png', '')}</div>
+                `;
+                
+                // 点击事件（使用闭包绑定 file，从 data-index 动态获取索引）
+                const file = item.file;
+                card.addEventListener('click', (e) => {
+                    const currentIdx = parseInt(card.dataset.index) || 0;
+                    handleCardClick(e, file, currentIdx);
+                });
+                
+                // 双击预览大图
+                card.addEventListener('dblclick', (e) => {
+                    e.preventDefault();
+                    const currentIdx = parseInt(card.dataset.index) || 0;
+                    showPreview(file, currentIdx);
+                });
+                
+                fragment.appendChild(card);
+                
+                // 插入模式：在每张图后添加插入点
+                if (insertMode) {
+                    const insertPoint = createInsertPoint(idx + 1);
+                    fragment.appendChild(insertPoint);
+                }
+            });
+            
+            // 一次性添加所有元素到 DOM
+            grid.appendChild(fragment);
+            
+            // 应用样式
+            updateCardStyles();
+        }
+        
+        // 创建插入点元素
+        function createInsertPoint(position) {
+            const point = document.createElement('div');
+            point.className = 'insert-point';
+            point.dataset.position = position;
+            point.innerHTML = '<span class="insert-point-icon">+</span>';
+            point.addEventListener('click', () => triggerInsertUpload(position));
+            return point;
+        }
+        
+        // 只更新卡片样式（不重建 DOM，非常快）
+        function updateCardStyles() {
+            const cards = document.querySelectorAll('#grid .card');
+            cards.forEach((card, idx) => {
+                const file = card.dataset.file;
+                const displayIdx = idx + 1;
+                
+                // 更新选中/移动/删除状态
+                card.classList.toggle('moved', movedSet.has(file));
+                card.classList.toggle('selected', selectedSet.has(file));
+                card.classList.toggle('marked-delete', toDeleteSet.has(file));
+                
+                // 更新 Onboarding 范围样式
+                const inRange = onboardingStart > 0 && onboardingEnd > 0 && 
+                               displayIdx >= onboardingStart && displayIdx <= onboardingEnd;
+                card.classList.toggle('in-onboarding', inRange);
+                card.classList.toggle('onboarding-start', displayIdx === onboardingStart);
+                card.classList.toggle('onboarding-end', displayIdx === onboardingEnd);
+            });
+        }
+        
+        // 处理卡片点击
+        function handleCardClick(e, file, idx) {
+            e.preventDefault();
+            
+            // 标记模式下的处理
+            if (markMode) {
+                handleMarkModeClick(idx + 1);  // 使用显示序号(1-based)
+                return;
+            }
+            
+            if (e.ctrlKey || e.metaKey) {
+                // Ctrl+点击：切换选中状态
+                if (selectedSet.has(file)) {
+                    selectedSet.delete(file);
+                } else {
+                    selectedSet.add(file);
+                }
+            } else if (e.shiftKey && lastClickedIndex >= 0) {
+                // Shift+点击：范围选择
+                const start = Math.min(lastClickedIndex, idx);
+                const end = Math.max(lastClickedIndex, idx);
+                for (let i = start; i <= end; i++) {
+                    selectedSet.add(screens[i].file);
+                }
+            } else {
+                // 普通点击：单选并预览
+                selectedSet.clear();
+                selectedSet.add(file);
+                showPreview(file, idx);
+            }
+            
+            lastClickedIndex = idx;
+            updateCardStyles();  // 只更新样式，不重建 DOM
+            updateInfo();
+        }
+        
+        // 初始化 Sortable
+        function initSortable() {
+            const grid = document.getElementById('grid');
+            
+            if (sortable) {
+                sortable.destroy();
+            }
+            
+            sortable = new Sortable(grid, {
+                animation: 150,
+                ghostClass: 'dragging',
+                chosenClass: 'dragging',
+                dragClass: 'dragging',
+                easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                filter: '.marked-delete,.drag-indicator,.insert-point',
+                
+                onEnd: async function(evt) {
+                    const oldIndex = evt.oldIndex;
+                    const newIndex = evt.newIndex;
+                    
+                    if (oldIndex !== newIndex) {
+                        // 记录原顺序用于撤销
+                        const originalOrder = screens.map(s => s.file);
+                        originalOrder.splice(newIndex, 0, originalOrder.splice(oldIndex, 1)[0]);
+                        const beforeOrder = screens.map(s => s.file);
+                        
+                        // 更新数据
+                        const [moved] = screens.splice(oldIndex, 1);
+                        screens.splice(newIndex, 0, moved);
+                        
+                        // 记录操作历史
+                        pushToHistory({
+                            type: 'reorder',
+                            originalOrder: beforeOrder
+                        });
+                        
+                        // 自动保存排序
+                        await autoSaveOrder();
+                        
+                        // 清除检查状态（因为顺序已修改）
+                        clearCheckStatus();
+                        
+                        // 增量更新序号
+                        updateCardIndexes();
+                        updateInfo();
+                    }
+                }
+            });
+        }
+        
+        // 自动保存排序
+        async function autoSaveOrder() {
+            if (!currentProject || screens.length === 0) return;
+            
+            showToast('保存中...', false);
+            
+            try {
+                const newOrder = screens.map(s => s.file);
+                const res = await fetch('/api/reorder-screens', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        project: currentProject, 
+                        new_order: newOrder 
+                    })
+                });
+                
+                const result = await res.json();
+                if (result.success) {
+                    showToast('已保存');
+                    movedSet.clear();
+                } else {
+                    showToast('保存失败: ' + result.error, true);
+                }
+            } catch (err) {
+                showToast('保存失败: ' + err.message, true);
+            }
+        }
+        
+        // 增量更新卡片序号（不重新渲染整个网格）
+        function updateCardIndexes() {
+            const cards = document.querySelectorAll('#grid .card');
+            cards.forEach((card, idx) => {
+                // 更新索引
+                card.dataset.index = idx;
+                const indexEl = card.querySelector('.card-index');
+                if (indexEl) {
+                    indexEl.textContent = idx + 1;
+                }
+            });
+        }
+        
+        // 更新信息
+        function updateInfo() {
+            // 侧边栏状态更新
+            document.getElementById('totalCount').textContent = screens.length;
+            document.getElementById('selectedCount').textContent = selectedSet.size;
+            document.getElementById('deleteCount').textContent = selectedSet.size;
+            
+            // 更新删除按钮状态
+            const deleteBtn = document.getElementById('deleteBtn');
+            deleteBtn.disabled = selectedSet.size === 0;
+        }
+        
+        // 更新进度条
+        function updateProgressBar() {
+            const total = projectStats.total || 0;
+            const checked = projectStats.checked || 0;
+            const percent = total > 0 ? Math.round((checked / total) * 100) : 0;
+            
+            // 安全检查：元素可能不存在
+            const progressText = document.getElementById('progressText');
+            const progressBar = document.getElementById('progressBar');
+            const progressPercent = document.getElementById('progressPercent');
+            
+            if (progressText) progressText.textContent = `${checked}/${total}`;
+            if (progressBar) progressBar.style.width = `${percent}%`;
+            if (progressPercent) progressPercent.textContent = `${percent}%`;
+        }
+        
+        // 刷新项目列表（检查状态变化后调用）
+        async function refreshProjectList() {
+            try {
+                const res = await fetch('/api/sort-projects');
+                const data = await res.json();
+                allProjects = data.projects || [];
+                projectStats = data.stats || { total: 0, checked: 0, onboarding_marked: 0 };
+                
+                // 更新下拉菜单中当前选中项的显示
+                const select = document.getElementById('projectSelect');
+                const currentValue = select.value;
+                
+                // 重新构建选项
+                select.innerHTML = '<option value="">选择产品...</option>';
+                allProjects.forEach(p => {
+                    const opt = document.createElement('option');
+                    opt.value = p.name;
+                    
+                    let status = p.checked ? '✅ ' : '○ ';
+                    let obInfo = '';
+                    if (p.onboarding_start > 0 && p.onboarding_end > 0) {
+                        obInfo = ` [OB:${p.onboarding_start}-${p.onboarding_end}]`;
+                    }
+                    
+                    const baseName = p.display_name || p.name.replace('_Analysis', '');
+                    opt.textContent = `${status}${baseName} (${p.screen_count}张)${obInfo}`;
+                    
+                    if (p.name === currentValue) {
+                        opt.selected = true;
+                    }
+                    
+                    select.appendChild(opt);
+                });
+                
+                updateProgressBar();
+            } catch (e) {
+                console.error('刷新项目列表失败:', e);
+            }
+        }
+        
+        // 重置顺序
+        function resetOrder() {
+            if (!currentProject) return;
+            
+            screens.sort((a, b) => a.originalIndex - b.originalIndex);
+            movedSet.clear();
+            selectedSet.clear();
+            toDeleteSet.clear();
+            
+            renderGrid();
+            initSortable();
+            updateInfo();
+            showToast('已重置');
+        }
+        
+        // 删除选中的截图
+        async function deleteSelected() {
+            if (selectedSet.size === 0) {
+                showToast('请先选择要删除的截图', true);
+                return;
+            }
+            
+            const filesToDelete = Array.from(selectedSet);
+            const count = filesToDelete.length;
+            
+            // 立即删除并保存
+            showToast(`正在删除 ${count} 张截图...`);
+            
+            try {
+                const res = await fetch('/api/delete-screens', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        project: currentProject, 
+                        files: filesToDelete
+                    })
+                });
+                
+                const result = await res.json();
+                if (result.success) {
+                    // 记录删除操作用于撤销
+                    pushToHistory({
+                        type: 'delete',
+                        files: filesToDelete
+                    });
+                    
+                    showToast(`已删除 ${count} 张截图 (Ctrl+Z 撤销)`);
+                    
+                    // 从数据中移除
+                    screens = screens.filter(s => !selectedSet.has(s.file));
+                    selectedSet.clear();
+                    
+                    // 清除检查状态
+                    clearCheckStatus();
+                    
+                    // 增量更新：移除 DOM 节点
+                    removeDeletedCards(filesToDelete);
+                    updateCardIndexes();
+                    updateInfo();
+                    
+                    // 更新已删除计数
+                    await loadDeletedScreens();
+                } else {
+                    showToast('删除失败: ' + result.error, true);
+                }
+            } catch (err) {
+                showToast('删除失败: ' + err.message, true);
+            }
+        }
+        
+        // 增量移除已删除的卡片
+        function removeDeletedCards(files) {
+            files.forEach(file => {
+                const card = document.querySelector(`.card[data-file="${file}"]`);
+                if (card) {
+                    card.remove();
+                }
+            });
+        }
+        
+        // 全选
+        function selectAll() {
+            if (selectedSet.size === screens.length) {
+                // 如果已全选，则取消全选
+                selectedSet.clear();
+            } else {
+                screens.forEach(item => selectedSet.add(item.file));
+            }
+            updateCardStyles();
+            updateInfo();
+        }
+        
+        // 取消选择
+        function clearSelection() {
+            selectedSet.clear();
+            updateCardStyles();
+            updateInfo();
+        }
+        
+        // 应用修改（排序+删除）
+        async function applyChanges() {
+            if (!currentProject) {
+                showToast('请先选择产品', true);
+                return;
+            }
+            
+            const hasOrderChanges = movedSet.size > 0;
+            const hasDeleteChanges = toDeleteSet.size > 0;
+            
+            if (!hasOrderChanges && !hasDeleteChanges) {
+                showToast('没有需要应用的修改', true);
+                return;
+            }
+            
+            let confirmMsg = '确定要应用修改吗？\n\n';
+            if (hasDeleteChanges) {
+                confirmMsg += `将删除 ${toDeleteSet.size} 张截图（移至 deleted 文件夹备份）\n`;
+            }
+            if (hasOrderChanges) {
+                confirmMsg += `将重命名 ${screens.length - toDeleteSet.size} 张截图\n`;
+            }
+            confirmMsg += '\n原文件会自动备份。';
+            
+            if (!confirm(confirmMsg)) {
+                return;
+            }
+            
+            try {
+                // 1. 先删除截图
+                if (hasDeleteChanges) {
+                    const deleteRes = await fetch('/api/delete-screens', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            project: currentProject, 
+                            files: Array.from(toDeleteSet)
+                        })
+                    });
+                    
+                    const deleteResult = await deleteRes.json();
+                    if (!deleteResult.success) {
+                        showToast('删除失败: ' + deleteResult.error, true);
+                        return;
+                    }
+                }
+                
+                // 2. 过滤掉已删除的，准备排序数据
+                const remainingScreens = screens.filter(s => !toDeleteSet.has(s.file));
+                
+                // 3. 应用排序（如果有排序变化或删除操作）
+                if (hasOrderChanges || hasDeleteChanges) {
+                    const order = remainingScreens.map((item, idx) => ({
+                        original_file: item.file,
+                        new_index: idx + 1
+                    }));
+                    
+                    const sortRes = await fetch('/api/apply-sort-order', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ project: currentProject, order: order })
+                    });
+                    
+                    const sortResult = await sortRes.json();
+                    if (!sortResult.success) {
+                        showToast('排序失败: ' + sortResult.error, true);
+                        return;
+                    }
+                }
+                
+                showToast('修改已应用！');
+                movedSet.clear();
+                toDeleteSet.clear();
+                selectedSet.clear();
+                
+                // 清除检查状态（因为内容已修改）
+                await clearCheckStatus();
+                
+                // 重新加载项目（loadProject 会自动更新时间戳）
+                setTimeout(() => loadProject(), 1000);
+                
+            } catch (e) {
+                console.error(e);
+                showToast('应用失败', true);
+            }
+        }
+        
+        // 重置预览面板
+        function resetPreviewPanel() {
+            const previewImage = document.getElementById('previewImage');
+            previewImage.innerHTML = '<div class="preview-placeholder">点击卡片查看大图</div>';
+            document.getElementById('previewTitle').textContent = '预览';
+            document.getElementById('previewInfo').style.display = 'none';
+        }
+        
+        // 显示预览
+        function showPreview(file, idx) {
+            // 添加缓存破坏参数确保获取最新图片
+            const cacheBuster = `?_t=${projectLoadTime}`;
+            
+            // 显示大图
+            const previewImage = document.getElementById('previewImage');
+            previewImage.innerHTML = `<img src="/api/screenshot/${currentProject}/screens/${file}${cacheBuster}" alt="${file}">`;
+            
+            // 显示信息
+            document.getElementById('previewTitle').textContent = `#${idx + 1} 预览`;
+            document.getElementById('previewFilename').textContent = file;
+            
+            const origIdx = screens.find(s => s.file === file)?.originalIndex;
+            const moved = movedSet.has(file);
+            const toDelete = toDeleteSet.has(file);
+            
+            let positionHtml = `原位置: #${origIdx + 1} → 当前: #${idx + 1}`;
+            if (moved) positionHtml += ' <span style="color:#f59e0b;">已移动</span>';
+            if (toDelete) positionHtml += ' <span style="color:#ef4444;">待删除</span>';
+            
+            document.getElementById('previewPosition').innerHTML = positionHtml;
+            document.getElementById('previewInfo').style.display = 'block';
+        }
+        
+        // Toast 提示
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = 'toast' + (isError ? ' error' : '');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+        
+        // 计算每行的列数
+        function getColumnsPerRow() {
+            const grid = document.getElementById('grid');
+            const cards = grid.querySelectorAll('.card');
+            if (cards.length < 2) return 1;
+            
+            const firstTop = cards[0].offsetTop;
+            let cols = 1;
+            for (let i = 1; i < cards.length; i++) {
+                if (cards[i].offsetTop === firstTop) {
+                    cols++;
+                } else {
+                    break;
+                }
+            }
+            return cols;
+        }
+        
+        // 方向键导航选择
+        function navigateByArrow(direction) {
+            if (!currentProject || screens.length === 0) return;
+            
+            // 获取当前选中的索引
+            let currentIdx = lastClickedIndex;
+            if (currentIdx < 0 || currentIdx >= screens.length) {
+                currentIdx = 0;
+            }
+            
+            const cols = getColumnsPerRow();
+            let newIdx = currentIdx;
+            
+            switch(direction) {
+                case 'left':
+                    newIdx = Math.max(0, currentIdx - 1);
+                    break;
+                case 'right':
+                    newIdx = Math.min(screens.length - 1, currentIdx + 1);
+                    break;
+                case 'up':
+                    newIdx = Math.max(0, currentIdx - cols);
+                    break;
+                case 'down':
+                    newIdx = Math.min(screens.length - 1, currentIdx + cols);
+                    break;
+            }
+            
+            if (newIdx !== currentIdx || currentIdx === 0) {
+                // 选中新的卡片
+                selectedSet.clear();
+                selectedSet.add(screens[newIdx].file);
+                lastClickedIndex = newIdx;
+                showPreview(screens[newIdx].file, newIdx);
+                updateCardStyles();
+                updateInfo();
+                
+                // 滚动到可见区域
+                const cards = document.querySelectorAll('#grid .card');
+                if (cards[newIdx]) {
+                    cards[newIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+        }
+        
+        // 键盘快捷键
+        document.addEventListener('keydown', (e) => {
+            // 方向键导航（不与其他修饰键组合时）
+            if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    navigateByArrow('left');
+                    return;
+                }
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    navigateByArrow('right');
+                    return;
+                }
+                if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    navigateByArrow('up');
+                    return;
+                }
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    navigateByArrow('down');
+                    return;
+                }
+            }
+            
+            // Ctrl+A 全选
+            if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+                e.preventDefault();
+                selectAll();
+            }
+            
+            // Delete 删除选中
+            if (e.key === 'Delete' || e.key === 'Backspace') {
+                if (selectedSet.size > 0) {
+                    e.preventDefault();
+                    deleteSelected();
+                }
+            }
+            
+            // Esc 取消选择 / 退出标记模式
+            if (e.key === 'Escape') {
+                if (markMode) {
+                    exitMarkMode();
+                    showToast('已退出标记模式');
+                } else {
+                    clearSelection();
+                }
+            }
+        });
+        
+        // ========== 标记模式功能 ==========
+        
+        // 切换标记模式
+        function toggleMarkMode() {
+            if (!currentProject) {
+                showToast('请先选择一个产品', true);
+                return;
+            }
+            
+            if (markMode) {
+                exitMarkMode();
+            } else {
+                enterMarkMode();
+            }
+        }
+        
+        // 进入标记模式
+        function enterMarkMode() {
+            markMode = true;
+            markStep = 1;
+            
+            document.body.classList.add('mark-mode');
+            document.getElementById('markModeBtn').classList.add('active');
+            document.getElementById('markModeBtn').textContent = '🎯 标记中...';
+            document.getElementById('markModeBar').classList.add('show');
+            
+            updateMarkModeHint();
+            showToast('已进入标记模式，请点击第一张 Onboarding 截图');
+        }
+        
+        // 退出标记模式
+        function exitMarkMode() {
+            markMode = false;
+            markStep = 0;
+            
+            document.body.classList.remove('mark-mode');
+            document.getElementById('markModeBtn').classList.remove('active');
+            document.getElementById('markModeBtn').textContent = '🎯 标记 Onboarding';
+            document.getElementById('markModeBar').classList.remove('show');
+        }
+        
+        // 更新标记模式提示
+        function updateMarkModeHint() {
+            const stepEl = document.getElementById('markStep');
+            const hintEl = document.getElementById('markHint');
+            
+            if (markStep === 1) {
+                stepEl.textContent = '步骤 1/2';
+                hintEl.textContent = '👆 请点击 Onboarding 流程的【第一张】截图';
+            } else if (markStep === 2) {
+                stepEl.textContent = '步骤 2/2';
+                hintEl.textContent = '👆 请点击 Onboarding 流程的【最后一张】截图';
+            }
+        }
+        
+        // 处理标记模式下的点击
+        function handleMarkModeClick(displayIdx) {
+            if (markStep === 1) {
+                // 设置开始位置
+                onboardingStart = displayIdx;
+                markStep = 2;
+                updateMarkModeHint();
+                updateOnboardingInfo();
+                updateCardStyles();
+                showToast(`✅ 开始位置已设为 #${displayIdx}，请点击最后一张`);
+            } else if (markStep === 2) {
+                // 设置结束位置
+                onboardingEnd = displayIdx;
+                
+                // 确保 start <= end
+                if (onboardingStart > onboardingEnd) {
+                    [onboardingStart, onboardingEnd] = [onboardingEnd, onboardingStart];
+                }
+                
+                updateOnboardingInfo();
+                saveOnboardingRange();
+                updateCardStyles();
+                
+                const count = onboardingEnd - onboardingStart + 1;
+                showToast(`✅ 已标记 Onboarding 范围: #${onboardingStart} → #${onboardingEnd} (${count} 张)`);
+                
+                // 自动退出标记模式
+                exitMarkMode();
+            }
+        }
+        
+        // ========== Onboarding 范围功能 ==========
+        
+        // 设置 Onboarding 开始位置
+        function setOnboardingStart(idx) {
+            onboardingStart = idx;
+            if (onboardingEnd > 0 && onboardingEnd < onboardingStart) {
+                // 如果结束位置在开始位置之前，交换
+                [onboardingStart, onboardingEnd] = [onboardingEnd, onboardingStart];
+            }
+            updateOnboardingInfo();
+            saveOnboardingRange();
+            updateCardStyles();
+            showToast(`Onboarding 开始位置设为 #${onboardingStart}`);
+        }
+        
+        // 设置 Onboarding 结束位置
+        function setOnboardingEnd(idx) {
+            onboardingEnd = idx;
+            if (onboardingStart > 0 && onboardingStart > onboardingEnd) {
+                // 如果开始位置在结束位置之后，交换
+                [onboardingStart, onboardingEnd] = [onboardingEnd, onboardingStart];
+            }
+            updateOnboardingInfo();
+            saveOnboardingRange();
+            updateCardStyles();
+            showToast(`Onboarding 结束位置设为 #${onboardingEnd}`);
+        }
+        
+        // 清除 Onboarding 范围
+        function clearOnboardingRange() {
+            onboardingStart = -1;
+            onboardingEnd = -1;
+            updateOnboardingInfo();
+            saveOnboardingRange();
+            updateCardStyles();
+            showToast('已清除 Onboarding 范围');
+        }
+        
+        // 更新 Onboarding 信息显示
+        function updateOnboardingInfo() {
+            const rangeEl = document.getElementById('obRange');
+            
+            if (onboardingStart > 0 && onboardingEnd > 0) {
+                const count = onboardingEnd - onboardingStart + 1;
+                rangeEl.textContent = `#${onboardingStart}-${onboardingEnd} (${count}张)`;
+            } else if (onboardingStart > 0) {
+                rangeEl.textContent = `#${onboardingStart} → ?`;
+            } else if (onboardingEnd > 0) {
+                rangeEl.textContent = `? → #${onboardingEnd}`;
+            } else {
+                rangeEl.textContent = '未设置';
+            }
+        }
+        
+        // 保存 Onboarding 范围到服务器
+        async function saveOnboardingRange() {
+            if (!currentProject) return;
+            
+            try {
+                await fetch(`/api/onboarding-range/${currentProject}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        start: onboardingStart,
+                        end: onboardingEnd
+                    })
+                });
+                // 刷新项目列表以更新 Onboarding 状态
+                refreshProjectList();
+            } catch (e) {
+                console.error('保存 Onboarding 范围失败:', e);
+            }
+        }
+        
+        // 加载 Onboarding 范围
+        async function loadOnboardingRange() {
+            if (!currentProject) return;
+            
+            try {
+                const res = await fetch(`/api/onboarding-range/${currentProject}`);
+                const data = await res.json();
+                
+                if (data.start && data.start > 0) {
+                    onboardingStart = data.start;
+                }
+                if (data.end && data.end > 0) {
+                    onboardingEnd = data.end;
+                }
+                
+                updateOnboardingInfo();
+            } catch (e) {
+                // 没有保存过范围，忽略错误
+                onboardingStart = -1;
+                onboardingEnd = -1;
+            }
+        }
+        
+        // ========== 已删除截图功能 ==========
+        
+        let deletedData = null;      // 已删除截图数据
+        let showDeletedPanel = false; // 是否显示已删除面板
+        
+        // 加载已删除截图
+        async function loadDeletedScreens() {
+            if (!currentProject) return;
+            
+            try {
+                const res = await fetch(`/api/deleted-screens/${currentProject}`);
+                deletedData = await res.json();
+                
+                // 更新显示
+                const toggle = document.getElementById('deletedToggle');
+                const countEl = document.getElementById('deletedCount');
+                
+                if (deletedData.total > 0) {
+                    toggle.style.display = 'flex';
+                    countEl.textContent = deletedData.total;
+                } else {
+                    toggle.style.display = 'none';
+                }
+            } catch (e) {
+                deletedData = null;
+            }
+        }
+        
+        // 切换已删除面板显示
+        function toggleDeletedView() {
+            showDeletedPanel = !showDeletedPanel;
+            
+            const panel = document.getElementById('deletedPanel');
+            const toggle = document.getElementById('deletedToggle');
+            
+            if (showDeletedPanel) {
+                panel.classList.add('show');
+                toggle.classList.add('active');
+                renderDeletedContent();
+            } else {
+                panel.classList.remove('show');
+                toggle.classList.remove('active');
+            }
+        }
+        
+        // 渲染已删除截图内容
+        function renderDeletedContent() {
+            const content = document.getElementById('deletedContent');
+            
+            if (!deletedData || deletedData.total === 0) {
+                content.innerHTML = '<div style="color: #6b7280;">暂无已删除的截图</div>';
+                return;
+            }
+            
+            let html = '';
+            deletedData.batches.forEach(batch => {
+                batch.files.forEach(file => {
+                    // 已删除的截图没有缩略图，使用原图
+                    html += `
+                        <div class="deleted-item" onclick="restoreScreen('${batch.timestamp}', '${file}')">
+                            <img src="/api/deleted-thumb/${currentProject}/${batch.timestamp}/${file}" alt="${file}">
+                            <div class="restore-btn">恢复</div>
+                        </div>
+                    `;
+                });
+            });
+            
+            content.innerHTML = html;
+        }
+        
+        // 恢复单张截图
+        async function restoreScreen(timestamp, filename) {
+            if (!confirm(`确定要恢复 ${filename} 吗？`)) return;
+            
+            try {
+                const res = await fetch(`/api/restore-single/${currentProject}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ timestamp, filename })
+                });
+                
+                const data = await res.json();
+                
+                if (data.success) {
+                    showToast(data.message);
+                    // 重新加载
+                    await loadDeletedScreens();
+                    renderDeletedContent();
+                    loadProject();  // 刷新主列表
+                } else {
+                    showToast('恢复失败: ' + data.error, true);
+                }
+            } catch (e) {
+                showToast('恢复失败', true);
+            }
+        }
+        
+        // ========== 检查状态功能 ==========
+        
+        // 加载检查状态
+        async function loadCheckStatus() {
+            if (!currentProject) return;
+            
+            try {
+                const res = await fetch(`/api/check-status/${currentProject}`);
+                const data = await res.json();
+                
+                isChecked = data.checked || false;
+                checkedAt = data.checked_at || null;
+                
+                updateCheckStatusUI();
+            } catch (e) {
+                isChecked = false;
+                checkedAt = null;
+                updateCheckStatusUI();
+            }
+        }
+        
+        // 更新检查状态 UI
+        function updateCheckStatusUI() {
+            const btn = document.getElementById('checkBtn');
+            if (!btn) return;
+            
+            if (isChecked) {
+                btn.classList.add('checked');
+                let timeStr = '';
+                if (checkedAt) {
+                    const date = new Date(checkedAt);
+                    timeStr = ` ${date.getMonth()+1}/${date.getDate()}`;
+                }
+                btn.innerHTML = `<span>✓</span><span>已检查${timeStr}</span>`;
+            } else {
+                btn.classList.remove('checked');
+                btn.innerHTML = '<span>☐</span><span>标记已检查</span>';
+            }
+        }
+        
+        // 切换检查状态
+        async function toggleCheckStatus() {
+            if (!currentProject) {
+                showToast('请先选择一个项目', true);
+                return;
+            }
+            
+            const newStatus = !isChecked;
+            
+            try {
+                const res = await fetch(`/api/check-status/${currentProject}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ checked: newStatus })
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    isChecked = data.data.checked;
+                    checkedAt = data.data.checked_at;
+                    updateCheckStatusUI();
+                    showToast(isChecked ? '已标记为检查完成' : '已取消检查标记');
+                    // 刷新项目列表以更新进度
+                    refreshProjectList();
+                } else {
+                    showToast('操作失败: ' + data.error, true);
+                }
+            } catch (e) {
+                showToast('操作失败', true);
+            }
+        }
+        
+        // 清除检查状态（修改操作时调用）
+        async function clearCheckStatus() {
+            if (!currentProject || !isChecked) return;
+            
+            try {
+                await fetch(`/api/check-status/${currentProject}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ checked: false })
+                });
+                
+                isChecked = false;
+                checkedAt = null;
+                updateCheckStatusUI();
+            } catch (e) {
+                // 忽略错误
+            }
+        }
+        
+        // ==================== 商城对比功能 ====================
+        
+        let storeData = null;  // 缓存商城数据
+        
+        // 显示商城对比弹窗
+        async function showStoreComparison() {
+            const modal = document.getElementById('storeModal');
+            modal.classList.add('active');
+            
+            // 加载数据
+            if (!storeData) {
+                await loadStoreData();
+            }
+            
+            renderStoreTable();
+        }
+        
+        // 关闭商城对比弹窗
+        function closeStoreModal() {
+            document.getElementById('storeModal').classList.remove('active');
+            closeStoreScreenshots();
+        }
+        
+        // 加载商城数据
+        async function loadStoreData() {
+            try {
+                const res = await fetch('/api/store-comparison');
+                if (!res.ok) {
+                    throw new Error('数据加载失败');
+                }
+                storeData = await res.json();
+            } catch (e) {
+                console.error('加载商城数据失败:', e);
+                document.getElementById('storeTableBody').innerHTML = 
+                    '<tr><td colspan="8" style="text-align: center; padding: 40px; color: #ef4444;">加载失败，请先运行 fetch_store_data.py 脚本</td></tr>';
+            }
+        }
+        
+        // 渲染商城表格
+        function renderStoreTable() {
+            if (!storeData || !storeData.apps) return;
+            
+            const tbody = document.getElementById('storeTableBody');
+            let html = '';
+            
+            for (const app of storeData.apps) {
+                const rating = app.rating ? app.rating.toFixed(1) : 'N/A';
+                const ratingCount = app.rating_count ? app.rating_count.toLocaleString() : 'N/A';
+                const screenshotCount = app.screenshot_count || 0;
+                const lastUpdate = app.last_update || 'N/A';
+                
+                html += `
+                    <tr data-app="${app.name}">
+                        <td>
+                            <img class="app-icon" src="/api/store-screenshot/${app.name}/icon.png" 
+                                 onerror="this.style.display='none'" alt="">
+                            <div style="display: inline-block; vertical-align: middle;">
+                                <div class="app-name">${app.track_name || app.name}</div>
+                                <div class="app-subtitle">${app.subtitle || ''}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="rating">⭐ ${rating}</span>
+                        </td>
+                        <td>
+                            <span class="rating-count">${ratingCount}</span>
+                        </td>
+                        <td>${app.price || 'Free'}</td>
+                        <td>${app.size || 'N/A'}</td>
+                        <td>${screenshotCount} 张</td>
+                        <td>${lastUpdate}</td>
+                        <td>
+                            ${screenshotCount > 0 ? 
+                                `<button class="screenshots-btn" onclick="showStoreScreenshots('${app.name}')">查看截图</button>` : 
+                                '-'}
+                            <button class="screenshots-btn" onclick="goToProject('downloads_2024/${app.name}')" style="background: #10b981; margin-left: 4px;">查看应用</button>
+                        </td>
+                    </tr>
+                `;
+            }
+            
+            tbody.innerHTML = html;
+        }
+        
+        // 显示商城截图
+        async function showStoreScreenshots(appName) {
+            const panel = document.getElementById('storeScreenshotsPanel');
+            const title = document.getElementById('storeScreenshotsTitle');
+            const grid = document.getElementById('storeScreenshotsGrid');
+            
+            title.textContent = `📸 ${appName} 商城截图`;
+            grid.innerHTML = '<div style="color: #9ca3af;">加载中...</div>';
+            panel.classList.add('active');
+            
+            try {
+                const res = await fetch(`/api/store-info/${appName}`);
+                const data = await res.json();
+                
+                if (data.local_screenshots && data.local_screenshots.length > 0) {
+                    let html = '';
+                    for (const filename of data.local_screenshots) {
+                        html += `
+                            <div class="store-screenshot-item" onclick="openStoreScreenshot('${appName}', '${filename}')">
+                                <img src="/api/store-screenshot/${appName}/${filename}" alt="${filename}">
+                            </div>
+                        `;
+                    }
+                    grid.innerHTML = html;
+                } else {
+                    grid.innerHTML = '<div style="color: #9ca3af;">暂无商城截图</div>';
+                }
+            } catch (e) {
+                grid.innerHTML = '<div style="color: #ef4444;">加载失败</div>';
+            }
+        }
+        
+        // 关闭商城截图面板
+        function closeStoreScreenshots() {
+            document.getElementById('storeScreenshotsPanel').classList.remove('active');
+        }
+        
+        // 打开商城截图大图
+        function openStoreScreenshot(appName, filename) {
+            window.open(`/api/store-screenshot/${appName}/${filename}`, '_blank');
+        }
+        
+        // 跳转到项目
+        function goToProject(projectName) {
+            closeStoreModal();
+            const select = document.getElementById('projectSelect');
+            
+            // 查找并选择项目
+            for (const opt of select.options) {
+                if (opt.value === projectName) {
+                    select.value = projectName;
+                    loadProject();
+                    return;
+                }
+            }
+            
+            showToast('项目不存在', true);
+        }
+        
+        // 点击弹窗外部关闭
+        document.getElementById('storeModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeStoreModal();
+            }
+        });
+        
+        // ESC 关闭弹窗
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('storeModal');
+                if (modal.classList.contains('active')) {
+                    closeStoreModal();
+                }
+            }
+        });
+        
+        // 初始化
+        loadProjects();
+    </script>
+    
+    <!-- 隐藏的文件上传输入 -->
+    <input type="file" id="insertFileInput" accept="image/png,image/jpeg" style="display:none" multiple>
+    
+    <script>
+        // ==================== 拖拽上传功能 ====================
+        
+        let dragInsertPosition = -1;  // 拖拽时的插入位置
+        
+        function initDragUpload() {
+            const gridContainer = document.querySelector('.grid-container');
+            if (!gridContainer) return;
+            
+            // 阻止默认拖拽行为
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                gridContainer.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            // 拖拽进入
+            gridContainer.addEventListener('dragenter', (e) => {
+                if (!currentProject) return;
+                if (!e.dataTransfer.types.includes('Files')) return;
+                gridContainer.classList.add('drag-over');
+            });
+            
+            // 拖拽离开
+            gridContainer.addEventListener('dragleave', (e) => {
+                // 确保是离开了容器而不是进入子元素
+                if (e.relatedTarget && gridContainer.contains(e.relatedTarget)) return;
+                gridContainer.classList.remove('drag-over');
+                hideDragIndicator();
+            });
+            
+            // 拖拽悬停 - 显示插入位置指示器
+            gridContainer.addEventListener('dragover', (e) => {
+                if (!currentProject) return;
+                if (!e.dataTransfer.types.includes('Files')) return;
+                
+                gridContainer.classList.add('drag-over');
+                
+                // 计算最近的插入位置
+                const position = calculateInsertPosition(e.clientX, e.clientY);
+                if (position !== dragInsertPosition) {
+                    dragInsertPosition = position;
+                    showDragIndicator(position);
+                }
+            });
+            
+            // 放下文件
+            gridContainer.addEventListener('drop', async (e) => {
+                gridContainer.classList.remove('drag-over');
+                hideDragIndicator();
+                
+                if (!currentProject) {
+                    showToast('请先选择一个项目', true);
+                    return;
+                }
+                
+                const files = Array.from(e.dataTransfer.files).filter(f => 
+                    f.type.match(/image\/(png|jpeg|jpg)/)
+                );
+                
+                if (files.length === 0) {
+                    showToast('请上传 PNG 或 JPG 格式的图片', true);
+                    return;
+                }
+                
+                // 多文件上传（增量更新）
+                await uploadFilesIncrementally(files, dragInsertPosition);
+                dragInsertPosition = -1;
+            });
+        }
+        
+        // 计算拖拽时的插入位置
+        function calculateInsertPosition(clientX, clientY) {
+            const grid = document.getElementById('grid');
+            const cards = grid.querySelectorAll('.card');
+            
+            if (cards.length === 0) return 0;
+            
+            for (let i = 0; i < cards.length; i++) {
+                const rect = cards[i].getBoundingClientRect();
+                const midX = rect.left + rect.width / 2;
+                
+                // 如果鼠标在卡片左半边，插入到该位置
+                if (clientX < midX) {
+                    return i;
+                }
+            }
+            
+            // 鼠标在最后一个卡片右边，插入到末尾
+            return cards.length;
+        }
+        
+        // 显示拖拽插入指示器
+        function showDragIndicator(position) {
+            hideDragIndicator();
+            
+            const grid = document.getElementById('grid');
+            const cards = grid.querySelectorAll('.card');
+            
+            const indicator = document.createElement('div');
+            indicator.className = 'drag-indicator';
+            indicator.innerHTML = '<div class="drag-indicator-line"></div>';
+            
+            if (position >= cards.length) {
+                grid.appendChild(indicator);
+            } else {
+                grid.insertBefore(indicator, cards[position]);
+            }
+        }
+        
+        // 隐藏拖拽指示器
+        function hideDragIndicator() {
+            const existing = document.querySelector('.drag-indicator');
+            if (existing) existing.remove();
+        }
+        
+        // ==================== 操作历史（用于撤销） ====================
+        const undoHistory = [];
+        const MAX_UNDO_HISTORY = 20;
+        
+        function pushToHistory(action) {
+            undoHistory.push(action);
+            if (undoHistory.length > MAX_UNDO_HISTORY) {
+                undoHistory.shift();
+            }
+        }
+        
+        // Ctrl+Z 撤销
+        document.addEventListener('keydown', async (e) => {
+            if (e.ctrlKey && e.key === 'z') {
+                e.preventDefault();
+                await undoLastAction();
+            }
+        });
+        
+        async function undoLastAction() {
+            if (undoHistory.length === 0) {
+                showToast('没有可撤销的操作');
+                return;
+            }
+            
+            const action = undoHistory.pop();
+            showToast(`正在撤销: ${action.type}...`);
+            
+            try {
+                if (action.type === 'insert') {
+                    // 撤销插入 = 删除文件
+                    const res = await fetch('/api/delete-screens', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            project: currentProject, 
+                            files: action.files 
+                        })
+                    });
+                    const result = await res.json();
+                    if (result.success) {
+                        // 增量移除卡片
+                        action.files.forEach(file => {
+                            const card = document.querySelector(`.card[data-file="${file}"]`);
+                            if (card) card.remove();
+                        });
+                        screens = screens.filter(s => !action.files.includes(s.file));
+                        updateCardIndexes();
+                        updateInfo();
+                        showToast('已撤销插入');
+                    }
+                } else if (action.type === 'delete') {
+                    // 撤销删除 = 恢复文件
+                    const res = await fetch('/api/restore-screens', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            project: currentProject, 
+                            files: action.files 
+                        })
+                    });
+                    const result = await res.json();
+                    if (result.success) {
+                        showToast('已恢复删除的截图');
+                        loadProject(); // 需要重新加载以获取正确顺序
+                    }
+                } else if (action.type === 'reorder') {
+                    // 撤销排序 = 恢复原顺序
+                    const res = await fetch('/api/reorder-screens', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            project: currentProject, 
+                            new_order: action.originalOrder 
+                        })
+                    });
+                    const result = await res.json();
+                    if (result.success) {
+                        screens = action.originalOrder.map((file, idx) => ({
+                            file: file,
+                            originalIndex: idx
+                        }));
+                        renderGrid();
+                        initSortable();
+                        showToast('已撤销排序');
+                    }
+                }
+            } catch (err) {
+                showToast('撤销失败: ' + err.message, true);
+                undoHistory.push(action); // 恢复到历史
+            }
+        }
+        
+        // 增量上传文件（不重新加载页面）
+        async function uploadFilesIncrementally(files, startPosition) {
+            showToast(`正在上传 ${files.length} 个文件...`);
+            
+            let successCount = 0;
+            let currentPos = startPosition;
+            const insertedFiles = [];
+            
+            for (const file of files) {
+                const result = await uploadSingleFile(file, currentPos);
+                if (result.success) {
+                    successCount++;
+                    insertedFiles.push(result.filename);
+                    
+                    // 增量添加卡片到 DOM
+                    insertCardAt(result.filename, currentPos);
+                    
+                    currentPos++;
+                    insertedCount++;
+                }
+            }
+            
+            if (successCount > 0) {
+                // 记录操作用于撤销
+                pushToHistory({
+                    type: 'insert',
+                    files: insertedFiles,
+                    position: startPosition
+                });
+                
+                showToast(`成功插入 ${successCount} 张截图`);
+                updateCardIndexes();
+                updateInfo();
+            } else {
+                showToast('上传失败', true);
+            }
+        }
+        
+        // 增量添加卡片到指定位置
+        function insertCardAt(filename, position) {
+            const grid = document.getElementById('grid');
+            const cards = grid.querySelectorAll('.card');
+            const cacheBuster = `&_t=${Date.now()}`;
+            
+            // 创建新卡片
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.dataset.file = filename;
+            // 注意：index 会在 updateCardIndexes 中统一更新
+            
+            card.innerHTML = `
+                <span class="card-checkbox">✓</span>
+                <span class="card-index"></span>
+                <img src="/api/thumb/${currentProject}/screens/${filename}?size=small${cacheBuster}" alt="${filename}" loading="lazy">
+                <div class="card-footer">${filename.replace('Screen_', '').replace('.png', '')}</div>
+            `;
+            
+            // 使用闭包绑定文件名，序号从 data-index 动态获取
+            card.addEventListener('click', (e) => {
+                const idx = parseInt(card.dataset.index) || 0;
+                handleCardClick(e, filename, idx);
+            });
+            card.addEventListener('dblclick', (e) => {
+                e.preventDefault();
+                const idx = parseInt(card.dataset.index) || 0;
+                showPreview(filename, idx);
+            });
+            
+            // 插入到正确位置
+            if (position >= cards.length) {
+                grid.appendChild(card);
+            } else {
+                grid.insertBefore(card, cards[position]);
+            }
+            
+            // 更新 screens 数组
+            screens.splice(position, 0, { file: filename, originalIndex: position });
+        }
+        
+        // 保留旧的上传函数作为兼容
+        async function uploadFilesSequentially(files, startPosition) {
+            return uploadFilesIncrementally(files, startPosition);
+        }
+        
+        // 上传单个文件
+        async function uploadSingleFile(file, position) {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('project', currentProject);
+            formData.append('insert_after', position);
+            
+            try {
+                const res = await fetch('/api/insert-screenshot', {
+                    method: 'POST',
+                    body: formData
+                });
+                return await res.json();
+            } catch (err) {
+                return { success: false, error: err.message };
+            }
+        }
+        
+        // ==================== 插入截图功能（保留兼容） ====================
+        
+        let insertMode = false;
+        let insertPosition = 0;
+        let insertedCount = 0;
+        
+        function toggleInsertMode() {
+            // 保留旧的插入模式作为备选
+            if (!currentProject) {
+                showToast('请先选择一个项目', true);
+                return;
+            }
+            
+            insertMode = !insertMode;
+            const btn = document.getElementById('insertModeBtn');
+            
+            if (insertMode) {
+                btn.classList.add('active');
+                btn.textContent = '✓ 插入模式';
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = '📤 插入';
+            }
+            
+            renderGrid();
+        }
+        
+        function triggerInsertUpload(position) {
+            insertPosition = position;
+            document.getElementById('insertFileInput').click();
+        }
+        
+        // 文件选择后上传（支持多文件）
+        document.getElementById('insertFileInput').addEventListener('change', async (e) => {
+            const files = Array.from(e.target.files).filter(f => 
+                f.type.match(/image\/(png|jpeg|jpg)/)
+            );
+            
+            if (files.length === 0 || !currentProject) {
+                showToast('请上传 PNG 或 JPG 格式的图片', true);
+                return;
+            }
+            
+            // 使用通用的多文件上传函数
+            await uploadFilesSequentially(files, insertPosition);
+            
+            // 退出插入模式
+            insertMode = false;
+            const btn = document.getElementById('insertModeBtn');
+            if (btn) {
+                btn.classList.remove('active');
+                btn.textContent = '📤 插入';
+            }
+            
+            // 清空文件输入
+            e.target.value = '';
+        });
+        
+        // ESC 退出插入模式
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && insertMode) {
+                toggleInsertMode();
+            }
+        });
+        
+        // 初始化拖拽上传
+        initDragUpload();
+    </script>
+</body>
+</html>

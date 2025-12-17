@@ -1,0 +1,145 @@
+{
+  "Calm_Analysis": {
+    "app_type": "天气应用",
+    "onboarding": {
+      "start": 1,
+      "end": 25,
+      "steps": [
+        "启动页",
+        "权限请求（位置权限）",
+        "初始设置",
+        "功能介绍",
+        "个性化配置"
+      ]
+    },
+    "paywall": {
+      "position": 15,
+      "in_onboarding": true
+    },
+    "core_start": 26,
+    "summary": "典型的天气应用流程，在Onboarding中期植入付费订阅，然后进入功能丰富的主界面",
+    "project": "Calm_Analysis",
+    "total_screenshots": 120,
+    "analyzed_at": "2025-12-13T20:40:14.602022"
+  },
+  "Cal_AI_-_Calorie_Tracker_Analysis": {
+    "app_type": "生活服务/智能家居类App",
+    "onboarding": {
+      "start": 1,
+      "end": 15,
+      "steps": [
+        "启动页",
+        "权限请求",
+        "位置服务",
+        "通知权限",
+        "账户设置",
+        "初始配置"
+      ]
+    },
+    "paywall": {
+      "position": null,
+      "in_onboarding": false
+    },
+    "core_start": 16,
+    "summary": "这是一个功能丰富的智能生活服务App，采用渐进式引导，重视权限获取和用户体验",
+    "project": "Cal_AI_-_Calorie_Tracker_Analysis",
+    "total_screenshots": 93,
+    "analyzed_at": "2025-12-13T20:40:25.353587"
+  },
+  "Flo_Period_Pregnancy_Tracker_Analysis": {
+    "app_type": "健康医疗/女性健康App",
+    "onboarding": {
+      "start": 1,
+      "end": 45,
+      "steps": [
+        "启动页/Logo",
+        "权限申请",
+        "个人信息收集",
+        "健康目标设定",
+        "用户画像建立",
+        "功能介绍引导"
+      ]
+    },
+    "paywall": {
+      "position": 35,
+      "in_onboarding": true
+    },
+    "core_start": 46,
+    "summary": "采用渐进式Onboarding设计，在用户建立基本画像后适时引入付费转化，注重个性化体验建立",
+    "project": "Flo_Period_Pregnancy_Tracker_Analysis",
+    "total_screenshots": 198,
+    "analyzed_at": "2025-12-13T20:40:37.328860"
+  },
+  "MyFitnessPal_Calorie_Counter_Analysis": {
+    "app_type": "美食食谱App",
+    "onboarding": {
+      "start": 1,
+      "end": 25,
+      "steps": [
+        "启动页面",
+        "权限申请",
+        "位置服务",
+        "通知权限",
+        "用户偏好设置",
+        "食物类型选择",
+        "饮食习惯配置"
+      ]
+    },
+    "paywall": {
+      "position": 15,
+      "in_onboarding": true
+    },
+    "core_start": 26,
+    "summary": "该App采用较长的引导流程，在Onboarding中集成付费墙，注重个性化设置和权限获取",
+    "project": "MyFitnessPal_Calorie_Counter_Analysis",
+    "total_screenshots": 200,
+    "analyzed_at": "2025-12-13T20:40:48.177194"
+  },
+  "Runna_Running_Training_Plans_Analysis": {
+    "app_type": "社交媒体/内容分享类App",
+    "onboarding": {
+      "start": 1,
+      "end": 45,
+      "steps": [
+        "启动页面",
+        "登录/注册",
+        "权限请求",
+        "个人信息设置",
+        "兴趣选择",
+        "功能介绍"
+      ]
+    },
+    "paywall": {
+      "position": 35,
+      "in_onboarding": true
+    },
+    "core_start": 46,
+    "summary": "采用较长的引导流程，在用户完成基本设置后展示付费功能，然后进入核心社交功能",
+    "project": "Runna_Running_Training_Plans_Analysis",
+    "total_screenshots": 200,
+    "analyzed_at": "2025-12-13T20:40:58.699683"
+  },
+  "Strava_Run_Bike_Hike_Analysis": {
+    "app_type": "地图导航/位置服务类App",
+    "onboarding": {
+      "start": 1,
+      "end": 25,
+      "steps": [
+        "启动页面",
+        "权限请求",
+        "功能介绍",
+        "账户设置",
+        "位置权限配置"
+      ]
+    },
+    "paywall": {
+      "position": 18,
+      "in_onboarding": true
+    },
+    "core_start": 26,
+    "summary": "该App采用较长的引导流程，在用户体验核心功能前就展示付费选项，主要围绕地图和位置服务构建功能体系",
+    "project": "Strava_Run_Bike_Hike_Analysis",
+    "total_screenshots": 200,
+    "analyzed_at": "2025-12-13T20:41:11.211744"
+  }
+}

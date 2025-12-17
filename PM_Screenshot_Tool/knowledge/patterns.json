@@ -1,0 +1,936 @@
+{
+  "_description": "设计模式库 - 存储跨产品学习到的设计模式",
+  "_version": "1.0",
+  
+  "onboarding_patterns": {
+    "progressive_disclosure": {
+      "name_cn": "渐进式披露",
+      "name_en": "Progressive Disclosure",
+      "description": "逐步展示信息，避免用户信息过载",
+      "examples": ["Calm", "Headspace", "Duolingo"],
+      "key_features": ["分步骤展示", "每步信息量少", "视觉引导清晰"],
+      "effectiveness": "high"
+    },
+    "goal_first": {
+      "name_cn": "目标优先",
+      "name_en": "Goal First",
+      "description": "先收集用户目标，再进行个性化",
+      "examples": ["MyFitnessPal", "Flo", "Noom"],
+      "key_features": ["目标选择在前", "基于目标推荐", "强调个性化"],
+      "effectiveness": "high"
+    },
+    "value_preview": {
+      "name_cn": "价值预览",
+      "name_en": "Value Preview",
+      "description": "在引导中展示产品核心价值",
+      "examples": ["Calm", "Strava"],
+      "key_features": ["体验式引导", "展示核心功能", "建立期待"],
+      "effectiveness": "medium"
+    },
+    "gamified_onboarding": {
+      "name_cn": "游戏化引导",
+      "name_en": "Gamified Onboarding",
+      "description": "使用游戏元素增加引导趣味性",
+      "examples": ["Duolingo", "Forest"],
+      "key_features": ["进度条", "成就系统", "即时反馈"],
+      "effectiveness": "high"
+    },
+    "social_proof_early": {
+      "name_cn": "早期社交证明",
+      "name_en": "Social Proof Early",
+      "description": "在引导中展示用户量、评分等社交证明",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["用户数量", "评分展示", "名人背书"],
+      "effectiveness": "medium"
+    }
+  },
+  
+  "paywall_patterns": {
+    "trial_first": {
+      "name_cn": "先试后买",
+      "name_en": "Trial First",
+      "description": "提供免费试用期，降低付费门槛",
+      "examples": ["Calm", "Headspace", "Noom"],
+      "key_features": ["7天免费", "无需立即付费", "试用后提醒"],
+      "effectiveness": "high"
+    },
+    "price_anchoring": {
+      "name_cn": "价格锚定",
+      "name_en": "Price Anchoring",
+      "description": "通过对比突出优惠价格",
+      "examples": ["Calm", "Flo"],
+      "key_features": ["年度vs月度对比", "划线原价", "节省金额"],
+      "effectiveness": "high"
+    },
+    "scarcity_urgency": {
+      "name_cn": "稀缺紧迫",
+      "name_en": "Scarcity & Urgency",
+      "description": "使用限时优惠增加紧迫感",
+      "examples": ["Noom", "Flo"],
+      "key_features": ["倒计时", "限时折扣", "名额有限"],
+      "effectiveness": "medium"
+    },
+    "feature_gating": {
+      "name_cn": "功能门槛",
+      "name_en": "Feature Gating",
+      "description": "展示付费功能，激发升级欲望",
+      "examples": ["Strava", "MyFitnessPal"],
+      "key_features": ["锁定功能展示", "对比表格", "升级按钮"],
+      "effectiveness": "medium"
+    },
+    "loss_aversion": {
+      "name_cn": "损失厌恶",
+      "name_en": "Loss Aversion",
+      "description": "强调不付费会错过什么",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["错过提醒", "进度丢失", "机会成本"],
+      "effectiveness": "medium"
+    }
+  },
+  
+  "ux_patterns": {
+    "bottom_navigation": {
+      "name_cn": "底部导航栏",
+      "name_en": "Bottom Navigation",
+      "description": "主要功能入口放在底部，便于单手操作",
+      "examples": ["几乎所有App"],
+      "key_features": ["3-5个主入口", "图标+文字", "当前页高亮"],
+      "effectiveness": "standard"
+    },
+    "card_layout": {
+      "name_cn": "卡片布局",
+      "name_en": "Card Layout",
+      "description": "使用卡片组织内容，便于扫视",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["圆角卡片", "阴影层次", "图文结合"],
+      "effectiveness": "high"
+    },
+    "empty_state": {
+      "name_cn": "空状态设计",
+      "name_en": "Empty State Design",
+      "description": "无数据时的引导设计",
+      "examples": ["通用"],
+      "key_features": ["插图说明", "行动号召", "帮助信息"],
+      "effectiveness": "medium"
+    },
+    "skeleton_loading": {
+      "name_cn": "骨架屏加载",
+      "name_en": "Skeleton Loading",
+      "description": "加载时显示内容骨架",
+      "examples": ["大多数现代App"],
+      "key_features": ["灰色占位", "动画效果", "减少等待感"],
+      "effectiveness": "high"
+    }
+  },
+  
+  "visual_patterns": {
+    "gradient_backgrounds": {
+      "name_cn": "渐变背景",
+      "name_en": "Gradient Backgrounds",
+      "description": "使用渐变色增加视觉层次",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["柔和渐变", "品牌色系", "氛围营造"],
+      "effectiveness": "medium"
+    },
+    "illustration_style": {
+      "name_cn": "插图风格",
+      "name_en": "Illustration Style",
+      "description": "使用统一风格的插图增强品牌感",
+      "examples": ["Headspace", "Duolingo"],
+      "key_features": ["风格统一", "情感化表达", "品牌识别"],
+      "effectiveness": "high"
+    },
+    "dark_mode": {
+      "name_cn": "深色模式",
+      "name_en": "Dark Mode",
+      "description": "提供深色主题，减少眼睛疲劳",
+      "examples": ["大多数现代App"],
+      "key_features": ["自动切换", "对比度适中", "品牌色保留"],
+      "effectiveness": "standard"
+    }
+  }
+}
+
+
+  "_description": "设计模式库 - 存储跨产品学习到的设计模式",
+  "_version": "1.0",
+  
+  "onboarding_patterns": {
+    "progressive_disclosure": {
+      "name_cn": "渐进式披露",
+      "name_en": "Progressive Disclosure",
+      "description": "逐步展示信息，避免用户信息过载",
+      "examples": ["Calm", "Headspace", "Duolingo"],
+      "key_features": ["分步骤展示", "每步信息量少", "视觉引导清晰"],
+      "effectiveness": "high"
+    },
+    "goal_first": {
+      "name_cn": "目标优先",
+      "name_en": "Goal First",
+      "description": "先收集用户目标，再进行个性化",
+      "examples": ["MyFitnessPal", "Flo", "Noom"],
+      "key_features": ["目标选择在前", "基于目标推荐", "强调个性化"],
+      "effectiveness": "high"
+    },
+    "value_preview": {
+      "name_cn": "价值预览",
+      "name_en": "Value Preview",
+      "description": "在引导中展示产品核心价值",
+      "examples": ["Calm", "Strava"],
+      "key_features": ["体验式引导", "展示核心功能", "建立期待"],
+      "effectiveness": "medium"
+    },
+    "gamified_onboarding": {
+      "name_cn": "游戏化引导",
+      "name_en": "Gamified Onboarding",
+      "description": "使用游戏元素增加引导趣味性",
+      "examples": ["Duolingo", "Forest"],
+      "key_features": ["进度条", "成就系统", "即时反馈"],
+      "effectiveness": "high"
+    },
+    "social_proof_early": {
+      "name_cn": "早期社交证明",
+      "name_en": "Social Proof Early",
+      "description": "在引导中展示用户量、评分等社交证明",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["用户数量", "评分展示", "名人背书"],
+      "effectiveness": "medium"
+    }
+  },
+  
+  "paywall_patterns": {
+    "trial_first": {
+      "name_cn": "先试后买",
+      "name_en": "Trial First",
+      "description": "提供免费试用期，降低付费门槛",
+      "examples": ["Calm", "Headspace", "Noom"],
+      "key_features": ["7天免费", "无需立即付费", "试用后提醒"],
+      "effectiveness": "high"
+    },
+    "price_anchoring": {
+      "name_cn": "价格锚定",
+      "name_en": "Price Anchoring",
+      "description": "通过对比突出优惠价格",
+      "examples": ["Calm", "Flo"],
+      "key_features": ["年度vs月度对比", "划线原价", "节省金额"],
+      "effectiveness": "high"
+    },
+    "scarcity_urgency": {
+      "name_cn": "稀缺紧迫",
+      "name_en": "Scarcity & Urgency",
+      "description": "使用限时优惠增加紧迫感",
+      "examples": ["Noom", "Flo"],
+      "key_features": ["倒计时", "限时折扣", "名额有限"],
+      "effectiveness": "medium"
+    },
+    "feature_gating": {
+      "name_cn": "功能门槛",
+      "name_en": "Feature Gating",
+      "description": "展示付费功能，激发升级欲望",
+      "examples": ["Strava", "MyFitnessPal"],
+      "key_features": ["锁定功能展示", "对比表格", "升级按钮"],
+      "effectiveness": "medium"
+    },
+    "loss_aversion": {
+      "name_cn": "损失厌恶",
+      "name_en": "Loss Aversion",
+      "description": "强调不付费会错过什么",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["错过提醒", "进度丢失", "机会成本"],
+      "effectiveness": "medium"
+    }
+  },
+  
+  "ux_patterns": {
+    "bottom_navigation": {
+      "name_cn": "底部导航栏",
+      "name_en": "Bottom Navigation",
+      "description": "主要功能入口放在底部，便于单手操作",
+      "examples": ["几乎所有App"],
+      "key_features": ["3-5个主入口", "图标+文字", "当前页高亮"],
+      "effectiveness": "standard"
+    },
+    "card_layout": {
+      "name_cn": "卡片布局",
+      "name_en": "Card Layout",
+      "description": "使用卡片组织内容，便于扫视",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["圆角卡片", "阴影层次", "图文结合"],
+      "effectiveness": "high"
+    },
+    "empty_state": {
+      "name_cn": "空状态设计",
+      "name_en": "Empty State Design",
+      "description": "无数据时的引导设计",
+      "examples": ["通用"],
+      "key_features": ["插图说明", "行动号召", "帮助信息"],
+      "effectiveness": "medium"
+    },
+    "skeleton_loading": {
+      "name_cn": "骨架屏加载",
+      "name_en": "Skeleton Loading",
+      "description": "加载时显示内容骨架",
+      "examples": ["大多数现代App"],
+      "key_features": ["灰色占位", "动画效果", "减少等待感"],
+      "effectiveness": "high"
+    }
+  },
+  
+  "visual_patterns": {
+    "gradient_backgrounds": {
+      "name_cn": "渐变背景",
+      "name_en": "Gradient Backgrounds",
+      "description": "使用渐变色增加视觉层次",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["柔和渐变", "品牌色系", "氛围营造"],
+      "effectiveness": "medium"
+    },
+    "illustration_style": {
+      "name_cn": "插图风格",
+      "name_en": "Illustration Style",
+      "description": "使用统一风格的插图增强品牌感",
+      "examples": ["Headspace", "Duolingo"],
+      "key_features": ["风格统一", "情感化表达", "品牌识别"],
+      "effectiveness": "high"
+    },
+    "dark_mode": {
+      "name_cn": "深色模式",
+      "name_en": "Dark Mode",
+      "description": "提供深色主题，减少眼睛疲劳",
+      "examples": ["大多数现代App"],
+      "key_features": ["自动切换", "对比度适中", "品牌色保留"],
+      "effectiveness": "standard"
+    }
+  }
+}
+
+
+  "_description": "设计模式库 - 存储跨产品学习到的设计模式",
+  "_version": "1.0",
+  
+  "onboarding_patterns": {
+    "progressive_disclosure": {
+      "name_cn": "渐进式披露",
+      "name_en": "Progressive Disclosure",
+      "description": "逐步展示信息，避免用户信息过载",
+      "examples": ["Calm", "Headspace", "Duolingo"],
+      "key_features": ["分步骤展示", "每步信息量少", "视觉引导清晰"],
+      "effectiveness": "high"
+    },
+    "goal_first": {
+      "name_cn": "目标优先",
+      "name_en": "Goal First",
+      "description": "先收集用户目标，再进行个性化",
+      "examples": ["MyFitnessPal", "Flo", "Noom"],
+      "key_features": ["目标选择在前", "基于目标推荐", "强调个性化"],
+      "effectiveness": "high"
+    },
+    "value_preview": {
+      "name_cn": "价值预览",
+      "name_en": "Value Preview",
+      "description": "在引导中展示产品核心价值",
+      "examples": ["Calm", "Strava"],
+      "key_features": ["体验式引导", "展示核心功能", "建立期待"],
+      "effectiveness": "medium"
+    },
+    "gamified_onboarding": {
+      "name_cn": "游戏化引导",
+      "name_en": "Gamified Onboarding",
+      "description": "使用游戏元素增加引导趣味性",
+      "examples": ["Duolingo", "Forest"],
+      "key_features": ["进度条", "成就系统", "即时反馈"],
+      "effectiveness": "high"
+    },
+    "social_proof_early": {
+      "name_cn": "早期社交证明",
+      "name_en": "Social Proof Early",
+      "description": "在引导中展示用户量、评分等社交证明",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["用户数量", "评分展示", "名人背书"],
+      "effectiveness": "medium"
+    }
+  },
+  
+  "paywall_patterns": {
+    "trial_first": {
+      "name_cn": "先试后买",
+      "name_en": "Trial First",
+      "description": "提供免费试用期，降低付费门槛",
+      "examples": ["Calm", "Headspace", "Noom"],
+      "key_features": ["7天免费", "无需立即付费", "试用后提醒"],
+      "effectiveness": "high"
+    },
+    "price_anchoring": {
+      "name_cn": "价格锚定",
+      "name_en": "Price Anchoring",
+      "description": "通过对比突出优惠价格",
+      "examples": ["Calm", "Flo"],
+      "key_features": ["年度vs月度对比", "划线原价", "节省金额"],
+      "effectiveness": "high"
+    },
+    "scarcity_urgency": {
+      "name_cn": "稀缺紧迫",
+      "name_en": "Scarcity & Urgency",
+      "description": "使用限时优惠增加紧迫感",
+      "examples": ["Noom", "Flo"],
+      "key_features": ["倒计时", "限时折扣", "名额有限"],
+      "effectiveness": "medium"
+    },
+    "feature_gating": {
+      "name_cn": "功能门槛",
+      "name_en": "Feature Gating",
+      "description": "展示付费功能，激发升级欲望",
+      "examples": ["Strava", "MyFitnessPal"],
+      "key_features": ["锁定功能展示", "对比表格", "升级按钮"],
+      "effectiveness": "medium"
+    },
+    "loss_aversion": {
+      "name_cn": "损失厌恶",
+      "name_en": "Loss Aversion",
+      "description": "强调不付费会错过什么",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["错过提醒", "进度丢失", "机会成本"],
+      "effectiveness": "medium"
+    }
+  },
+  
+  "ux_patterns": {
+    "bottom_navigation": {
+      "name_cn": "底部导航栏",
+      "name_en": "Bottom Navigation",
+      "description": "主要功能入口放在底部，便于单手操作",
+      "examples": ["几乎所有App"],
+      "key_features": ["3-5个主入口", "图标+文字", "当前页高亮"],
+      "effectiveness": "standard"
+    },
+    "card_layout": {
+      "name_cn": "卡片布局",
+      "name_en": "Card Layout",
+      "description": "使用卡片组织内容，便于扫视",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["圆角卡片", "阴影层次", "图文结合"],
+      "effectiveness": "high"
+    },
+    "empty_state": {
+      "name_cn": "空状态设计",
+      "name_en": "Empty State Design",
+      "description": "无数据时的引导设计",
+      "examples": ["通用"],
+      "key_features": ["插图说明", "行动号召", "帮助信息"],
+      "effectiveness": "medium"
+    },
+    "skeleton_loading": {
+      "name_cn": "骨架屏加载",
+      "name_en": "Skeleton Loading",
+      "description": "加载时显示内容骨架",
+      "examples": ["大多数现代App"],
+      "key_features": ["灰色占位", "动画效果", "减少等待感"],
+      "effectiveness": "high"
+    }
+  },
+  
+  "visual_patterns": {
+    "gradient_backgrounds": {
+      "name_cn": "渐变背景",
+      "name_en": "Gradient Backgrounds",
+      "description": "使用渐变色增加视觉层次",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["柔和渐变", "品牌色系", "氛围营造"],
+      "effectiveness": "medium"
+    },
+    "illustration_style": {
+      "name_cn": "插图风格",
+      "name_en": "Illustration Style",
+      "description": "使用统一风格的插图增强品牌感",
+      "examples": ["Headspace", "Duolingo"],
+      "key_features": ["风格统一", "情感化表达", "品牌识别"],
+      "effectiveness": "high"
+    },
+    "dark_mode": {
+      "name_cn": "深色模式",
+      "name_en": "Dark Mode",
+      "description": "提供深色主题，减少眼睛疲劳",
+      "examples": ["大多数现代App"],
+      "key_features": ["自动切换", "对比度适中", "品牌色保留"],
+      "effectiveness": "standard"
+    }
+  }
+}
+
+
+  "_description": "设计模式库 - 存储跨产品学习到的设计模式",
+  "_version": "1.0",
+  
+  "onboarding_patterns": {
+    "progressive_disclosure": {
+      "name_cn": "渐进式披露",
+      "name_en": "Progressive Disclosure",
+      "description": "逐步展示信息，避免用户信息过载",
+      "examples": ["Calm", "Headspace", "Duolingo"],
+      "key_features": ["分步骤展示", "每步信息量少", "视觉引导清晰"],
+      "effectiveness": "high"
+    },
+    "goal_first": {
+      "name_cn": "目标优先",
+      "name_en": "Goal First",
+      "description": "先收集用户目标，再进行个性化",
+      "examples": ["MyFitnessPal", "Flo", "Noom"],
+      "key_features": ["目标选择在前", "基于目标推荐", "强调个性化"],
+      "effectiveness": "high"
+    },
+    "value_preview": {
+      "name_cn": "价值预览",
+      "name_en": "Value Preview",
+      "description": "在引导中展示产品核心价值",
+      "examples": ["Calm", "Strava"],
+      "key_features": ["体验式引导", "展示核心功能", "建立期待"],
+      "effectiveness": "medium"
+    },
+    "gamified_onboarding": {
+      "name_cn": "游戏化引导",
+      "name_en": "Gamified Onboarding",
+      "description": "使用游戏元素增加引导趣味性",
+      "examples": ["Duolingo", "Forest"],
+      "key_features": ["进度条", "成就系统", "即时反馈"],
+      "effectiveness": "high"
+    },
+    "social_proof_early": {
+      "name_cn": "早期社交证明",
+      "name_en": "Social Proof Early",
+      "description": "在引导中展示用户量、评分等社交证明",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["用户数量", "评分展示", "名人背书"],
+      "effectiveness": "medium"
+    }
+  },
+  
+  "paywall_patterns": {
+    "trial_first": {
+      "name_cn": "先试后买",
+      "name_en": "Trial First",
+      "description": "提供免费试用期，降低付费门槛",
+      "examples": ["Calm", "Headspace", "Noom"],
+      "key_features": ["7天免费", "无需立即付费", "试用后提醒"],
+      "effectiveness": "high"
+    },
+    "price_anchoring": {
+      "name_cn": "价格锚定",
+      "name_en": "Price Anchoring",
+      "description": "通过对比突出优惠价格",
+      "examples": ["Calm", "Flo"],
+      "key_features": ["年度vs月度对比", "划线原价", "节省金额"],
+      "effectiveness": "high"
+    },
+    "scarcity_urgency": {
+      "name_cn": "稀缺紧迫",
+      "name_en": "Scarcity & Urgency",
+      "description": "使用限时优惠增加紧迫感",
+      "examples": ["Noom", "Flo"],
+      "key_features": ["倒计时", "限时折扣", "名额有限"],
+      "effectiveness": "medium"
+    },
+    "feature_gating": {
+      "name_cn": "功能门槛",
+      "name_en": "Feature Gating",
+      "description": "展示付费功能，激发升级欲望",
+      "examples": ["Strava", "MyFitnessPal"],
+      "key_features": ["锁定功能展示", "对比表格", "升级按钮"],
+      "effectiveness": "medium"
+    },
+    "loss_aversion": {
+      "name_cn": "损失厌恶",
+      "name_en": "Loss Aversion",
+      "description": "强调不付费会错过什么",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["错过提醒", "进度丢失", "机会成本"],
+      "effectiveness": "medium"
+    }
+  },
+  
+  "ux_patterns": {
+    "bottom_navigation": {
+      "name_cn": "底部导航栏",
+      "name_en": "Bottom Navigation",
+      "description": "主要功能入口放在底部，便于单手操作",
+      "examples": ["几乎所有App"],
+      "key_features": ["3-5个主入口", "图标+文字", "当前页高亮"],
+      "effectiveness": "standard"
+    },
+    "card_layout": {
+      "name_cn": "卡片布局",
+      "name_en": "Card Layout",
+      "description": "使用卡片组织内容，便于扫视",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["圆角卡片", "阴影层次", "图文结合"],
+      "effectiveness": "high"
+    },
+    "empty_state": {
+      "name_cn": "空状态设计",
+      "name_en": "Empty State Design",
+      "description": "无数据时的引导设计",
+      "examples": ["通用"],
+      "key_features": ["插图说明", "行动号召", "帮助信息"],
+      "effectiveness": "medium"
+    },
+    "skeleton_loading": {
+      "name_cn": "骨架屏加载",
+      "name_en": "Skeleton Loading",
+      "description": "加载时显示内容骨架",
+      "examples": ["大多数现代App"],
+      "key_features": ["灰色占位", "动画效果", "减少等待感"],
+      "effectiveness": "high"
+    }
+  },
+  
+  "visual_patterns": {
+    "gradient_backgrounds": {
+      "name_cn": "渐变背景",
+      "name_en": "Gradient Backgrounds",
+      "description": "使用渐变色增加视觉层次",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["柔和渐变", "品牌色系", "氛围营造"],
+      "effectiveness": "medium"
+    },
+    "illustration_style": {
+      "name_cn": "插图风格",
+      "name_en": "Illustration Style",
+      "description": "使用统一风格的插图增强品牌感",
+      "examples": ["Headspace", "Duolingo"],
+      "key_features": ["风格统一", "情感化表达", "品牌识别"],
+      "effectiveness": "high"
+    },
+    "dark_mode": {
+      "name_cn": "深色模式",
+      "name_en": "Dark Mode",
+      "description": "提供深色主题，减少眼睛疲劳",
+      "examples": ["大多数现代App"],
+      "key_features": ["自动切换", "对比度适中", "品牌色保留"],
+      "effectiveness": "standard"
+    }
+  }
+}
+
+
+
+  "_description": "设计模式库 - 存储跨产品学习到的设计模式",
+  "_version": "1.0",
+  
+  "onboarding_patterns": {
+    "progressive_disclosure": {
+      "name_cn": "渐进式披露",
+      "name_en": "Progressive Disclosure",
+      "description": "逐步展示信息，避免用户信息过载",
+      "examples": ["Calm", "Headspace", "Duolingo"],
+      "key_features": ["分步骤展示", "每步信息量少", "视觉引导清晰"],
+      "effectiveness": "high"
+    },
+    "goal_first": {
+      "name_cn": "目标优先",
+      "name_en": "Goal First",
+      "description": "先收集用户目标，再进行个性化",
+      "examples": ["MyFitnessPal", "Flo", "Noom"],
+      "key_features": ["目标选择在前", "基于目标推荐", "强调个性化"],
+      "effectiveness": "high"
+    },
+    "value_preview": {
+      "name_cn": "价值预览",
+      "name_en": "Value Preview",
+      "description": "在引导中展示产品核心价值",
+      "examples": ["Calm", "Strava"],
+      "key_features": ["体验式引导", "展示核心功能", "建立期待"],
+      "effectiveness": "medium"
+    },
+    "gamified_onboarding": {
+      "name_cn": "游戏化引导",
+      "name_en": "Gamified Onboarding",
+      "description": "使用游戏元素增加引导趣味性",
+      "examples": ["Duolingo", "Forest"],
+      "key_features": ["进度条", "成就系统", "即时反馈"],
+      "effectiveness": "high"
+    },
+    "social_proof_early": {
+      "name_cn": "早期社交证明",
+      "name_en": "Social Proof Early",
+      "description": "在引导中展示用户量、评分等社交证明",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["用户数量", "评分展示", "名人背书"],
+      "effectiveness": "medium"
+    }
+  },
+  
+  "paywall_patterns": {
+    "trial_first": {
+      "name_cn": "先试后买",
+      "name_en": "Trial First",
+      "description": "提供免费试用期，降低付费门槛",
+      "examples": ["Calm", "Headspace", "Noom"],
+      "key_features": ["7天免费", "无需立即付费", "试用后提醒"],
+      "effectiveness": "high"
+    },
+    "price_anchoring": {
+      "name_cn": "价格锚定",
+      "name_en": "Price Anchoring",
+      "description": "通过对比突出优惠价格",
+      "examples": ["Calm", "Flo"],
+      "key_features": ["年度vs月度对比", "划线原价", "节省金额"],
+      "effectiveness": "high"
+    },
+    "scarcity_urgency": {
+      "name_cn": "稀缺紧迫",
+      "name_en": "Scarcity & Urgency",
+      "description": "使用限时优惠增加紧迫感",
+      "examples": ["Noom", "Flo"],
+      "key_features": ["倒计时", "限时折扣", "名额有限"],
+      "effectiveness": "medium"
+    },
+    "feature_gating": {
+      "name_cn": "功能门槛",
+      "name_en": "Feature Gating",
+      "description": "展示付费功能，激发升级欲望",
+      "examples": ["Strava", "MyFitnessPal"],
+      "key_features": ["锁定功能展示", "对比表格", "升级按钮"],
+      "effectiveness": "medium"
+    },
+    "loss_aversion": {
+      "name_cn": "损失厌恶",
+      "name_en": "Loss Aversion",
+      "description": "强调不付费会错过什么",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["错过提醒", "进度丢失", "机会成本"],
+      "effectiveness": "medium"
+    }
+  },
+  
+  "ux_patterns": {
+    "bottom_navigation": {
+      "name_cn": "底部导航栏",
+      "name_en": "Bottom Navigation",
+      "description": "主要功能入口放在底部，便于单手操作",
+      "examples": ["几乎所有App"],
+      "key_features": ["3-5个主入口", "图标+文字", "当前页高亮"],
+      "effectiveness": "standard"
+    },
+    "card_layout": {
+      "name_cn": "卡片布局",
+      "name_en": "Card Layout",
+      "description": "使用卡片组织内容，便于扫视",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["圆角卡片", "阴影层次", "图文结合"],
+      "effectiveness": "high"
+    },
+    "empty_state": {
+      "name_cn": "空状态设计",
+      "name_en": "Empty State Design",
+      "description": "无数据时的引导设计",
+      "examples": ["通用"],
+      "key_features": ["插图说明", "行动号召", "帮助信息"],
+      "effectiveness": "medium"
+    },
+    "skeleton_loading": {
+      "name_cn": "骨架屏加载",
+      "name_en": "Skeleton Loading",
+      "description": "加载时显示内容骨架",
+      "examples": ["大多数现代App"],
+      "key_features": ["灰色占位", "动画效果", "减少等待感"],
+      "effectiveness": "high"
+    }
+  },
+  
+  "visual_patterns": {
+    "gradient_backgrounds": {
+      "name_cn": "渐变背景",
+      "name_en": "Gradient Backgrounds",
+      "description": "使用渐变色增加视觉层次",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["柔和渐变", "品牌色系", "氛围营造"],
+      "effectiveness": "medium"
+    },
+    "illustration_style": {
+      "name_cn": "插图风格",
+      "name_en": "Illustration Style",
+      "description": "使用统一风格的插图增强品牌感",
+      "examples": ["Headspace", "Duolingo"],
+      "key_features": ["风格统一", "情感化表达", "品牌识别"],
+      "effectiveness": "high"
+    },
+    "dark_mode": {
+      "name_cn": "深色模式",
+      "name_en": "Dark Mode",
+      "description": "提供深色主题，减少眼睛疲劳",
+      "examples": ["大多数现代App"],
+      "key_features": ["自动切换", "对比度适中", "品牌色保留"],
+      "effectiveness": "standard"
+    }
+  }
+}
+
+
+  "_description": "设计模式库 - 存储跨产品学习到的设计模式",
+  "_version": "1.0",
+  
+  "onboarding_patterns": {
+    "progressive_disclosure": {
+      "name_cn": "渐进式披露",
+      "name_en": "Progressive Disclosure",
+      "description": "逐步展示信息，避免用户信息过载",
+      "examples": ["Calm", "Headspace", "Duolingo"],
+      "key_features": ["分步骤展示", "每步信息量少", "视觉引导清晰"],
+      "effectiveness": "high"
+    },
+    "goal_first": {
+      "name_cn": "目标优先",
+      "name_en": "Goal First",
+      "description": "先收集用户目标，再进行个性化",
+      "examples": ["MyFitnessPal", "Flo", "Noom"],
+      "key_features": ["目标选择在前", "基于目标推荐", "强调个性化"],
+      "effectiveness": "high"
+    },
+    "value_preview": {
+      "name_cn": "价值预览",
+      "name_en": "Value Preview",
+      "description": "在引导中展示产品核心价值",
+      "examples": ["Calm", "Strava"],
+      "key_features": ["体验式引导", "展示核心功能", "建立期待"],
+      "effectiveness": "medium"
+    },
+    "gamified_onboarding": {
+      "name_cn": "游戏化引导",
+      "name_en": "Gamified Onboarding",
+      "description": "使用游戏元素增加引导趣味性",
+      "examples": ["Duolingo", "Forest"],
+      "key_features": ["进度条", "成就系统", "即时反馈"],
+      "effectiveness": "high"
+    },
+    "social_proof_early": {
+      "name_cn": "早期社交证明",
+      "name_en": "Social Proof Early",
+      "description": "在引导中展示用户量、评分等社交证明",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["用户数量", "评分展示", "名人背书"],
+      "effectiveness": "medium"
+    }
+  },
+  
+  "paywall_patterns": {
+    "trial_first": {
+      "name_cn": "先试后买",
+      "name_en": "Trial First",
+      "description": "提供免费试用期，降低付费门槛",
+      "examples": ["Calm", "Headspace", "Noom"],
+      "key_features": ["7天免费", "无需立即付费", "试用后提醒"],
+      "effectiveness": "high"
+    },
+    "price_anchoring": {
+      "name_cn": "价格锚定",
+      "name_en": "Price Anchoring",
+      "description": "通过对比突出优惠价格",
+      "examples": ["Calm", "Flo"],
+      "key_features": ["年度vs月度对比", "划线原价", "节省金额"],
+      "effectiveness": "high"
+    },
+    "scarcity_urgency": {
+      "name_cn": "稀缺紧迫",
+      "name_en": "Scarcity & Urgency",
+      "description": "使用限时优惠增加紧迫感",
+      "examples": ["Noom", "Flo"],
+      "key_features": ["倒计时", "限时折扣", "名额有限"],
+      "effectiveness": "medium"
+    },
+    "feature_gating": {
+      "name_cn": "功能门槛",
+      "name_en": "Feature Gating",
+      "description": "展示付费功能，激发升级欲望",
+      "examples": ["Strava", "MyFitnessPal"],
+      "key_features": ["锁定功能展示", "对比表格", "升级按钮"],
+      "effectiveness": "medium"
+    },
+    "loss_aversion": {
+      "name_cn": "损失厌恶",
+      "name_en": "Loss Aversion",
+      "description": "强调不付费会错过什么",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["错过提醒", "进度丢失", "机会成本"],
+      "effectiveness": "medium"
+    }
+  },
+  
+  "ux_patterns": {
+    "bottom_navigation": {
+      "name_cn": "底部导航栏",
+      "name_en": "Bottom Navigation",
+      "description": "主要功能入口放在底部，便于单手操作",
+      "examples": ["几乎所有App"],
+      "key_features": ["3-5个主入口", "图标+文字", "当前页高亮"],
+      "effectiveness": "standard"
+    },
+    "card_layout": {
+      "name_cn": "卡片布局",
+      "name_en": "Card Layout",
+      "description": "使用卡片组织内容，便于扫视",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["圆角卡片", "阴影层次", "图文结合"],
+      "effectiveness": "high"
+    },
+    "empty_state": {
+      "name_cn": "空状态设计",
+      "name_en": "Empty State Design",
+      "description": "无数据时的引导设计",
+      "examples": ["通用"],
+      "key_features": ["插图说明", "行动号召", "帮助信息"],
+      "effectiveness": "medium"
+    },
+    "skeleton_loading": {
+      "name_cn": "骨架屏加载",
+      "name_en": "Skeleton Loading",
+      "description": "加载时显示内容骨架",
+      "examples": ["大多数现代App"],
+      "key_features": ["灰色占位", "动画效果", "减少等待感"],
+      "effectiveness": "high"
+    }
+  },
+  
+  "visual_patterns": {
+    "gradient_backgrounds": {
+      "name_cn": "渐变背景",
+      "name_en": "Gradient Backgrounds",
+      "description": "使用渐变色增加视觉层次",
+      "examples": ["Calm", "Headspace"],
+      "key_features": ["柔和渐变", "品牌色系", "氛围营造"],
+      "effectiveness": "medium"
+    },
+    "illustration_style": {
+      "name_cn": "插图风格",
+      "name_en": "Illustration Style",
+      "description": "使用统一风格的插图增强品牌感",
+      "examples": ["Headspace", "Duolingo"],
+      "key_features": ["风格统一", "情感化表达", "品牌识别"],
+      "effectiveness": "high"
+    },
+    "dark_mode": {
+      "name_cn": "深色模式",
+      "name_en": "Dark Mode",
+      "description": "提供深色主题，减少眼睛疲劳",
+      "examples": ["大多数现代App"],
+      "key_features": ["自动切换", "对比度适中", "品牌色保留"],
+      "effectiveness": "standard"
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

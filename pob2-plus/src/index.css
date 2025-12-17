@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+/* 自定义主题变量 */
+@theme {
+  /* PoE2 主题色 */
+  --color-poe-bg: #0c0c0e;
+  --color-poe-panel: #1a1a1f;
+  --color-poe-border: #3d3d3d;
+  --color-poe-gold: #af6025;
+  --color-poe-blue: #8888ff;
+  --color-poe-rare: #ffff77;
+  --color-poe-unique: #af6025;
+  --color-poe-gem: #1aa29b;
+  --color-poe-fire: #b97123;
+  --color-poe-cold: #3f6db3;
+  --color-poe-lightning: #adaa47;
+  --color-poe-chaos: #d02090;
+  --color-poe-physical: #c8c8c8;
+  --color-poe-life: #e05030;
+  --color-poe-mana: #7070ff;
+  --color-poe-es: #88ffff;
+}
+
+/* 基础样式 */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-poe-bg);
+  color: #f3f4f6;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-poe-panel);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-poe-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* 自定义组件类 */
+.panel {
+  background-color: var(--color-poe-panel);
+  border: 1px solid var(--color-poe-border);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.btn-primary {
+  padding: 8px 16px;
+  background-color: var(--color-poe-gold);
+  color: white;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: opacity 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  opacity: 0.8;
+}
+
+.btn-secondary {
+  padding: 8px 16px;
+  background-color: var(--color-poe-panel);
+  border: 1px solid var(--color-poe-border);
+  color: #e5e7eb;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-poe-border);
+}
+
+.input-field {
+  background-color: var(--color-poe-bg);
+  border: 1px solid var(--color-poe-border);
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: #f3f4f6;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-field:focus {
+  border-color: var(--color-poe-gold);
+}
+
+.stat-value {
+  font-family: ui-monospace, monospace;
+  text-align: right;
+}
+
+/* 伤害类型颜色 */
+.text-poe-physical { color: var(--color-poe-physical); }
+.text-poe-fire { color: var(--color-poe-fire); }
+.text-poe-cold { color: var(--color-poe-cold); }
+.text-poe-lightning { color: var(--color-poe-lightning); }
+.text-poe-chaos { color: var(--color-poe-chaos); }
+.text-poe-gold { color: var(--color-poe-gold); }
+
+/* 背景色 */
+.bg-poe-bg { background-color: var(--color-poe-bg); }
+.bg-poe-panel { background-color: var(--color-poe-panel); }
+.bg-poe-gold { background-color: var(--color-poe-gold); }
+
+/* 边框色 */
+.border-poe-border { border-color: var(--color-poe-border); }
+.border-poe-gold { border-color: var(--color-poe-gold); }
