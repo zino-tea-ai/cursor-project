@@ -111,8 +111,8 @@
         }
         .sort-option:hover { background: rgba(255,255,255,0.04); }
         .sort-option.active { 
-            background: rgba(245, 158, 11, 0.15); 
-            color: #fbbf24; 
+            background: rgba(255,255,255,0.06); 
+            color: #fff; 
         }
         .sort-option input { display: none; }
         .sort-radio {
@@ -125,13 +125,13 @@
             justify-content: center;
         }
         .sort-option.active .sort-radio {
-            border-color: #f59e0b;
+            border-color: #fff;
         }
         .sort-option.active .sort-radio::after {
             content: '';
             width: 6px;
             height: 6px;
-            background: #f59e0b;
+            background: #fff;
             border-radius: 50%;
         }
         
@@ -144,7 +144,7 @@
             padding: 8px 10px;
             border-radius: 6px;
             cursor: pointer;
-            color: var(--text-secondary);
+            color: #9ca3af;
             font-size: 13px;
             transition: all 0.2s ease;
         }
@@ -168,25 +168,26 @@
         
         /* Top Bar */
         .topbar { 
-            height: 56px; 
-            background: var(--bg-secondary); 
-            border-bottom: 1px solid var(--border-color); 
+            height: 60px; 
+            background: #111111; 
+            border-bottom: 1px solid rgba(255,255,255,0.06); 
             display: flex; 
             align-items: center; 
             padding: 0 24px; 
             gap: 16px; 
         }
         .topbar-title { 
-            font-size: 15px; 
+            font-size: 18px; 
             font-weight: 500; 
-            color: #fff; 
+            color: #fff;
+            letter-spacing: -0.01em;
         }
         .topbar-stats {
             display: flex;
             gap: 20px;
             margin-left: auto;
             font-size: 13px;
-            color: var(--text-muted);
+            color: #6b7280;
         }
         .stat-item {
             display: flex;
@@ -194,7 +195,7 @@
             gap: 6px;
         }
         .stat-value {
-            color: var(--warning);
+            color: #fff;
             font-weight: 600;
         }
         
@@ -220,12 +221,12 @@
         }
         
         .store-table th {
-            background: var(--bg-secondary);
-            color: var(--text-secondary);
+            background: #111111;
+            color: #9ca3af;
             font-weight: 600;
             padding: 14px 16px;
             text-align: left;
-            border-bottom: 2px solid var(--border-color);
+            border-bottom: 2px solid rgba(255,255,255,0.06);
             white-space: nowrap;
             cursor: pointer;
             user-select: none;
@@ -233,11 +234,11 @@
         }
         
         .store-table th:hover {
-            background: var(--bg-hover);
+            background: rgba(255,255,255,0.04);
         }
         
         .store-table th.sorted {
-            color: var(--warning);
+            color: #fff;
         }
         
         .store-table th .sort-arrow {
@@ -251,7 +252,7 @@
         
         .store-table td {
             padding: 12px 16px;
-            border-bottom: 1px solid var(--border-color-light);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
             vertical-align: middle;
         }
         
@@ -260,7 +261,7 @@
         }
         
         .store-table tbody tr:hover {
-            background: var(--bg-hover);
+            background: rgba(255,255,255,0.02);
         }
         
         /* App Cell */
@@ -306,32 +307,33 @@
             font-weight: 600;
         }
         .priority-badge.p0 {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
+            background: rgba(255,255,255,0.1);
+            color: #9ca3af;
         }
         .priority-badge.p1 {
-            background: rgba(245, 158, 11, 0.2);
-            color: #f59e0b;
+            background: rgba(255,255,255,0.15);
+            color: #fff;
         }
         
         /* Rating */
         .rating {
-            color: #fbbf24;
+            color: #fff;
             font-weight: 600;
         }
         
         /* Revenue */
         .revenue {
-            color: #10b981;
+            color: #fff;
             font-weight: 600;
         }
         
         /* Growth */
         .growth {
             font-weight: 600;
+            color: #9ca3af;
         }
-        .growth.positive { color: #10b981; }
-        .growth.negative { color: #ef4444; }
+        .growth.positive { color: #9ca3af; }
+        .growth.negative { color: #6b7280; }
         
         /* Action Buttons - Linear Style */
         .action-btn {
@@ -396,13 +398,13 @@
         }
         .screenshot-modal-header {
             padding: 16px 20px;
-            border-bottom: 1px solid #2a2a3a;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         .screenshot-modal-header h3 {
-            color: #f59e0b;
+            color: #fff;
             font-size: 16px;
         }
         .screenshot-modal-body {
@@ -426,10 +428,10 @@
             border: 2px solid transparent;
         }
         .screenshot-item:hover img {
-            border-color: #f59e0b;
+            border-color: rgba(255,255,255,0.3);
         }
         .close-btn {
-            background: #374151;
+            background: rgba(255,255,255,0.08);
             color: #fff;
             border: none;
             padding: 8px 16px;
@@ -482,13 +484,13 @@
             justify-content: center;
         }
         .view-option.active .view-radio {
-            border-color: #3b82f6;
+            border-color: #fff;
         }
         .view-option.active .view-radio::after {
             content: '';
             width: 6px;
             height: 6px;
-            background: #3b82f6;
+            background: #fff;
             border-radius: 50%;
         }
         
@@ -524,7 +526,7 @@
             left: 0;
             background: inherit;
             z-index: 5;
-            border-right: 1px solid #1a1a2e;
+            border-right: 1px solid rgba(255,255,255,0.06);
         }
         
         .screenshot-row .row-icon {
@@ -559,12 +561,12 @@
         }
         
         .screenshot-row .row-meta .revenue {
-            color: #10b981;
+            color: #fff;
             font-weight: 600;
         }
         
         .screenshot-row .row-meta .rating {
-            color: #fbbf24;
+            color: #fff;
         }
         
         .screenshot-row .screenshots-scroll {
@@ -628,7 +630,7 @@
             font-size: 13px;
             padding: 20px;
             text-align: center;
-            background: #1a1a2e;
+            background: #111111;
             border-radius: 8px;
             min-width: 150px;
         }
@@ -685,11 +687,12 @@
         }
         .preview-index {
             font-size: 13px;
-            color: #f59e0b;
+            color: #fff;
             font-weight: 600;
-            background: rgba(245, 158, 11, 0.15);
+            background: rgba(255,255,255,0.08);
             padding: 4px 10px;
             border-radius: 4px;
+            font-family: 'SF Mono', 'Consolas', monospace;
         }
         .preview-close {
             background: none;
@@ -737,8 +740,9 @@
             transition: all 0.2s;
         }
         .preview-nav-btn:hover {
-            background: #3b82f6;
-            border-color: #3b82f6;
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+            color: #fff;
         }
         .preview-nav-btn:disabled {
             opacity: 0.4;
@@ -792,8 +796,8 @@
             display: inline-block;
             width: 24px;
             height: 24px;
-            border: 2px solid #3b82f6;
-            border-top-color: transparent;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-top-color: #fff;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             margin-bottom: 12px;
@@ -857,7 +861,7 @@
         
         .analysis-cached {
             font-size: 11px;
-            color: #10b981;
+            color: #6b7280;
             text-align: center;
             margin-top: 8px;
         }
@@ -900,10 +904,10 @@
             overflow: hidden;
         }
         .screenshot-thumb-small:hover {
-            border-color: #3b82f6;
+            border-color: rgba(255,255,255,0.3);
         }
         .screenshot-thumb-small.active {
-            border-color: #f59e0b;
+            border-color: #fff;
         }
         .screenshot-thumb-small img {
             width: 100%;
