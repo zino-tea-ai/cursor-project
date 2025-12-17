@@ -85,7 +85,193 @@
 
 ---
 
-## UI/UX 设计规范
+## 🚀 技术栈分层策略
+
+### 新项目（强制采用）
+| 层级 | 技术 | 说明 |
+|------|------|------|
+| 框架 | React 18+ / Next.js App Router | Server Components 优先 |
+| UI组件 | shadcn/ui + Radix UI | 可定制、无障碍 |
+| 样式 | Tailwind CSS v4 | 原子化CSS |
+| 动效 | Framer Motion | 声明式动画 |
+| 类型 | TypeScript | 全量类型覆盖 |
+| 质量 | ESLint + Prettier + Husky | 提交前检查 |
+
+### 现有项目（PM_Screenshot_Tool）
+保持 Flask + Native JS 架构，渐进式增强：
+- 动效：GSAP + ScrollTrigger
+- 轻量交互：Alpine.js（可选）
+- 样式：Design Tokens (CSS Variables)
+
+---
+
+## 🎨 设计风格词典 (2025 Edition)
+
+### 布局模式 (Layout Patterns)
+| 模式 | 特征 | 适用场景 |
+|------|------|----------|
+| **Bento Grid** | 模块化卡片、不等尺寸、视觉层级分明 | 功能展示、Dashboard、Landing |
+| **Editorial** | 杂志式网格、强排版层级、大标题 | 品牌故事、内容站、作品集 |
+| **Horizontal Scroll** | 横向滚动、画廊式 | 作品展示、产品陈列 |
+| **Sticky Sections** | 固定区块、滚动切换内容 | 产品介绍、时间线 |
+| **Layered Depth** | 多层叠加、Z轴深度、视差 | 沉浸式叙事 |
+
+### 视觉质感 (Visual Textures)
+| 质感 | 特征 | 情感 | 实现方式 |
+|------|------|------|----------|
+| **Glassmorphism 2.0** | 深层透明、折射、模糊叠加 | 高级、轻盈 | `backdrop-filter: blur()` |
+| **Liquid Glass** | 动态折射、光影响应 | 未来、沉浸 | WebGL + 实时光照 |
+| **Aurora Gradients** | 极光色彩、流动渐变 | 梦幻、科技 | Mesh gradient + animation |
+| **Mesh Gradients** | 多点渐变、有机过渡 | 温暖、现代 | CSS conic-gradient / SVG |
+| **Grain/Noise** | 颗粒质感、复古胶片感 | 艺术、真实 | SVG filter / CSS noise |
+| **Deep Glow** | 霓虹发光、暗底亮元素 | 科技、游戏 | `box-shadow` + blur |
+
+### 动效类型 (Motion Patterns)
+| 动效 | 触发方式 | 技术实现 |
+|------|----------|----------|
+| **Kinetic Typography** | 入场/滚动 | GSAP SplitText, Framer Motion |
+| **Morphing Shapes** | 持续/悬停 | SVG morphing, Flubber.js |
+| **Magnetic Cursor** | 鼠标移动 | GSAP, Custom JS |
+| **Parallax Layers** | 滚动 | ScrollTrigger, Lenis |
+| **Scroll-triggered 3D** | 滚动 | Three.js + ScrollTrigger |
+| **Liquid Transitions** | 导航 | WebGL, GSAP |
+
+### 交互模式 (Interaction Patterns)
+| 模式 | 体验提升 |
+|------|----------|
+| **Cursor Morphing** | 光标变形、上下文感知 |
+| **Card Hover Effects** | 3D倾斜、光影变化 |
+| **Progressive Reveal** | 滚动渐进展示内容 |
+| **Elastic Overscroll** | 弹性滚动边界 |
+
+### 风格类型定义
+| 风格 | 视觉特征 | 情感传达 | 适用场景 |
+|------|----------|----------|----------|
+| **Minimalist** | 大量留白、细线字体、低对比度 | 专注、高效、信任 | 效率工具、SaaS |
+| **Neo-Brutalist** | 明亮色块、粗边框、高对比 | 大胆、年轻、有态度 | 创意机构、潮牌 |
+| **Swiss** | 网格、无衬线、极度规整 | 理性、清晰、秩序 | 企业官网 |
+| **Organic** | 流动曲线、自然色彩、不规则形状 | 自然、亲和 | 健康、生活方式 |
+| **Retro-Futurism** | 霓虹、渐变、像素、科幻字体 | 怀旧、创新 | 游戏、娱乐 |
+
+### 情感-风格速查表
+| 当用户表达... | AI 应选择... |
+|--------------|-------------|
+| "高级感" | Liquid Glass, 深色+留白, 精致微交互 |
+| "科技感" | Aurora Gradient, Glow效果, 3D元素 |
+| "年轻活力" | 明亮色彩, Neo-Brutalist, 趣味动效 |
+| "专业可信" | Swiss网格, 清晰排版, 克制动效 |
+| "沉浸叙事" | Parallax, Sticky Scroll, Kinetic Typography |
+| "独特个性" | Neo-Brutalist, 不规则布局, 大胆配色 |
+
+### 2025 年度热门组合
+| 组合 | 构成元素 | 适合产品 |
+|------|----------|----------|
+| **Tech Minimal** | Bento Grid + Glassmorphism + 微交互 | SaaS、开发者工具 |
+| **Immersive Dark** | 深色模式 + Deep Glow + 3D + Parallax | 游戏、创意、科技 |
+| **Editorial Modern** | Editorial布局 + Kinetic Typography | 品牌官网、杂志 |
+| **Apple-like Premium** | Liquid Glass + Bento + Sticky Scroll | 高端消费品 |
+
+---
+
+## 🌐 风格知识库
+
+Awwwards 和 Framer Showcase 作为**审美知识库**（非具体模仿目标），用于理解各种风格的可能性：
+
+**Awwwards 年度获奖作品（风格学习）**：
+- Igloo Inc - 沉浸式 3D 叙事的极致
+- Immersive Garden - 极简与 3D 深度的平衡
+- Locomotive - 现代编辑设计 + 滚动编排
+
+**日常参考（实际产品）**：
+- Vercel - 简洁、深色模式、精致微交互
+- Linear - 极简高效、键盘驱动
+
+---
+
+## 💫 动效规范
+
+### 时长标准
+| 场景 | 时长 | 缓动函数 |
+|------|------|----------|
+| 微交互（按钮、开关） | 100-200ms | ease-out |
+| 组件切换（Modal、Tab） | 200-400ms | ease-in-out |
+| 页面过渡 | 400-800ms | cubic-bezier(0.4, 0, 0.2, 1) |
+
+### Framer Motion 最佳实践 (React)
+```jsx
+const variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+};
+
+<motion.div
+    variants={variants}
+    initial="hidden"
+    animate="visible"
+    transition={{ duration: 0.3, ease: "easeOut" }}
+/>
+```
+
+### GSAP 最佳实践 (原生 JS)
+```javascript
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+// 使用 context 管理动画生命周期
+const ctx = gsap.context(() => {
+    gsap.timeline()
+        .to(".hero", { opacity: 1, duration: 0.5 })
+        .to(".content", { y: 0, stagger: 0.1 }, "-=0.2");
+});
+// 清理时调用: ctx.revert();
+```
+
+---
+
+## 🎯 设计令牌系统
+
+设计令牌文件位置: `PM_Screenshot_Tool/static/css/tokens.css`
+
+```css
+:root {
+    /* 颜色 - 使用 oklch 色彩空间 */
+    --color-primary: oklch(0.65 0.2 250);
+    --color-background: oklch(0.98 0 0);
+    --color-text: oklch(0.15 0 0);
+    
+    /* 间距 */
+    --spacing-xs: 0.25rem;  /* 4px */
+    --spacing-sm: 0.5rem;   /* 8px */
+    --spacing-md: 1rem;     /* 16px */
+    --spacing-lg: 1.5rem;   /* 24px */
+    --spacing-xl: 2rem;     /* 32px */
+    
+    /* 圆角 */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    
+    /* 动效 */
+    --transition-fast: 150ms ease;
+    --transition-normal: 250ms ease;
+    --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-background: oklch(0.15 0 0);
+        --color-text: oklch(0.95 0 0);
+    }
+}
+```
+
+---
+
+## 🖥️ PM_Screenshot_Tool UI 规范
+
+> 以下为 PM_Screenshot_Tool 项目的具体 UI 规范，基于 Linear App 风格
 
 ### 设计基调
 - **风格**: Linear App 风格 - 简洁、专业、现代
@@ -275,3 +461,26 @@ cd "C:\Users\WIN\Desktop\Cursor Project\PM_Screenshot_Tool" && python app.py
 - 技术/框架文档 → Context7
 - 开源项目细节 → DeepWiki  
 - 其他最新信息 → WebSearch（搜索词加上当前年份）
+
+---
+
+## 🔒 代码备份规则
+
+### 触发备份的情况
+- 完成重要功能开发
+- 修复关键 Bug
+- 对话即将结束
+- 用户说"备份"、"保存"、"提交"
+
+### 备份执行步骤
+1. **Git 提交** - `git add -A && git commit -m "描述"`
+2. **GitHub 推送** - `git push github changes:main`
+3. **本地备份** - 运行 `python backup.py`（可选）
+
+### 对话结束提醒
+每次对话结束前，主动询问：
+> "要我帮你备份一下今天的修改吗？"
+
+### 快捷命令
+- 双击 `backup.bat` 可一键完成所有备份
+- 备份保存到 `C:\Users\WIN\Desktop\Cursor_Backups\`
