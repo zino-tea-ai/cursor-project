@@ -1,0 +1,212 @@
+{
+  "total_characters": "13216",
+  "sidebar_data": {
+    "ITEMS": [],
+    "MAIN SKILLS": [],
+    "MAIN SKILL MODES": [],
+    "PASSIVES": [],
+    "ALL SKILLS": [],
+    "ANOINTED PASSIVES": [],
+    "WEAPON CONFIGURATION": [],
+    "ES": [],
+    "EHP": [],
+    "DPS": [],
+    "FOTVKGS": [],
+    "SSSOLOBY": [],
+    "MENTALATHLETE": [],
+    "MIEAMIEAMIEA": [],
+    "FFXIONG": []
+  },
+  "precise_data": {
+    "items": [],
+    "main_skills": [],
+    "keystones": [],
+    "ascendancy": [],
+    "support_skills": [],
+    "auras": [],
+    "weapons": []
+  },
+  "builds": [
+    {
+      "rank": 1,
+      "name": "FOTVKGS",
+      "level": "98",
+      "life": "2211",
+      "es": "6695",
+      "ehp": "45k",
+      "dps": "51k"
+    },
+    {
+      "rank": 2,
+      "name": "GuanNiaoRV",
+      "level": "97",
+      "life": "1861",
+      "es": "2589",
+      "ehp": "16k",
+      "dps": "45k"
+    },
+    {
+      "rank": 3,
+      "name": "Kai_FotV",
+      "level": "97",
+      "life": "3488",
+      "es": "203",
+      "ehp": "10k",
+      "dps": "65k"
+    },
+    {
+      "rank": 4,
+      "name": "싸먼늑드루",
+      "level": "97",
+      "life": "2394",
+      "es": "943",
+      "ehp": "27k",
+      "dps": "62k"
+    },
+    {
+      "rank": 5,
+      "name": "Kajean",
+      "level": "97",
+      "life": "2769",
+      "es": "128",
+      "ehp": "15k",
+      "dps": "63k"
+    },
+    {
+      "rank": 6,
+      "name": "RUE_IS_A_CREPPY_CAT",
+      "level": "97",
+      "life": "2747",
+      "es": "0",
+      "ehp": "20k",
+      "dps": "6k"
+    },
+    {
+      "rank": 7,
+      "name": "MJ_bear",
+      "level": "96",
+      "life": "2369",
+      "es": "24",
+      "ehp": "13k",
+      "dps": "47k"
+    },
+    {
+      "rank": 8,
+      "name": "токийскийдруль",
+      "level": "96",
+      "life": "2471",
+      "es": "1811",
+      "ehp": "13k",
+      "dps": "46k"
+    },
+    {
+      "rank": 9,
+      "name": "SmooTTTD",
+      "level": "96",
+      "life": "1",
+      "es": "11296",
+      "ehp": "28k",
+      "dps": "3k"
+    },
+    {
+      "rank": 10,
+      "name": "LeFrancBoisier",
+      "level": "96",
+      "life": "3066",
+      "es": "0",
+      "ehp": "9k",
+      "dps": "53k"
+    },
+    {
+      "rank": 11,
+      "name": "HabibiiiiiiiiBlocksberg",
+      "level": "96",
+      "life": "0",
+      "es": "0",
+      "ehp": "-",
+      "dps": "-"
+    },
+    {
+      "rank": 12,
+      "name": "GrassMaxxer",
+      "level": "96",
+      "life": "3176",
+      "es": "520",
+      "ehp": "22k",
+      "dps": "40k"
+    },
+    {
+      "rank": 13,
+      "name": "whityDru",
+      "level": "96",
+      "life": "1",
+      "es": "9186",
+      "ehp": "21k",
+      "dps": "-"
+    },
+    {
+      "rank": 14,
+      "name": "воушебник",
+      "level": "96",
+      "life": "1",
+      "es": "10098",
+      "ehp": "31k",
+      "dps": "0.2k"
+    },
+    {
+      "rank": 15,
+      "name": "SSSOLOBY",
+      "level": "96",
+      "life": "1",
+      "es": "10202",
+      "ehp": "29k",
+      "dps": "0.2k"
+    },
+    {
+      "rank": 16,
+      "name": "HerMajestysMilkMinister",
+      "level": "96",
+      "life": "1",
+      "es": "7999",
+      "ehp": "26k",
+      "dps": "0.6k"
+    },
+    {
+      "rank": 17,
+      "name": "DavayZanogo",
+      "level": "96",
+      "life": "1",
+      "es": "8442",
+      "ehp": "27k",
+      "dps": "-"
+    },
+    {
+      "rank": 18,
+      "name": "IgeDruidEnjoyer",
+      "level": "96",
+      "life": "1",
+      "es": "7045",
+      "ehp": "18k",
+      "dps": "-"
+    },
+    {
+      "rank": 19,
+      "name": "LigaKaifSpasibo",
+      "level": "96",
+      "life": "1",
+      "es": "7871",
+      "ehp": "23k",
+      "dps": "0.1k"
+    },
+    {
+      "rank": 20,
+      "name": "HeyYoTsYourBoyChrisBald",
+      "level": "96",
+      "life": "2243",
+      "es": "1537",
+      "ehp": "15k",
+      "dps": "39k"
+    }
+  ],
+  "left_panel_text": "ITEMS\nAll\nAmulet\nBelt\nBody Armour\nBoots\nBuckler\nCharm\nFlask\nFocus\nGloves\nHelmet\nJewel\nQuiver\nRing\nShield\nUnknown\nWeapon\nMagic Flask\n99%\nRare Ring\n98%\nRare Amulet\n94%\nRare Gloves\n93%\nRare Boots\n92%\nRare Jewel\n89%\nRare Helmet\n87%\nRare Belt\n87%\nRare Talisman\n85%\nRare Body Armour\n80%\nMagic Charm\n73%\nRare Sceptre\n29%\nMAIN SKILLS\nWalking Calamity\n51%\nFurious Slam\n50%\nPounce\n49%\nMaul\n47%\nFerocious Roar\n39%\nRampage\n36%\nLunar Assault\n30%\nHerald of Ice\n22%\nShred\n21%\nHerald of Ash\n20%\nLunar Blessing\n19%\nShockwave Totem\n18%\nMAIN SKILL MODES\nNormal\n100%\nTriggered\n2%\nPASSIVES\nAll\nAscendancy\nKeystone\nReactive Growth\n72%\nDruidic Champion\n57%\nFurious Wellspring\n54%\nTurning of the Seasons\n38%\nAvatar of Evolution\n33%\nWisdom of the Maji\n25%\nSacred Flow\n24%\nLord of the Wilds\n18%\nZealot's Oath\n8%\nChaos Inoculation\n5%\nBringer of the Apocalypse\n3%\nBlood Magic\n3%\nALL SKILLS\nProlonged Duration II\n83%\nRapid Attacks II\n83%\nMagnified Area II\n79%\nElemental Armament II\n78%\nHerald of Ash\n64%\nPounce\n61%\nWalking Calamity\n53%\nFurious Slam\n52%\nFerocious Roar\n52%\nMaul\n50%\nClose Combat II\n48%\nConcentrated Area\n47%\nANOINTED PASSIVES\nBestial Rage\n4%\nAcceleration\n3%\nKiller Instinct\n2%\nVengeful Fury\n2%\nWarlord Leader\n1%\nAncient Aegis\n0.9%\nDevastation\n0.7%\nBattle Trance\n0.6%\nCritical Exploit\n0.6%\nSiphon\n0.6%\nTempered Defences\n0.6%\nIchlotl's Inferno\n0.5%\nWEAPON CONFIGURATION\nTalisman\n60%\nTalisman / Sceptre\n17%\nStaff\n8%\nSceptre / Shield\n5%\nSceptre / Focus\n3%\nWand / Focus\n1%\nTwo Handed Mace\n0.8%\nSceptre\n0.6%\nQuarterstaff\n0.5%\nOne Handed Mace / Sceptre\n0.5%\nOne Handed Mace / Shield\n0.4%\nUnarmed\n0.4%\n"
+}

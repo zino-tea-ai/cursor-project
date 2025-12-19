@@ -1,0 +1,364 @@
+{
+  "builds": [
+    {
+      "name": "FOTVKGS",
+      "level": "98",
+      "life": "2211",
+      "es": "6695",
+      "ehp": "45k",
+      "dps": "51k",
+      "skills": [
+        "Shaman"
+      ]
+    },
+    {
+      "name": "GuanNiaoRV",
+      "level": "97",
+      "life": "1861",
+      "es": "2589",
+      "ehp": "16k",
+      "dps": "45k",
+      "skills": [
+        "Shaman",
+        "Lord of the Wilds"
+      ]
+    },
+    {
+      "name": "Kai_FotV",
+      "level": "97",
+      "life": "3488",
+      "es": "203",
+      "ehp": "10k",
+      "dps": "65k",
+      "skills": [
+        "Shaman"
+      ]
+    },
+    {
+      "name": "싸먼늑드루",
+      "level": "97",
+      "life": "2394",
+      "es": "943",
+      "ehp": "27k",
+      "dps": "62k",
+      "skills": [
+        "Shaman"
+      ]
+    },
+    {
+      "name": "Kajean",
+      "level": "97",
+      "life": "2769",
+      "es": "128",
+      "ehp": "15k",
+      "dps": "63k",
+      "skills": [
+        "Shaman"
+      ]
+    },
+    {
+      "name": "RUE_IS_A_CREPPY_CAT",
+      "level": "97",
+      "life": "2747",
+      "es": "0",
+      "ehp": "20k",
+      "dps": "6k",
+      "skills": [
+        "Shaman",
+        "Wildsurge Incantation"
+      ]
+    },
+    {
+      "name": "MJ_bear",
+      "level": "96",
+      "life": "2369",
+      "es": "24",
+      "ehp": "13k",
+      "dps": "47k",
+      "skills": [
+        "Shaman",
+        "Lord of the Wilds"
+      ]
+    },
+    {
+      "name": "токийскийдруль",
+      "level": "96",
+      "life": "2471",
+      "es": "1811",
+      "ehp": "13k",
+      "dps": "46k",
+      "skills": [
+        "Shaman",
+        "Lord of the Wilds"
+      ]
+    },
+    {
+      "name": "SmooTTTD",
+      "level": "96",
+      "life": "1",
+      "es": "11296",
+      "ehp": "28k",
+      "dps": "3k",
+      "skills": [
+        "Shaman",
+        "Chaos Inoculation"
+      ]
+    },
+    {
+      "name": "LeFrancBoisier",
+      "level": "96",
+      "life": "3066",
+      "es": "0",
+      "ehp": "9k",
+      "dps": "53k",
+      "skills": [
+        "Shaman",
+        "Lord of the Wilds"
+      ]
+    },
+    {
+      "name": "HabibiiiiiiiiBlocksberg",
+      "level": "96",
+      "life": "0",
+      "es": "0",
+      "ehp": "-",
+      "dps": "-",
+      "skills": [
+        "Shaman",
+        "Lord of the Wilds",
+        "Zealot's Oath"
+      ]
+    },
+    {
+      "name": "GrassMaxxer",
+      "level": "96",
+      "life": "3176",
+      "es": "520",
+      "ehp": "22k",
+      "dps": "40k",
+      "skills": [
+        "Shaman",
+        "Scarred Faith"
+      ]
+    },
+    {
+      "name": "whityDru",
+      "level": "96",
+      "life": "1",
+      "es": "9186",
+      "ehp": "21k",
+      "dps": "-",
+      "skills": [
+        "Shaman",
+        "Whispers of Doom",
+        "Chaos Inoculation"
+      ]
+    },
+    {
+      "name": "воушебник",
+      "level": "96",
+      "life": "1",
+      "es": "10098",
+      "ehp": "31k",
+      "dps": "0.2k",
+      "skills": [
+        "Shaman",
+        "Whispers of Doom",
+        "Chaos Inoculation"
+      ]
+    },
+    {
+      "name": "SSSOLOBY",
+      "level": "96",
+      "life": "1",
+      "es": "10202",
+      "ehp": "29k",
+      "dps": "0.2k",
+      "skills": [
+        "Shaman",
+        "Whispers of Doom",
+        "Chaos Inoculation"
+      ]
+    },
+    {
+      "name": "HerMajestysMilkMinister",
+      "level": "96",
+      "life": "1",
+      "es": "7999",
+      "ehp": "26k",
+      "dps": "0.6k",
+      "skills": [
+        "Shaman",
+        "Whispers of Doom",
+        "Chaos Inoculation"
+      ]
+    },
+    {
+      "name": "DavayZanogo",
+      "level": "96",
+      "life": "1",
+      "es": "8442",
+      "ehp": "27k",
+      "dps": "-",
+      "skills": [
+        "Shaman",
+        "Chaos Inoculation"
+      ]
+    },
+    {
+      "name": "IgeDruidEnjoyer",
+      "level": "96",
+      "life": "1",
+      "es": "7045",
+      "ehp": "18k",
+      "dps": "-",
+      "skills": [
+        "Shaman",
+        "Chaos Inoculation"
+      ]
+    },
+    {
+      "name": "LigaKaifSpasibo",
+      "level": "96",
+      "life": "1",
+      "es": "7871",
+      "ehp": "23k",
+      "dps": "0.1k",
+      "skills": [
+        "Shaman",
+        "Chaos Inoculation"
+      ]
+    },
+    {
+      "name": "HeyYoTsYourBoyChrisBald",
+      "level": "96",
+      "life": "2243",
+      "es": "1537",
+      "ehp": "15k",
+      "dps": "39k",
+      "skills": [
+        "Shaman",
+        "Blood Magic"
+      ]
+    },
+    {
+      "name": "LastoftheRamseys",
+      "level": "96",
+      "life": "2723",
+      "es": "0",
+      "ehp": "10k",
+      "dps": "84k",
+      "skills": [
+        "Shaman"
+      ]
+    },
+    {
+      "name": "DruidRagelol",
+      "level": "96",
+      "life": "1545",
+      "es": "7347",
+      "ehp": "15k",
+      "dps": "42k",
+      "skills": [
+        "Shaman"
+      ]
+    },
+    {
+      "name": "Saksilia_Dru",
+      "level": "96",
+      "life": "0",
+      "es": "0",
+      "ehp": "-",
+      "dps": "-",
+      "skills": [
+        "Shaman",
+        "Chaos Inoculation"
+      ]
+    },
+    {
+      "name": "tsarvodvorca",
+      "level": "96",
+      "life": "1",
+      "es": "7732",
+      "ehp": "25k",
+      "dps": "0.2k",
+      "skills": [
+        "Shaman",
+        "Whispers of Doom",
+        "Chaos Inoculation"
+      ]
+    },
+    {
+      "name": "풍요로운드루",
+      "level": "96",
+      "life": "1872",
+      "es": "2970",
+      "ehp": "21k",
+      "dps": "-",
+      "skills": [
+        "Shaman",
+        "Mind Over Matter"
+      ]
+    },
+    {
+      "name": "Regentoff",
+      "level": "96",
+      "life": "1",
+      "es": "11022",
+      "ehp": "29k",
+      "dps": "0.0k",
+      "skills": [
+        "Shaman",
+        "Chaos Inoculation"
+      ]
+    },
+    {
+      "name": "WerwolfMannwolf_BB",
+      "level": "96",
+      "life": "2386",
+      "es": "1404",
+      "ehp": "18k",
+      "dps": "72k",
+      "skills": [
+        "Shaman"
+      ]
+    },
+    {
+      "name": "CacToCoLamEmLo",
+      "level": "96",
+      "life": "2263",
+      "es": "3093",
+      "ehp": "20k",
+      "dps": "0.2k",
+      "skills": [
+        "Shaman"
+      ]
+    },
+    {
+      "name": "oMySelf_Druid",
+      "level": "96",
+      "life": "1",
+      "es": "10144",
+      "ehp": "26k",
+      "dps": "1k",
+      "skills": [
+        "Shaman",
+        "Chaos Inoculation"
+      ]
+    },
+    {
+      "name": "iomgg",
+      "level": "96",
+      "life": "1",
+      "es": "7290",
+      "ehp": "33k",
+      "dps": "1k",
+      "skills": [
+        "Shaman",
+        "Whispers of Doom",
+        "Chaos Inoculation"
+      ]
+    }
+  ],
+  "skill_stats": []
+}

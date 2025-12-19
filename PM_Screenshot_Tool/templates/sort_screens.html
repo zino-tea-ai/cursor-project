@@ -1554,10 +1554,11 @@
                 
                 socket.on('screenshot_imported', (data) => {
                     console.log('[Socket] 截图已导入:', data);
-                    if (data.project === currentProject) {
-                        // 重新加载当前项目
-                        loadProject();
-                    }
+                    // 不再调用 loadProject()，因为 importPendingToProject 已做增量更新
+                    // 如果是其他客户端导入的，才需要刷新
+                    // if (data.project === currentProject) {
+                    //     loadProject();
+                    // }
                 });
                 
                 socket.on('disconnect', () => {
@@ -1776,8 +1777,10 @@
                     showToast(`已导入: ${data.filename}`);
                     loadPendingScreenshots();
                     
-                    // 增量添加新卡片到末尾
-                    insertCardAt(data.filename, screens.length);
+                    // 重新加载项目数据以确保前端与后端完全同步
+                    // 因为后端会重命名被移位的文件（0002→0003, 0003→0004...）
+                    // 简单的 insertCardAt 无法正确更新所有被移位文件的引用
+                    await loadProject(currentProject);
                 } else {
                     showToast(data.error || '导入失败', true);
                 }
@@ -1942,15 +1945,17 @@
                 card.dataset.file = item.file;
                 card.dataset.index = idx;
                 
-                // 从文件名提取编号显示
+                // 从文件名提取编号（用于底部显示）
                 const fileNum = item.file.replace('Screen_', '').replace('.png', '');
+                // 位置索引（用于左上角显示，从1开始）
+                const positionNum = String(idx + 1).padStart(4, '0');
                 
                 // 添加 loading="lazy" 实现原生懒加载
+                // 只显示左上角位置索引，不显示底部文件名
                 card.innerHTML = `
                     <span class="card-checkbox">✓</span>
-                    <span class="card-index">${fileNum}</span>
+                    <span class="card-index">${positionNum}</span>
                     <img src="/api/thumb/${currentProject}/screens/${item.file}?size=small${cacheBuster}" alt="${item.file}" loading="lazy">
-                    <div class="card-footer">${fileNum}</div>
                 `;
                 
                 // 点击事件（使用闭包绑定 file，从 data-index 动态获取索引）
@@ -2103,20 +2108,20 @@
         // 自动保存排序
         async function autoSaveOrder() {
             if (!currentProject || screens.length === 0) return;
-            
+
             showToast('保存中...', false);
-            
+
             try {
                 const newOrder = screens.map(s => s.file);
                 const res = await fetch('/api/reorder-screens', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        project: currentProject, 
-                        new_order: newOrder 
+                    body: JSON.stringify({
+                        project: currentProject,
+                        new_order: newOrder
                     })
                 });
-                
+
                 const result = await res.json();
                 if (result.success) {
                     showToast('已保存');
@@ -2250,26 +2255,24 @@
                 
                 const result = await res.json();
                 if (result.success) {
-                    // 记录删除操作用于撤销
+                    // 记录删除操作用于撤销（包含 timestamp 用于恢复）
                     pushToHistory({
                         type: 'delete',
-                        files: filesToDelete
+                        files: filesToDelete,
+                        timestamp: result.timestamp  // 后端返回的备份时间戳
                     });
-                    
+
                     showToast(`已删除 ${count} 张截图 (Ctrl+Z 撤销)`);
-                    
-                    // 从数据中移除
-                    screens = screens.filter(s => !selectedSet.has(s.file));
+
+                    // 清除选择状态
                     selectedSet.clear();
-                    
+
                     // 清除检查状态
                     clearCheckStatus();
-                    
-                    // 增量更新：移除 DOM 节点
-                    removeDeletedCards(filesToDelete);
-                    updateCardIndexes();
-                    updateInfo();
-                    
+
+                    // 完全刷新项目数据，确保前端与后端同步
+                    await loadProject(currentProject);
+
                     // 更新已删除计数
                     await loadDeletedScreens();
                 } else {
@@ -3189,25 +3192,40 @@
             });
         }
         
-        // 计算拖拽时的插入位置
+        // 计算拖拽时的插入位置（支持多行网格）
         function calculateInsertPosition(clientX, clientY) {
             const grid = document.getElementById('grid');
             const cards = grid.querySelectorAll('.card');
-            
+
             if (cards.length === 0) return 0;
+
+            // 找到鼠标所在行的卡片，并确定插入位置
+            let closestIndex = 0;
+            let closestDistance = Infinity;
             
             for (let i = 0; i < cards.length; i++) {
                 const rect = cards[i].getBoundingClientRect();
-                const midX = rect.left + rect.width / 2;
+                const cardCenterX = rect.left + rect.width / 2;
+                const cardCenterY = rect.top + rect.height / 2;
                 
-                // 如果鼠标在卡片左半边，插入到该位置
-                if (clientX < midX) {
-                    return i;
+                // 计算鼠标到卡片中心的距离
+                const distance = Math.sqrt(
+                    Math.pow(clientX - cardCenterX, 2) + 
+                    Math.pow(clientY - cardCenterY, 2)
+                );
+                
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestIndex = i;
                 }
             }
             
-            // 鼠标在最后一个卡片右边，插入到末尾
-            return cards.length;
+            // 根据鼠标相对于最近卡片的位置决定插入在前面还是后面
+            const closestRect = cards[closestIndex].getBoundingClientRect();
+            const midX = closestRect.left + closestRect.width / 2;
+            
+            // 如果鼠标在卡片左半边，插入到该位置；否则插入到后面
+            return clientX < midX ? closestIndex : closestIndex + 1;
         }
         
         // 显示拖拽插入指示器
@@ -3275,30 +3293,25 @@
                     });
                     const result = await res.json();
                     if (result.success) {
-                        // 增量移除卡片
-                        action.files.forEach(file => {
-                            const card = document.querySelector(`.card[data-file="${file}"]`);
-                            if (card) card.remove();
-                        });
-                        screens = screens.filter(s => !action.files.includes(s.file));
-                        updateCardIndexes();
-                        updateInfo();
                         showToast('已撤销插入');
+                        // 完全刷新项目数据，确保前端与后端同步
+                        await loadProject(currentProject);
                     }
                 } else if (action.type === 'delete') {
                     // 撤销删除 = 恢复文件
                     const res = await fetch('/api/restore-screens', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ 
-                            project: currentProject, 
-                            files: action.files 
+                        body: JSON.stringify({
+                            project: currentProject,
+                            files: action.files,
+                            timestamp: action.timestamp  // 使用记录的时间戳恢复
                         })
                     });
                     const result = await res.json();
                     if (result.success) {
                         showToast('已恢复删除的截图');
-                        loadProject(); // 需要重新加载以获取正确顺序
+                        await loadProject(currentProject); // 需要重新加载以获取正确顺序
                     }
                 } else if (action.type === 'reorder') {
                     // 撤销排序 = 恢复原顺序
@@ -3381,7 +3394,6 @@
                 <span class="card-checkbox">✓</span>
                 <span class="card-index"></span>
                 <img src="/api/thumb/${currentProject}/screens/${filename}?size=small${cacheBuster}" alt="${filename}" loading="lazy">
-                <div class="card-footer">${filename.replace('Screen_', '').replace('.png', '')}</div>
             `;
             
             // 使用闭包绑定文件名，序号从 data-index 动态获取

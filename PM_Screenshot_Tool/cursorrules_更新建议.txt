@@ -124,3 +124,18 @@ cd "C:\Users\WIN\Desktop\Cursor Project\PM_Screenshot_Tool" && python app.py
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

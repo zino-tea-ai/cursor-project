@@ -25,3 +25,18 @@ declare module 'fengari-web' {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,94 @@
+{
+  "timestamp": "2025-12-18T07:46:24.108779",
+  "config": {
+    "project": "downloads_2024/WeightWatchers",
+    "loop_count": 1,
+    "auto_fix": false
+  },
+  "results": [
+    {
+      "name": "服务器健康检查",
+      "status": "passed",
+      "duration": 0.008997917175292969,
+      "message": "服务器运行正常",
+      "details": {},
+      "fix_suggestion": null
+    },
+    {
+      "name": "项目列表加载",
+      "status": "passed",
+      "duration": 0.008496284484863281,
+      "message": "找到 16 个项目",
+      "details": {
+        "count": 16
+      },
+      "fix_suggestion": null
+    },
+    {
+      "name": "项目选择功能",
+      "status": "passed",
+      "duration": 5.3149755001068115,
+      "message": "成功选择项目，109 张截图",
+      "details": {
+        "count": 109
+      },
+      "fix_suggestion": null
+    },
+    {
+      "name": "文件系统一致性",
+      "status": "passed",
+      "duration": 0.005913496017456055,
+      "message": "109 个文件一致",
+      "details": {},
+      "fix_suggestion": null
+    },
+    {
+      "name": "孤立缩略图检测",
+      "status": "passed",
+      "duration": 0.0004334449768066406,
+      "message": "无孤立缩略图",
+      "details": {},
+      "fix_suggestion": null
+    },
+    {
+      "name": "缩略图与预览一致性",
+      "status": "passed",
+      "duration": 7.950500011444092,
+      "message": "前 10 个位置一致",
+      "details": {},
+      "fix_suggestion": null
+    },
+    {
+      "name": "位置索引连续性",
+      "status": "passed",
+      "duration": 4.250117540359497,
+      "message": "前 20 个位置连续",
+      "details": {},
+      "fix_suggestion": null
+    },
+    {
+      "name": "刷新后数据一致性",
+      "status": "passed",
+      "duration": 8.847313165664673,
+      "message": "刷新后数据一致",
+      "details": {},
+      "fix_suggestion": null
+    },
+    {
+      "name": "页面导航",
+      "status": "passed",
+      "duration": 4.879936218261719,
+      "message": "所有 4 个页面正常",
+      "details": {},
+      "fix_suggestion": null
+    },
+    {
+      "name": "加载性能",
+      "status": "passed",
+      "duration": 4.060713529586792,
+      "message": "109 张截图加载耗时 4.06s",
+      "details": {},
+      "fix_suggestion": null
+    }
+  ]
+}

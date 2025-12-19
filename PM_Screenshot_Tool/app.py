@@ -63,6 +63,21 @@ def add_no_cache_headers(response):
         response.headers['Expires'] = '0'
     return response
 
+# API错误处理器（返回JSON而不是HTML）
+from werkzeug.exceptions import HTTPException
+
+@app.errorhandler(HTTPException)
+def handle_http_exception(e):
+    """为API请求返回JSON错误而不是HTML"""
+    if request.path.startswith('/api/'):
+        return jsonify({
+            "success": False,
+            "error": e.description,
+            "code": e.code,
+            "name": e.name
+        }), e.code
+    return e
+
 # 配置
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECTS_DIR = os.path.join(BASE_DIR, "projects")
@@ -714,6 +729,15 @@ def serve_thumbnail(project_name, folder, filename):
             os.remove(webp_path)
         generate_thumbnail(src_path, thumb_path, width)
     
+    # 关键检查：如果主图不存在，删除孤立的缩略图并返回404
+    if not os.path.exists(src_path):
+        # 清理孤立的缩略图
+        if os.path.exists(thumb_path):
+            os.remove(thumb_path)
+        if os.path.exists(webp_path):
+            os.remove(webp_path)
+        return "Source file not found", 404
+    
     accept = request.headers.get('Accept', '')
     use_webp = 'image/webp' in accept and os.path.exists(webp_path)
     
@@ -723,11 +747,10 @@ def serve_thumbnail(project_name, folder, filename):
     elif os.path.exists(thumb_path):
         serve_folder = thumb_folder
         serve_filename = filename
-    elif os.path.exists(src_path):
+    else:
+        # 主图存在但缩略图不存在，返回主图
         serve_folder = src_folder
         serve_filename = filename
-    else:
-        return "File not found", 404
     
     serve_path = os.path.join(serve_folder, serve_filename)
     stat = os.stat(serve_path)
@@ -1366,6 +1389,100 @@ def apply_sort_order():
         return jsonify({"success": False, "error": str(e)})
 
 
+@app.route("/api/reorder-screens", methods=["POST"])
+def reorder_screens():
+    """重排截图顺序（拖拽排序后调用）- 保存新的文件顺序
+    
+    安全措施：
+    1. 创建完整备份
+    2. 检查文件数量一致性
+    3. 保留不在列表中的文件
+    """
+    data = request.json
+    project_name = data.get("project")
+    new_order = data.get("new_order", [])  # 文件名数组，按新顺序排列
+    
+    if not project_name or not new_order:
+        return jsonify({"success": False, "error": "缺少参数"})
+    
+    project_path = get_project_path(project_name)
+    
+    # downloads_2024 目录：截图直接在文件夹下
+    is_downloads_2024 = project_name.startswith("downloads_2024/")
+    
+    if is_downloads_2024:
+        screens_dir = project_path
+    else:
+        screens_dir = os.path.join(project_path, "screens")
+        if not os.path.exists(screens_dir):
+            screens_dir = os.path.join(project_path, "Screens")
+    
+    if not os.path.exists(screens_dir):
+        return jsonify({"success": False, "error": "截图目录不存在"})
+    
+    try:
+        # 安全检查：获取目录中实际的截图文件
+        actual_files = set(f for f in os.listdir(screens_dir) 
+                          if f.endswith('.png') and not f.startswith(('thumb', '_temp')))
+        order_files = set(new_order)
+        
+        # 检查是否有文件不在 new_order 中（可能导致数据丢失）
+        missing_from_order = actual_files - order_files
+        if missing_from_order:
+            # 将缺失的文件添加到 new_order 末尾，防止丢失
+            print(f"[WARN] reorder_screens: {len(missing_from_order)} 个文件不在排序列表中，添加到末尾: {list(missing_from_order)[:5]}...")
+            new_order = list(new_order) + sorted(missing_from_order)
+        
+        # 创建备份（防止数据丢失）
+        backup_dir = os.path.join(project_path, f"_reorder_backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
+        os.makedirs(backup_dir, exist_ok=True)
+        for f in actual_files:
+            src = os.path.join(screens_dir, f)
+            dst = os.path.join(backup_dir, f)
+            shutil.copy2(src, dst)
+        
+        # 使用临时文件名避免覆盖
+        temp_renames = []
+        final_renames = []
+        
+        # 第一步：将所有文件重命名为临时名
+        for idx, filename in enumerate(new_order):
+            old_path = os.path.join(screens_dir, filename)
+            if os.path.exists(old_path):
+                temp_name = f"_temp_{idx:04d}_{filename}"
+                temp_path = os.path.join(screens_dir, temp_name)
+                shutil.move(old_path, temp_path)
+                temp_renames.append((temp_path, idx, filename))
+        
+        # 第二步：重命名为最终名称 (0001.png, 0002.png, ...)
+        for temp_path, idx, original_name in temp_renames:
+            ext = os.path.splitext(original_name)[1]
+            new_name = f"{idx + 1:04d}{ext}"
+            new_path = os.path.join(screens_dir, new_name)
+            shutil.move(temp_path, new_path)
+            final_renames.append({"original": original_name, "new": new_name})
+        
+        # 清理缩略图缓存（因为文件名变了）
+        thumb_dir = os.path.join(screens_dir, "thumbs_small")
+        if os.path.exists(thumb_dir):
+            shutil.rmtree(thumb_dir)
+        
+        # 如果成功且文件数量一致，删除备份
+        if len(final_renames) == len(actual_files):
+            shutil.rmtree(backup_dir, ignore_errors=True)
+        else:
+            print(f"[WARN] 备份保留在: {backup_dir}")
+        
+        return jsonify({
+            "success": True,
+            "message": f"已重排 {len(final_renames)} 张截图",
+            "renames": final_renames
+        })
+        
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})
+
+
 @app.route("/api/delete-screens", methods=["POST"])
 def delete_screens():
     """删除选中的截图（移动到 deleted 文件夹备份）"""
@@ -1405,6 +1522,9 @@ def delete_screens():
         deleted_count = 0
         deleted_files = []
         
+        # 缩略图目录
+        thumbs_dir = os.path.join(screens_dir, "thumbs_small")
+        
         for filename in files:
             src_path = os.path.join(screens_dir, filename)
             if os.path.exists(src_path):
@@ -1412,6 +1532,16 @@ def delete_screens():
                 shutil.move(src_path, dst_path)
                 deleted_count += 1
                 deleted_files.append(filename)
+                
+                # 同时删除缩略图
+                if os.path.exists(thumbs_dir):
+                    base_name = os.path.splitext(filename)[0]
+                    for ext in ['.png', '.webp']:
+                        thumb_path = os.path.join(thumbs_dir, base_name + ext)
+                        if os.path.exists(thumb_path):
+                            # 也备份缩略图
+                            thumb_backup = os.path.join(batch_deleted_dir, f"thumb_{base_name}{ext}")
+                            shutil.move(thumb_path, thumb_backup)
         
         # 记录删除日志
         log_file = os.path.join(deleted_dir, "delete_log.json")
@@ -1435,9 +1565,10 @@ def delete_screens():
             "success": True,
             "deleted_count": deleted_count,
             "backup_dir": batch_deleted_dir,
+            "timestamp": timestamp,  # 返回时间戳，用于撤销恢复
             "message": f"已删除 {deleted_count} 张截图，备份在 {batch_deleted_dir}"
         })
-        
+    
     except Exception as e:
         return jsonify({"success": False, "error": str(e)})
 
@@ -1448,6 +1579,7 @@ def restore_screens():
     data = request.json
     project_name = data.get("project")
     timestamp = data.get("timestamp")  # 恢复哪个批次
+    files_to_restore = data.get("files", [])  # 要恢复的文件列表
     
     if not project_name:
         return jsonify({"success": False, "error": "缺少项目名称"})
@@ -1473,21 +1605,57 @@ def restore_screens():
                 return jsonify({"success": False, "error": f"备份目录不存在: {timestamp}"})
             
             restored = 0
+            restored_files = []
             for f in os.listdir(batch_dir):
-                if f.endswith(".png"):
+                if f.endswith(".png") and not f.startswith("thumb_"):
                     src = os.path.join(batch_dir, f)
                     dst = os.path.join(screens_dir, f)
                     shutil.move(src, dst)
                     restored += 1
+                    restored_files.append(f)
             
             # 清理空目录
-            if not os.listdir(batch_dir):
-                os.rmdir(batch_dir)
+            remaining = os.listdir(batch_dir)
+            if not remaining or all(f.startswith("thumb_") for f in remaining):
+                shutil.rmtree(batch_dir, ignore_errors=True)
+            
+            # 恢复后重新排序：将所有文件按数字顺序重命名为连续编号
+            all_files = sorted([f for f in os.listdir(screens_dir) if f.endswith('.png') and not f.startswith('thumb')])
+            if all_files:
+                # 按文件名中的数字排序
+                def get_num(f):
+                    try:
+                        return int(os.path.splitext(f)[0])
+                    except:
+                        return 999999
+                
+                sorted_files = sorted(all_files, key=get_num)
+                
+                # 使用临时名避免覆盖
+                temp_renames = []
+                for idx, filename in enumerate(sorted_files):
+                    old_path = os.path.join(screens_dir, filename)
+                    temp_name = f"_restore_temp_{idx:04d}.png"
+                    temp_path = os.path.join(screens_dir, temp_name)
+                    shutil.move(old_path, temp_path)
+                    temp_renames.append((temp_path, idx))
+                
+                # 重命名为连续编号
+                for temp_path, idx in temp_renames:
+                    new_name = f"{idx + 1:04d}.png"
+                    new_path = os.path.join(screens_dir, new_name)
+                    shutil.move(temp_path, new_path)
+                
+                # 清理缩略图缓存
+                thumb_dir = os.path.join(screens_dir, "thumbs_small")
+                if os.path.exists(thumb_dir):
+                    shutil.rmtree(thumb_dir)
             
             return jsonify({
                 "success": True,
                 "restored_count": restored,
-                "message": f"已恢复 {restored} 张截图"
+                "restored_files": restored_files,
+                "message": f"已恢复 {restored} 张截图并重新排序"
             })
         else:
             # 列出可恢复的批次
@@ -2296,7 +2464,11 @@ def import_screenshot_to_project():
             # 没有空洞，需要移动后面的文件
             insert_at_num = next_num
             
+            
             # 从最大编号开始，向后移动所有 >= insert_at_num 的文件
+            # 同时移动缩略图
+            thumbs_dir = os.path.join(actual_screens_dir, "thumbs_small")
+            
             for num in sorted(file_numbers, reverse=True):
                 if num >= insert_at_num:
                     if use_old_format:
@@ -2305,10 +2477,20 @@ def import_screenshot_to_project():
                     else:
                         old_name = f"Screen_{num:03d}.png"
                         new_name = f"Screen_{num + 1:03d}.png"
+                    
+                    # 移动主图片
                     old_path = os.path.join(actual_screens_dir, old_name)
                     new_path = os.path.join(actual_screens_dir, new_name)
                     if os.path.exists(old_path):
                         os.rename(old_path, new_path)
+                    
+                    # 移动缩略图（PNG 和 WebP）
+                    if os.path.exists(thumbs_dir):
+                        for ext in ['.png', '.webp']:
+                            old_thumb = os.path.join(thumbs_dir, os.path.splitext(old_name)[0] + ext)
+                            new_thumb = os.path.join(thumbs_dir, os.path.splitext(new_name)[0] + ext)
+                            if os.path.exists(old_thumb):
+                                os.rename(old_thumb, new_thumb)
         
         # 新文件使用插入位置的编号
         if use_old_format:
