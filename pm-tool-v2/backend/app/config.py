@@ -8,7 +8,14 @@ from pydantic_settings import BaseSettings
 
 # 获取当前文件所在目录，推导出 backend 目录
 _BACKEND_DIR = Path(__file__).parent.parent
-_DATA_DIR = _BACKEND_DIR / "data"
+
+# ⚠️ 重要：数据目录配置
+# pm-tool-v2/backend/data/ 只包含 JSON 配置文件
+# pm-tools/v2/backend/data/ 包含完整的截图文件 + JSON
+# 
+# 如果图片无法加载，请检查此路径是否指向包含截图的目录
+# 截图通常在 downloads_2024/{AppName}/*.png
+_DATA_DIR = Path("C:/Users/WIN/Desktop/Cursor Project/pm-tools/v2/backend/data")
 
 
 class Settings(BaseSettings):
@@ -21,7 +28,7 @@ class Settings(BaseSettings):
     
     # 服务配置
     host: str = "0.0.0.0"
-    port: int = 8001
+    port: int = 8003
     
     # AI API Keys (支持多种环境变量名称)
     openai_api_key: str = ""
@@ -92,3 +99,40 @@ class Settings(BaseSettings):
 
 # 全局配置实例
 settings = Settings()
+
+# 启动时验证数据目录
+def validate_data_directories():
+    """验证数据目录是否正确配置"""
+    import sys
+    
+    errors = []
+    
+    # 检查 downloads_2024 目录
+    if not settings.downloads_2024_dir.exists():
+        errors.append(f"❌ downloads_2024 目录不存在: {settings.downloads_2024_dir}")
+    else:
+        # 检查是否有实际的截图文件（不只是 JSON）
+        has_images = any(
+            f.suffix.lower() in ['.png', '.jpg', '.jpeg']
+            for d in settings.downloads_2024_dir.iterdir() if d.is_dir()
+            for f in d.iterdir() if f.is_file()
+        )
+        if not has_images:
+            errors.append(f"⚠️ downloads_2024 目录没有图片文件，只有 JSON 配置")
+            errors.append(f"   当前路径: {settings.downloads_2024_dir}")
+            errors.append(f"   请检查数据目录配置是否正确")
+    
+    # 检查 config 目录
+    if not settings.config_dir.exists():
+        errors.append(f"❌ config 目录不存在: {settings.config_dir}")
+    
+    if errors:
+        print("\n" + "="*60)
+        print("🚨 数据目录配置警告")
+        print("="*60)
+        for err in errors:
+            print(err)
+        print("="*60 + "\n")
+
+# 在模块加载时执行验证
+validate_data_directories()
