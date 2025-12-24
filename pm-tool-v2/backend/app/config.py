@@ -9,13 +9,8 @@ from pydantic_settings import BaseSettings
 # 获取当前文件所在目录，推导出 backend 目录
 _BACKEND_DIR = Path(__file__).parent.parent
 
-# ⚠️ 重要：数据目录配置
-# pm-tool-v2/backend/data/ 只包含 JSON 配置文件
-# pm-tools/v2/backend/data/ 包含完整的截图文件 + JSON
-# 
-# 如果图片无法加载，请检查此路径是否指向包含截图的目录
-# 截图通常在 downloads_2024/{AppName}/*.png
-_DATA_DIR = Path("C:/Users/WIN/Desktop/Cursor Project/pm-tools/v2/backend/data")
+# 数据目录 - 使用本地 data 文件夹（已包含完整截图）
+_DATA_DIR = _BACKEND_DIR / "data"
 
 
 class Settings(BaseSettings):
@@ -28,7 +23,7 @@ class Settings(BaseSettings):
     
     # 服务配置
     host: str = "0.0.0.0"
-    port: int = 8003
+    port: int = 8004
     
     # AI API Keys (支持多种环境变量名称)
     openai_api_key: str = ""
